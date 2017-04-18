@@ -333,7 +333,7 @@ namespace ort {
 		bool operator!=(const Bounds3<T> &b) const {
 			return b.pMin != pMin || b.pMax != pMax;
 		}
-		Point3<T> Corner(int corner) const {
+		Point3<T> corner(int corner) const {
 			return Point3<T>((*this)[(corner & 1)].x,
 				(*this)[(corner & 2) ? 1 : 0].y,
 				(*this)[(corner & 4) ? 1 : 0].z);
@@ -347,7 +347,7 @@ namespace ort {
 			Vector3<T> d = diagonal();
 			return d.x * d.y * d.z;
 		}
-		int max_axis() const {
+		int maxAxis() const {
 			Vector3<T> d = diagonal();
 			if (d.x > d.y && d.x > d.z)
 				return 0;
@@ -384,9 +384,13 @@ namespace ort {
 	public:
 		Point3f o;
 		Vector3f d;
+		int depth;
+		Float tMin;
+		Float tMax;
 
 		Ray() {}
-		Ray(const Point3f &o, const Vector3f &d) : o(o), d(d) {}
+		Ray(const Point3f &o, const Vector3f &d, int depth = 0, Float tMin = 0.0f, Float tMax = fInfinity)
+			: o(o), d(d), depth(depth), tMin(tMin), tMax(tMax) {}
 		Point3f operator()(Float t) const { return o + d * t; }
 		friend std::ostream &operator<<(std::ostream &os, const Ray &r) {
 			os << "[o=" << r.o << ", d=" << r.d << "]";
@@ -394,7 +398,7 @@ namespace ort {
 		}
 	};
 
-	// union is a key word
+	// union is a key word, so use uppercase letter in place 
 	template <typename T>
 	Bounds3<T> Union(const Bounds3<T> &b, const Point3<T> &p) {
 		return Bounds3<T>(
