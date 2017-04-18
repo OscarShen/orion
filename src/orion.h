@@ -37,6 +37,20 @@ namespace orion {
 	constexpr Float piover2 = 1.57079632679489661923f;
 	constexpr Float piover4 = 0.78539816339744830961f;
 	constexpr Float sqrtsquare = 1.41421356237309504880f;
+
+	// forward declaration
+	template <typename T>
+	class Vector3;
+	template <typename T>
+	class Point3;
+	template <typename T>
+	class Normal3;
+	template <typename T>
+	class Bounds3;
+	class Ray;
+	class Texture;
+	class RGBSpectrum;
+	typedef RGBSpectrum Spectrum;
 }
 
 #endif // !ENG_H_

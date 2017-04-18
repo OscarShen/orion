@@ -9,15 +9,48 @@
 #ifndef ORION_TEXTURE_H_
 #define ORION_TEXTURE_H_
 #include <orion.h>
-#include "texsaver.h"
+#include <math/linalg.h>
+#include <core/spectrum.h>
 namespace orion {
+	bool saveAsBmp(const Texture *texture, const std::string &str);
+
+	enum class TextureFilter
+	{
+		FILTER_WRAP,
+		FILTER_CLAMP,
+		FILTER_MIRROR
+	};
+
 	class Texture
 	{
+	protected:
+		int width, height;
+		TextureFilter filter;
+
 	public:
-		// save texture to hard drive
-		// param name : save name
-		// param format : save as one of designate format in _SaveFormat_
-		bool output(const std::string &name, SaveFormat format = SaveFormat::bmp);
+		Texture() { _init(); }
+		virtual Spectrum sample(int x, int y) const = 0;
+		virtual ~Texture() {}
+
+		bool output(const std::string &name) {
+			return saveAsBmp(this, name);
+		}
+		int getWidth() const { return width; }
+		int getHeight() const { return height; }
+		void setFilter(TextureFilter filter) { this->filter = filter; }
+		void setWidth(int width) { this->width = width; }
+		void setHeight(int height) { this->height = height; }
+		void setSize(int width, int height) { this->width = width; this->height = height; }
+
+	protected:
+		void _coordFilter(int &u, int &v) const;
+
+	private:
+		void _init() {
+			width = 0;
+			height = 0;
+			filter = TextureFilter::FILTER_WRAP;
+		}
 	};
 }
 

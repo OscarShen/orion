@@ -43,6 +43,14 @@ namespace orion {
 	inline Vector3<T> normalize(const Vector3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
 	template <typename T>
 	inline Normal3<T> normalize(const Normal3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
+
+	inline Float clamp(Float f) {
+		return f < 0 ? 0 : (f > 1.0f ? 1.0f : f);
+	}
+	inline Float clamp(Float f, Float min, Float max) {
+		CHECK_INFO(min <= max, "clamp() : min should less than max!");
+		return f < min ? min : (f > max ? max : f);
+	}
 }
 
 #endif // !ORT_LINALG_H_
