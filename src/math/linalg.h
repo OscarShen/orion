@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  线性代数基本函数
+ * @author		:  Oscar Shen
+ * @creat 		:  2017年4月18日10:22:33
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
@@ -28,14 +28,21 @@ namespace ort {
 
 	// length square
 	template <typename T>
-	inline Float length_square(const Vector3<T> &v) { return dot(v, v); }
+	inline T lengthSquare(const Vector3<T> &v) { return dot(v, v); }
+	template <typename T>
+	inline T lengthSquare(const Normal3<T> &v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 
 	// length
 	template <typename T>
-	inline Float length(const Vector3<T> &v) { return std::sqrt(length_square(v)); }
+	inline T length(const Vector3<T> &v) { return std::sqrt(lengthSquare(v)); }
+	template <typename T>
+	inline T length(const Normal3<T> &v) { return std::sqrt(lengthSquare(v)); }
 
+	// normalize
 	template <typename T>
 	inline Vector3<T> normalize(const Vector3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
+	template <typename T>
+	inline Normal3<T> normalize(const Normal3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
 }
 
 #endif // !ORT_LINALG_H_
