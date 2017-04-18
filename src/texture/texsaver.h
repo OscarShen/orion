@@ -6,10 +6,10 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORT_TEXSAVER_H_
-#define ORT_TEXSAVER_H_
-#include <ort.h>
-namespace ort {
+#ifndef ORION_TEXSAVER_H_
+#define ORION_TEXSAVER_H_
+#include <orion.h>
+namespace orion {
 	// forward declaration
 	class Texture;
 

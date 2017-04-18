@@ -6,11 +6,11 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORT_LINALG_H_
-#define ORT_LINALG_H_
-#include <ort.h>
+#ifndef ORION_LINALG_H_
+#define ORION_LINALG_H_
+#include <orion.h>
 #include <core/geometry.h>
-namespace ort {
+namespace orion {
 	// dot
 	template <typename T>
 	inline T dot(const Vector3<T> &v1, const Vector3<T> &v2) {

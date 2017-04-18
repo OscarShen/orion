@@ -6,8 +6,8 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORT_H_
-#define ORT_H_
+#ifndef ORION_H_
+#define ORION_H_
 #include <algorithm>
 #include <memory>
 #include <vector>
@@ -17,7 +17,7 @@
 #include <map>
 #include <sstream>
 #include <fstream>
-namespace ort {
+namespace orion {
 
 #define CHECK_INFO(x, str) if(!(x)) { std::cout << (str) << "\n file: "<< __FILE__<<",line: " << __LINE__<<std::endl; }
 #define CHECK(x) CHECK_INFO(x, "check equal failed!")

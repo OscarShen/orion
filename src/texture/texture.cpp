@@ -1,6 +1,6 @@
 #include "texture.h"
 
-namespace ort {
+namespace orion {
 	bool Texture::output(const std::string & name, SaveFormat format)
 	{
 		switch (format)
@@ -12,7 +12,7 @@ namespace ort {
 		}
 		default:
 		{
-			std::cout << "do not support this format." << std::endl;
+			ERROR("do not support this format.");
 			return false;
 			break;
 		}

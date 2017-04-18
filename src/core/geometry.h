@@ -6,10 +6,10 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORT_GEOMETRY_H_
-#define ORT_GEOMETRY_H_
-#include <ort.h>
-namespace ort {
+#ifndef ORION_GEOMETRY_H_
+#define ORION_GEOMETRY_H_
+#include <orion.h>
+namespace orion {
 
 	template <typename T>
 	class Vector3

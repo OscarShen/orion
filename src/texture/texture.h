@@ -6,11 +6,11 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORT_TEXTURE_H_
-#define ORT_TEXTURE_H_
-#include <ort.h>
+#ifndef ORION_TEXTURE_H_
+#define ORION_TEXTURE_H_
+#include <orion.h>
 #include "texsaver.h"
-namespace ort {
+namespace orion {
 	class Texture
 	{
 	public:
