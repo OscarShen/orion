@@ -77,7 +77,7 @@ namespace orion {
 		for (int j = 0; j < height; ++j) {
 			int offset = (height - j - 1) * width * 4;
 			for (int i = 0; i < width; ++i) {
-				Spectrum s = texture->sample(i * 2, j * 2);
+				Spectrum s = texture->sample(i, j);
 				data[offset++] = colorConverter(s.b);
 				data[offset++] = colorConverter(s.g);
 				data[offset++] = colorConverter(s.r);

@@ -32,9 +32,6 @@ namespace orion {
 		virtual Spectrum sample(int x, int y) const = 0;
 		virtual ~Texture() {}
 
-		bool output(const std::string &name) {
-			return saveAsBmp(this, name);
-		}
 		int getWidth() const { return width; }
 		int getHeight() const { return height; }
 		void setFilter(TextureFilter filter) { this->filter = filter; }
