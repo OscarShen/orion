@@ -10,6 +10,7 @@
 #define ORION_LINALG_H_
 #include <orion.h>
 #include <core/geometry.h>
+#include <util/logmanager.h>
 namespace orion {
 	// dot
 	template <typename T>

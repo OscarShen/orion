@@ -21,13 +21,13 @@ namespace orion {
 		Vector3(T v) : x(v), y(v), z(v) {}
 
 		T operator[](int i) const {
-			CHECK(i >= 0 && i <= 2);
+			CHECK_INFO(i >= 0 && i <= 2, "index out of range");
 			if (i == 0) return x;
 			if (i == 1) return y;
 			return z;
 		}
 		T &operator[](int i) {
-			CHECK(i >= 0 && i <= 2);
+			CHECK_INFO(i >= 0 && i <= 2, "index out of range");
 			if (i == 0) return x;
 			if (i == 1) return y;
 			return z;

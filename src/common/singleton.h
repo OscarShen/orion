@@ -20,7 +20,7 @@ namespace orion {
 	public:
 		static std::shared_ptr<T> inst()
 		{
-			CHECK_INFO_EXIT(_instance.get() != nullptr, "Please initialize before using!");
+			CHECK_INFO(_instance.get() != nullptr, "Not initialized before use");
 			return _instance;
 		}
 		static void _delete() {
@@ -37,6 +37,8 @@ namespace orion {
 		Singleton(const Singleton&);
 		Singleton& operator=(const Singleton&) {}
 	};
+
+#define DEFINE_SINGLETON(T) template <> std::shared_ptr<T> Singleton<T>::_instance = nullptr;
 }
 
 #endif // !ORION_SINGLETON_H_
