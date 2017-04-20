@@ -11,18 +11,25 @@
 #include <orion.h>
 #include <common/singleton.h>
 #include <texture/texture.h>
+#include <texture/imagetexture.h>
+#include <io/imageio.h>
 namespace orion {
 
 	class TexManager : public Singleton<TexManager>
 	{
+	private:
+		std::map<std::string, std::shared_ptr<ImageMemory>> images;
+
 	public:
 		static void init() { new TexManager(); }
+		void clear();
 
-		bool output(const Texture *texture, const std::string &name) {
-			return saveAsBmp(texture, name);
+		std::shared_ptr<ImageTexture> read(const std::string &name);
+
+		bool write(std::shared_ptr<Texture> texture, const std::string &name) {
+			return saveAsBmp(texture.get(), name);
 		}
 
-	private:
 		TexManager() {}
 	};
 }

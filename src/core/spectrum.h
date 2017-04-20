@@ -28,6 +28,10 @@ namespace orion {
 		~RGBSpectrum() {}
 	};
 
+	inline std::ostream &operator<<(std::ostream &os, const RGBSpectrum &s) {
+		os << "RGBSpectrum : [" << s.r << ", " << s.g << ", " << s.b << "] ";
+		return os;
+	}
 }
 
 #endif // !ORION_SPECTRUM_H_

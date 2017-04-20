@@ -7,14 +7,14 @@
 using namespace orion;
 
 void init() {
-	//TexManager::init();
-	LogManager::init();
+	TexManager::init();
 }
 
 void main()
 {
 	init();
-	GridTexture t(Spectrum(0.0f, 0.0f, 1.0f), Spectrum());
-	t.setSize(100, 100);
-	TexManager::inst()->output(&t, "aaa.bmp");
+	std::shared_ptr<GridTexture> g(new GridTexture(Spectrum(0.0f, 0.0, 1.0f), Spectrum()));
+	TexManager::inst()->write(g, "aaa.bmp");
+	auto image = TexManager::inst()->read("D:/cpp/orion/aaa.bmp");
+	TexManager::inst()->write(image, "bbb.bmp");
 }

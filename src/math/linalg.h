@@ -52,6 +52,15 @@ namespace orion {
 		CHECK_INFO(min <= max, "clamp() : min should less than max!");
 		return f < min ? min : (f > max ? max : f);
 	}
+	constexpr Float inv255 = 0.0039215686274509803921568627451f;
+
+	inline char color_FloatToChar(Float f) {
+		f = clamp(f);
+		return (char)(f * 255);
+	}
+	inline Float color_CharToFloat(unsigned char c) {
+		return c * inv255;
+	}
 }
 
 #endif // !ORT_LINALG_H_

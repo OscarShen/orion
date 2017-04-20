@@ -60,11 +60,6 @@ namespace orion {
 		unsigned long  biClrImportant;
 	} BitMapInfoHeader;
 
-	char colorConverter(Float f) {
-		f = clamp(f);
-		return (char)(f * 255);
-	}
-
 	bool saveAsBmp(const Texture * texture, const std::string & str)
 	{
 		int width = texture->getWidth(), height = texture->getHeight();
@@ -78,9 +73,9 @@ namespace orion {
 			int offset = (height - j - 1) * width * 4;
 			for (int i = 0; i < width; ++i) {
 				Spectrum s = texture->sample(i, j);
-				data[offset++] = colorConverter(s.b);
-				data[offset++] = colorConverter(s.g);
-				data[offset++] = colorConverter(s.r);
+				data[offset++] = color_FloatToChar(s.b);
+				data[offset++] = color_FloatToChar(s.g);
+				data[offset++] = color_FloatToChar(s.r);
 				data[offset++] = (char)255;
 			}
 		}

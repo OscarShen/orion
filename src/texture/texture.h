@@ -35,9 +35,11 @@ namespace orion {
 		int getWidth() const { return width; }
 		int getHeight() const { return height; }
 		void setFilter(TextureFilter filter) { this->filter = filter; }
-		void setWidth(int width) { this->width = width; }
-		void setHeight(int height) { this->height = height; }
-		void setSize(int width, int height) { this->width = width; this->height = height; }
+
+		// TODO¡¡: bad impl
+		virtual void setWidth(int width) { this->width = width; }
+		virtual void setHeight(int height) { this->height = height; }
+		virtual void setSize(int width, int height) { this->width = width; this->height = height; }
 
 	protected:
 		void _coordFilter(int &u, int &v) const;
