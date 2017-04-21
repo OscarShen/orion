@@ -21,6 +21,7 @@ namespace orion {
 		FloatTexture() {}
 		FloatTexture(int width, int height) { setSize(width, height); }
 		FloatTexture(int width, int height, Float v);
+		FloatTexture(Float v);
 		void setFloat(int x, int y, Float v);
 		// To satisfy the interface, convert Float t to Spectrum(t,t,t)
 		virtual Spectrum sample(int x, int y) const override;

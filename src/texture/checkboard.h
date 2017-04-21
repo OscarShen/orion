@@ -6,25 +6,25 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_GRID_TEXTURE_H_
-#define ORION_GRID_TEXTURE_H_
+#ifndef ORION_CHECK_BOARD_TEXTURE_H_
+#define ORION_CHECK_BOARD_TEXTURE_H_
 #include <orion.h>
 #include <core/spectrum.h>
 #include "texture.h"
 namespace orion {
 
-	class GridTexture : public Texture
+	class CheckBoardTexture : public Texture
 	{
 	private:
 		Spectrum s0;
 		Spectrum s1;
 
 	public:
-		GridTexture(const Spectrum &s0, const Spectrum &s1)
+		CheckBoardTexture(const Spectrum &s0, const Spectrum &s1)
 			:s0(s0), s1(s1) {
 			_init();
 		}
-		GridTexture(int width, int height, const Spectrum &s0, const Spectrum &s1)
+		CheckBoardTexture(int width, int height, const Spectrum &s0, const Spectrum &s1)
 			: s0(s0), s1(s1)
 		{
 			setSize(width, height);
@@ -50,4 +50,4 @@ namespace orion {
 }
 
 
-#endif // !ORION_GRID_TEXTURE_H_
+#endif // !ORION_CHECK_BOARD_TEXTURE_H_

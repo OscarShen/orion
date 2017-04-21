@@ -9,6 +9,10 @@ namespace orion {
 			data[i] = v;
 		}
 	}
+	FloatTexture::FloatTexture(Float v)
+		: FloatTexture(1, 1, v)
+	{
+	}
 	void FloatTexture::setFloat(int x, int y, Float v)
 	{
 		CHECK_INFO(data.get() != nullptr, "No memory in the float texture!");

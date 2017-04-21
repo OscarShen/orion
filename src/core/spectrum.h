@@ -28,10 +28,15 @@ namespace orion {
 		}
 		~RGBSpectrum() {}
 
+		RGBSpectrum operator+(Float f) {
+			return RGBSpectrum(r + f, g + f, b + f);
+		}
+		RGBSpectrum operator-(Float f) {
+			return RGBSpectrum(r - f, g - f, b - f);
+		}
 		RGBSpectrum operator*(Float f) {
 			return RGBSpectrum(r * f, g * f, b * f);
 		}
-
 		RGBSpectrum operator+(const RGBSpectrum &rhs) {
 			return RGBSpectrum(rhs.r + r, rhs.g + g, rhs.b + b);
 		}
