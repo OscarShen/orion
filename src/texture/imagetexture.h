@@ -29,8 +29,6 @@ namespace orion {
 		std::shared_ptr<ImageMemory> memory;
 
 	public:
-		virtual void setWidth(int width) override {}
-		virtual void setHeight(int width) override {}
 		virtual void setSize(int width, int height) override {}
 
 		virtual Spectrum sample(int x, int y) const override;

@@ -4,6 +4,7 @@
 #include <util/texmanager.h>
 #include <util/logmanager.h>
 #include <texture/grid.h>
+#include <texture/rendertarget.h>
 using namespace orion;
 
 void init() {
@@ -13,8 +14,13 @@ void init() {
 void main()
 {
 	init();
-	std::shared_ptr<GridTexture> g(new GridTexture(Spectrum(0.0f, 0.0, 1.0f), Spectrum()));
-	TexManager::inst()->write(g, "aaa.bmp");
-	auto image = TexManager::inst()->read("D:/cpp/orion/aaa.bmp");
-	TexManager::inst()->write(image, "bbb.bmp");
+	auto rendertarget = std::make_shared<RenderTarget>(80, 60);
+	for (int j = 0; j < 60; ++j) {
+		Float a = (Float)j / 60;
+		Spectrum s(a, a, a);
+		for (int i = 0; i < 80; ++i) {
+			rendertarget->setSpectrum(i, j, s);
+		}
+	}
+	TexManager::inst()->write(rendertarget, "aaa.bmp");
 }

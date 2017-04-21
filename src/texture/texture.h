@@ -37,8 +37,6 @@ namespace orion {
 		void setFilter(TextureFilter filter) { this->filter = filter; }
 
 		// TODO¡¡: bad impl
-		virtual void setWidth(int width) { this->width = width; }
-		virtual void setHeight(int height) { this->height = height; }
 		virtual void setSize(int width, int height) { this->width = width; this->height = height; }
 
 	protected:
