@@ -24,6 +24,11 @@ namespace orion {
 			:s0(s0), s1(s1) {
 			_init();
 		}
+		GridTexture(int width, int height, const Spectrum &s0, const Spectrum &s1)
+			: s0(s0), s1(s1)
+		{
+			setSize(width, height);
+		}
 
 		virtual Spectrum sample(int x, int y) const override {
 			_coordFilter(x, y);

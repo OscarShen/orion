@@ -5,6 +5,7 @@
 #include <util/logmanager.h>
 #include <texture/grid.h>
 #include <texture/rendertarget.h>
+#include <texture/mixtexture.h>
 using namespace orion;
 
 void init() {
@@ -23,4 +24,9 @@ void main()
 		}
 	}
 	TexManager::inst()->write(rendertarget, "aaa.bmp");
+
+	auto floattexture = std::make_shared<FloatTexture>(1, 1, 0.5f);
+	auto gridtexture = std::make_shared<GridTexture>(80, 60, Spectrum(0.0f, 0.0f, 1.0f), Spectrum());
+	auto mixtexture = std::make_shared<MixTexture>(rendertarget, gridtexture, floattexture);
+	TexManager::inst()->write(mixtexture, "bbb.bmp");
 }

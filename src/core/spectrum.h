@@ -18,6 +18,7 @@ namespace orion {
 
 	public:
 		RGBSpectrum() { r = g = b = 0.0f; }
+		RGBSpectrum(Float v) { r = g = b = v; }
 		RGBSpectrum(Float r, Float g, Float b) :r(r), g(g), b(b) {}
 		RGBSpectrum(unsigned char r, unsigned char g, unsigned char b) {
 			Float inv = 1.0f / 255.0f;
@@ -26,6 +27,14 @@ namespace orion {
 			this->b = b * inv;
 		}
 		~RGBSpectrum() {}
+
+		RGBSpectrum operator*(Float f) {
+			return RGBSpectrum(r * f, g * f, b * f);
+		}
+
+		RGBSpectrum operator+(const RGBSpectrum &rhs) {
+			return RGBSpectrum(rhs.r + r, rhs.g + g, rhs.b + b);
+		}
 	};
 
 	inline std::ostream &operator<<(std::ostream &os, const RGBSpectrum &s) {

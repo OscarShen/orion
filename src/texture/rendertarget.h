@@ -28,7 +28,7 @@ namespace orion {
 		virtual void setSize(int width, int height);
 
 		// Set the Spectrum value at the specified location
-		virtual void setSpectrum(int x, int y, const Spectrum &s);
+		void setSpectrum(int x, int y, const Spectrum &s);
 	};
 
 }
