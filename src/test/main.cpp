@@ -6,10 +6,13 @@
 #include <texture/checkboard.h>
 #include <texture/rendertarget.h>
 #include <texture/mixtexture.h>
+#include <texture/gridtexture.h>
+#include <util/timer.h>
 using namespace orion;
 
 void init() {
 	TexManager::init();
+	Timer::init();
 }
 
 void main()
@@ -26,7 +29,14 @@ void main()
 	TexManager::inst()->write(rendertarget, "aaa.bmp");
 
 	auto floattexture = std::make_shared<FloatTexture>(1, 1, 0.5f);
-	auto gridtexture = std::make_shared<CheckBoardTexture>(80, 60, Spectrum(0.0f, 0.0f, 1.0f), Spectrum());
-	auto mixtexture = std::make_shared<MixTexture>(rendertarget, gridtexture, floattexture);
+	auto checktexture = std::make_shared<CheckBoardTexture>(80, 60, Spectrum(0.0f, 0.0f, 1.0f), Spectrum());
+	auto mixtexture = std::make_shared<MixTexture>(rendertarget, checktexture, floattexture);
 	TexManager::inst()->write(mixtexture, "bbb.bmp");
+
+	auto gridtexture = std::make_shared<GridTexture>(1000, 1000, Spectrum(0.0f, 0.0f, 1.0f), Spectrum(),0.5f);
+	TexManager::inst()->write(gridtexture, "ccc.bmp");
+
+	Timer::inst()->reset();
+	//Sleep(1000);
+	std::cout << Timer::inst()->getElaspedTime() << std::endl;
 }
