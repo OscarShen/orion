@@ -12,8 +12,6 @@
 #include <math/linalg.h>
 #include <core/spectrum.h>
 namespace orion {
-	bool saveAsBmp(const Texture *texture, const std::string &str);
-
 	enum class TextureFilter
 	{
 		FILTER_WRAP,
