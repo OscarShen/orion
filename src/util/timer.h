@@ -5,6 +5,7 @@
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
+#pragma warning (disable : 4996)
 #pragma once
 #ifndef ORION_TIMER_H_
 #define ORION_TIMER_H_
@@ -32,6 +33,12 @@ namespace orion {
 		uint64_t getElaspedTime() const {
 			milli_second_point now = std::chrono::time_point_cast<milli_second_duration>(std::chrono::system_clock::now());
 			return milli_second_duration(now - stamp).count();
+		}
+
+		static std::string getTimeStrNow() {
+			milli_second_point now = std::chrono::time_point_cast<milli_second_duration>(std::chrono::system_clock::now());
+			time_t t = std::chrono::system_clock::to_time_t(now);
+			return std::string(ctime(&t));
 		}
 
 	private:

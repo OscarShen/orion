@@ -26,14 +26,14 @@ namespace orion {
 		camera = nullptr;
 
 		TexManager::init();
-		LogManager::init();
+		//LogManager::init();
 		Timer::init();
 	}
 
 	void System::_clear()
 	{
 		Timer::inst().reset();
-		LogManager::inst().reset();
+		//LogManager::inst().reset();
 		TexManager::inst().reset();
 
 		camera.reset();
