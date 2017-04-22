@@ -9,7 +9,7 @@
 #ifndef ORION_UV_TEXTURE_H_
 #define ORION_UV_TEXTURE_H_
 #include <orion.h>
-#include <texture/texture.h>
+#include "texture.h"
 namespace orion {
 
 	class UVTexture : public Texture

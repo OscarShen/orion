@@ -9,7 +9,7 @@
 #ifndef ORION_IMAGE_TEXUTRE_H_
 #define ORION_IMAGE_TEXUTRE_H_
 #include <orion.h>
-#include <texture/texture.h>
+#include "texture.h"
 namespace orion {
 
 	struct ImageMemory

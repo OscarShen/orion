@@ -9,7 +9,7 @@
 #ifndef ORION_FLOAT_TEXTURE_H_
 #define ORION_FLOAT_TEXTURE_H_
 #include <orion.h>
-#include <texture/texture.h>
+#include "texture.h"
 namespace orion {
 
 	class FloatTexture : public Texture

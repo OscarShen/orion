@@ -33,7 +33,6 @@ namespace orion {
 
 		virtual Spectrum sample(int x, int y) const override {
 			_coordFilter(x, y);
-			//int half_width = width / 2, half_height = height / 2;
 
 			int delta_x = (x - width / 2);
 			int delta_y = (y - height / 2);
@@ -44,9 +43,6 @@ namespace orion {
 
 			if (delta_x < w_size && delta_x >= -w_size &&
 				delta_y < h_size && delta_y >= -h_size)
-
-			//if ((x < half_width * 0.9f && y < half_height * 0.9f) || (
-			//	x >= half_width * 1.1f && y >= half_height * 1.1f))
 				return s0;
 			else
 				return s1;

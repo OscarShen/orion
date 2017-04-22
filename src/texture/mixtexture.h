@@ -9,8 +9,8 @@
 #ifndef ORION_MIX_TEXTURE_H_
 #define ORION_MIX_TEXTURE_H_
 #include <orion.h>
-#include <texture/texture.h>
-#include <texture/floattexture.h>
+#include "texture.h"
+#include "floattexture.h"
 namespace orion {
 
 	class MixTexture : public Texture

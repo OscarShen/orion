@@ -9,7 +9,7 @@
 #ifndef ORION_RENDER_TARGET_H_
 #define ORION_RENDER_TARGET_H_
 #include <orion.h>
-#include <texture/texture.h>
+#include "texture.h"
 namespace orion {
 
 	class RenderTarget : public Texture

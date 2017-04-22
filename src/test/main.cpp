@@ -8,35 +8,24 @@
 #include <texture/mixtexture.h>
 #include <texture/gridtexture.h>
 #include <util/timer.h>
+#include <camera/perspective.h>
+#include <system/system.h>
 using namespace orion;
 
-void init() {
-	TexManager::init();
-	Timer::init();
-}
+System oSystem;
 
 void main()
 {
-	init();
-	auto rendertarget = std::make_shared<RenderTarget>(80, 60);
-	for (int j = 0; j < 60; ++j) {
-		Float a = (Float)j / 60;
-		Spectrum s(a, a, a);
-		for (int i = 0; i < 80; ++i) {
-			rendertarget->setSpectrum(i, j, s);
-		}
-	}
-	TexManager::inst()->write(rendertarget, "aaa.bmp");
+	std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
+	camera->setOrig(Point3f(1.0f, 0.0f, 0.0f));
+	camera->setUp(Vector3f(0.0f, 1.0f, 0.0f));
+	camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
+	camera->setFov(45.0f);
 
-	auto floattexture = std::make_shared<FloatTexture>(1, 1, 0.5f);
-	auto checktexture = std::make_shared<CheckBoardTexture>(80, 60, Spectrum(0.0f, 0.0f, 1.0f), Spectrum());
-	auto mixtexture = std::make_shared<MixTexture>(rendertarget, checktexture, floattexture);
-	TexManager::inst()->write(mixtexture, "bbb.bmp");
+	std::shared_ptr<RenderTarget> film(new RenderTarget(800, 600));
+	camera->setRenderTarget(film);
 
-	auto gridtexture = std::make_shared<GridTexture>(1000, 1000, Spectrum(0.0f, 0.0f, 1.0f), Spectrum(),0.5f);
-	TexManager::inst()->write(gridtexture, "ccc.bmp");
-
-	Timer::inst()->reset();
-	//Sleep(1000);
-	std::cout << Timer::inst()->getElaspedTime() << std::endl;
+	oSystem.setCamera(camera);
+	oSystem.render();
+	oSystem.outputFilm("aaa.bmp");
 }

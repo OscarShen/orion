@@ -105,6 +105,8 @@ namespace orion {
 			return *this;
 		}
 		Vector3<T> operator-() const { return Vector3<T>(-x, -y, -z); }
+		Float lengthSquared() const { return x * x + y * y + z * z; }
+		Float length() const { return std::sqrt(lengthSquared()); }
 	};
 
 	template <typename T>
@@ -123,6 +125,7 @@ namespace orion {
 
 		Point3() { x = y = z = 0; }
 		Point3(T x, T y, T z) : x(x), y(y), z(z) { }
+		Point3(T v) { x = y = z = v; }
 		template <typename U>
 		explicit Point3(const Point3<U> &p)
 			: x((T)p.x), y((T)p.y), z((T)p.z) {
@@ -371,6 +374,9 @@ namespace orion {
 
 			return true;
 		}
+
+		bool intersect(const Ray &ray, Float *hitt0 = nullptr, Float *hitt1 = nullptr) const;
+
 		friend std::ostream &operator<<(std::ostream &os, const Bounds3<T> &b) {
 			os << "[ " << b.pMin << " - " << b.pMax << " ]";
 			return os;
@@ -416,6 +422,24 @@ namespace orion {
 			Point3<T>(std::max(b1.pMax.x, b2.pMax.x),
 				std::max(b1.pMax.y, b2.pMax.y),
 				std::max(b1.pMax.z, b2.pMax.z)));
+	}
+
+	template<typename T>
+	inline bool Bounds3<T>::intersect(const Ray & ray, Float * hitt0, Float * hitt1) const
+	{
+		Float t0 = 0, t1 = ray.tMax;
+		for (int i = 0; i < 3; ++i) {
+			Float invRayDir = 1 / ray.d[i];
+			Float tNear = (pMin[i] - ray.o[i]) * invRayDir;
+			Float tFar = (pMax[i] - ray.o[i]) * invRayDir;
+			if (tNear > tFar) std::swap(tNear, tFar);
+			t0 = tNear > t0 ? tNear : t0;
+			t1 = tFar < t1 ? tFar : t1;
+			if (t0 > t1) return false;
+		}
+		if (hitt0) *hitt0 = t0;
+		if (hitt1) *hitt1 = t1;
+		return true;
 	}
 
 }

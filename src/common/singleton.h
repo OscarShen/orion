@@ -31,7 +31,7 @@ namespace orion {
 
 	protected:
 		Singleton() {
-			_instance = std::shared_ptr<T>(reinterpret_cast<T*>(this)); }
+			_instance.reset(reinterpret_cast<T*>(this)); }
 
 	private:
 		Singleton(const Singleton&);
