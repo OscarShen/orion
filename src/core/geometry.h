@@ -12,6 +12,81 @@
 namespace orion {
 
 	template <typename T>
+	class Vector2 {
+	public:
+		T x, y;
+
+		Vector2() { x = y = 0; }
+		Vector2(T xx, T yy) : x(xx), y(yy) { }
+		explicit Vector2(const Point2<T> &p) : x(p.x), y(p.y) { }
+		explicit Vector2(const Point3<T> &p) : x(p.x), y(p.y) { }
+		Vector2<T> operator+(const Vector2<T> &v) const {
+			return Vector2(x + v.x, y + v.y);
+		}
+
+		Vector2<T> &operator+=(const Vector2<T> &v) {
+			x += v.x;
+			y += v.y;
+			return *this;
+		}
+		Vector2<T> operator-(const Vector2<T> &v) const {
+			return Vector2(x - v.x, y - v.y);
+		}
+
+		Vector2<T> &operator-=(const Vector2<T> &v) {
+			x -= v.x;
+			y -= v.y;
+			return *this;
+		}
+		bool operator==(const Vector2<T> &v) const { return x == v.x && y == v.y; }
+		bool operator!=(const Vector2<T> &v) const { return x != v.x || y != v.y; }
+		template <typename U>
+		Vector2<T> operator*(U f) const {
+			return Vector2<T>(f * x, f * y);
+		}
+
+		template <typename U>
+		Vector2<T> &operator*=(U f) {
+			x *= f;
+			y *= f;
+			return *this;
+		}
+		template <typename U>
+		Vector2<T> operator/(U f) const {
+			CHECK_NE(f, 0);
+			Float inv = (Float)1 / f;
+			return Vector2<T>(x * inv, y * inv);
+		}
+
+		template <typename U>
+		Vector2<T> &operator/=(U f) {
+			CHECK_NE(f, 0);
+			Float inv = (Float)1 / f;
+			x *= inv;
+			y *= inv;
+			return *this;
+		}
+		Vector2<T> operator-() const { return Vector2<T>(-x, -y); }
+		T operator[](int i) const {
+			if (i == 0) return x;
+			return y;
+		}
+
+		T &operator[](int i) {
+			if (i == 0) return x;
+			return y;
+		}
+		Float lengthSquared() const { return x * x + y * y; }
+		Float length() const { return std::sqrt(lengthSquared()); }
+	};
+
+	template <typename T>
+	inline std::ostream &operator<<(std::ostream &os, const Vector2<T> &v) {
+		os << "[ " << v.x << ", " << v.y << " ]";
+		return os;
+	}
+
+	template <typename T>
 	class Vector3
 	{
 	public:
@@ -19,6 +94,8 @@ namespace orion {
 		Vector3() { x = y = z = 0; }
 		Vector3(T xx, T yy, T zz) : x(xx), y(yy), z(zz) {}
 		Vector3(T v) : x(v), y(v), z(v) {}
+		explicit Vector3(const Point3<T> &p)
+			: x(p.x), y(p.y), z(p.z) { }
 
 		T operator[](int i) const {
 			CHECK_INFO(i >= 0 && i <= 2, "index out of range");
@@ -115,8 +192,110 @@ namespace orion {
 		return os;
 	}
 
+	typedef Vector2<Float> Vector2f;
+	typedef Vector2<int> Vector2i;
 	typedef Vector3<Float> Vector3f;
 	typedef Vector3<int> Vector3i;
+
+	template <typename T>
+	class Point2 {
+	public:
+
+		T x, y;
+
+		explicit Point2(const Point3<T> &p) : x(p.x), y(p.y) { }
+		Point2() { x = y = 0; }
+		Point2(T xx, T yy) : x(xx), y(yy) { }
+
+		template <typename U>
+		explicit Point2(const Point2<U> &p) {
+			x = (T)p.x;
+			y = (T)p.y;
+		}
+
+		template <typename U>
+		explicit Point2(const Vector2<U> &p) {
+			x = (T)p.x;
+			y = (T)p.y;
+		}
+
+		template <typename U>
+		explicit operator Vector2<U>() const {
+			return Vector2<U>(x, y);
+		}
+
+		Point2<T> operator+(const Vector2<T> &v) const {
+			return Point2<T>(x + v.x, y + v.y);
+		}
+
+		Point2<T> &operator+=(const Vector2<T> &v) {
+			x += v.x;
+			y += v.y;
+			return *this;
+		}
+		Vector2<T> operator-(const Point2<T> &p) const {
+			return Vector2<T>(x - p.x, y - p.y);
+		}
+
+		Point2<T> operator-(const Vector2<T> &v) const {
+			return Point2<T>(x - v.x, y - v.y);
+		}
+		Point2<T> operator-() const { return Point2<T>(-x, -y); }
+		Point2<T> &operator-=(const Vector2<T> &v) {
+			x -= v.x;
+			y -= v.y;
+			return *this;
+		}
+		Point2<T> &operator+=(const Point2<T> &p) {
+			x += p.x;
+			y += p.y;
+			return *this;
+		}
+		Point2<T> operator+(const Point2<T> &p) const {
+			return Point2<T>(x + p.x, y + p.y);
+		}
+		template <typename U>
+		Point2<T> operator*(U f) const {
+			return Point2<T>(f * x, f * y);
+		}
+		template <typename U>
+		Point2<T> &operator*=(U f) {
+			x *= f;
+			y *= f;
+			return *this;
+		}
+		template <typename U>
+		Point2<T> operator/(U f) const {
+			CHECK_NE(f, 0);
+			Float inv = (Float)1 / f;
+			return Point2<T>(inv * x, inv * y);
+		}
+		template <typename U>
+		Point2<T> &operator/=(U f) {
+			CHECK_NE(f, 0);
+			Float inv = (Float)1 / f;
+			x *= inv;
+			y *= inv;
+			return *this;
+		}
+		T operator[](int i) const {
+			if (i == 0) return x;
+			return y;
+		}
+
+		T &operator[](int i) {
+			if (i == 0) return x;
+			return y;
+		}
+		bool operator==(const Point2<T> &p) const { return x == p.x && y == p.y; }
+		bool operator!=(const Point2<T> &p) const { return x != p.x || y != p.y; }
+	};
+
+	template <typename T>
+	inline std::ostream &operator<<(std::ostream &os, const Point2<T> &p) {
+		os << "[ " << p.x << ", " << p.y << " ]";
+		return os;
+	}
 
 	template <typename T>
 	class Point3 {
@@ -218,6 +397,8 @@ namespace orion {
 		return os;
 	}
 
+	typedef Point2<Float> Point2f;
+	typedef Point2<int> Point2i;
 	typedef Point3<Float> Point3f;
 	typedef Point3<int> Point3i;
 

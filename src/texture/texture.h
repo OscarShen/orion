@@ -11,6 +11,7 @@
 #include <orion.h>
 #include <math/linalg.h>
 #include <core/spectrum.h>
+#include <core/intersection.h>
 namespace orion {
 	enum class TextureFilter
 	{
@@ -28,6 +29,8 @@ namespace orion {
 	public:
 		Texture() { _init(); }
 		virtual Spectrum sample(int x, int y) const = 0;
+		virtual Spectrum evaluate(const Intersection *isec) const;
+
 		virtual ~Texture() {}
 
 		int getWidth() const { return width; }

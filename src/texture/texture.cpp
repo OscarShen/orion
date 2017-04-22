@@ -1,6 +1,12 @@
 #include "texture.h"
 
 namespace orion {
+	Spectrum Texture::evaluate(const Intersection * isec) const
+	{
+		if(isec)
+			return sample((int)(isec->uv.x * width), (int)(isec->uv.y * height));
+		return Spectrum();
+	}
 	void Texture::_coordFilter(int & u, int & v) const
 	{
 		switch (filter)

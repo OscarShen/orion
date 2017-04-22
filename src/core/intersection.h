@@ -6,22 +6,26 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_UV_TEXTURE_H_
-#define ORION_UV_TEXTURE_H_
+#ifndef ORION_INTERSECTION_H_
+#define ORION_INTERSECTION_H_
 #include <orion.h>
-#include "texture.h"
+#include "geometry.h"
 namespace orion {
 
-	class UVTexture : public Texture
+	class Intersection
 	{
 	public:
-		UVTexture() { Texture::setSize(16, 16); }
-		virtual ~UVTexture() {}
+		Point3f pHit;
+		Normal3f n;
+		Point2f uv;
 
-		virtual Spectrum sample(int x, int y) const override;
-		virtual Spectrum evaluate(const Intersection *isec) const override;
+	public:
+		Intersection() { }
+		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv)
+			:pHit(pHit), n(normal), uv(uv) {}
+		~Intersection() {}
 	};
 
 }
 
-#endif // !ORION_UV_TEXTURE_H_
+#endif // !ORION_INTERSECTION_H_

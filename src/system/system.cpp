@@ -7,7 +7,7 @@ namespace orion {
 		CHECK_INFO(camera != nullptr, "No camera in system!");
 
 		// just for test
-		Bounds3f box(Point3f(0.0f), Point3f(0.2f, 0.1, 0.3f));
+		Bounds3f box(Point3f(0.0f), Point3f(0.2f, 0.1f, 0.3f));
 		auto film = camera->getFilm();
 		int width = film->getWidth(), height = film->getHeight();
 		for (int j = 0; j < height; ++j) {
@@ -29,14 +29,4 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 	}
-
-	void System::_clear()
-	{
-		Timer::inst().reset();
-		//LogManager::inst().reset();
-		TexManager::inst().reset();
-
-		camera.reset();
-	}
-
 }

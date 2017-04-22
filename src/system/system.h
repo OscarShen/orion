@@ -23,7 +23,7 @@ namespace orion {
 
 	public:
 		System() { _init(); }
-		~System() { _clear(); }
+		~System() { }
 
 		void render();
 		void outputFilm(const std::string &name) {
@@ -34,7 +34,6 @@ namespace orion {
 
 	private:
 		void _init();
-		void _clear();
 	};
 
 }

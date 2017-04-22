@@ -10,4 +10,11 @@ namespace orion {
 		return Spectrum(u, v, 0.0f);
 	}
 
+	Spectrum UVTexture::evaluate(const Intersection * isec) const
+	{
+		if (isec)
+			return Spectrum(isec->uv.x, isec->uv.y, 0);
+		return Spectrum();
+	}
+
 }
