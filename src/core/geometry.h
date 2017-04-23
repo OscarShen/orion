@@ -623,6 +623,29 @@ namespace orion {
 		return true;
 	}
 
+	// return dimension of vector, x=0, y=1, z=2
+	template <typename T>
+	int maxDimension(const Vector3<T> &v) {
+		return (v.x > v.y) ? ((v.x > v.z) ? 0 : 2) : ((v.y > v.z) ? 1 : 2);
+	}
+
+	// Arbitrary arrangement of the vector
+	template <typename T>
+	Vector3<T> permute(const Vector3<T> &v, int x, int y, int z) {
+		return Vector3<T>(v[x], v[y], v[z]);
+	}
+
+	// Arbitrary arrangement of the point
+	template <typename T>
+	Point3<T> permute(const Point3<T> &p, int x, int y, int z) {
+		return Point3<T>(p[x], p[y], p[z]);
+	}
+
+	// Abs of whole vector
+	template <typename T>
+	Vector3<T> abs(const Vector3<T> &v) {
+		return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+	}
 }
 
 #endif // !ORT_GEOMETRY_H_

@@ -28,7 +28,7 @@ namespace orion {
 		int c = readlink("/proc/self/exe", buf, maxLen - 1);
 #elif defined(ORION_IN_WINDOWS)
 		// get the current module filename
-		GetModuleFileNameA(NULL, buf, maxLen);
+		GetModuleFileNameA(nullptr, buf, maxLen);
 
 		// remove the file name
 		int len = (int)strlen(buf);
