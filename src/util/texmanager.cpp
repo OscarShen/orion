@@ -22,9 +22,7 @@ namespace orion {
 			return texture;
 		}
 
-		std::shared_ptr<ImageMemory> mem;
-		bool b = loadImage(name, mem);
-		CHECK_INFO(b, "image load failed!");
+		std::shared_ptr<ImageMemory> mem = loadImage(name);
 		images.insert(std::pair<std::string, std::shared_ptr<ImageMemory>>(name, mem));
 		texture->memory = mem;
 		texture->width = mem->width;

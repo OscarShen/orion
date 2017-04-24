@@ -1,7 +1,7 @@
 #include "imageio.h"
 
 namespace orion {
-	bool loadImage(const std::string & filename, std::shared_ptr<ImageMemory> &mem)
+	std::shared_ptr<ImageMemory> loadImage(const std::string &filename)
 	{
 		CHECK_INFO(!filename.empty(), "file path is empty");
 		int width, height, channel;
@@ -18,8 +18,7 @@ namespace orion {
 			}
 		}
 		freeImage(data);
-		mem.reset(new ImageMemory(s, width, height));
-		return true;
+		return std::shared_ptr<ImageMemory>(new ImageMemory(s, width, height));;
 	}
 	unsigned char * loadImage(const std::string & filename, int & width, int & height, int & channels)
 	{

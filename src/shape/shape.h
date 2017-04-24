@@ -18,6 +18,7 @@ namespace orion {
 		Shape() {}
 		virtual ~Shape() {}
 		virtual bool intersect(const Ray &ray) const = 0;
+		virtual Bounds3f worldBound() const = 0;
 	};
 
 }

@@ -2,20 +2,24 @@
 
 namespace orion {
 
-	TriangleMesh::TriangleMesh(int numTri, const int * vertexIndices, int numVer, const Point3f * P, const Normal3f * N, const Point2f * UV)
-		: numTri(numTri), numVer(numVer), vertexIndices(vertexIndices, vertexIndices + 3 * numTri)
+	TriangleMesh::TriangleMesh(const std::shared_ptr<MeshData> &meshdata)
+		: numTri(meshdata->num_triangles), numVer(meshdata->num_vertices),
+		vertexIndices(meshdata->indices->data(), meshdata->indices->data() + 3 * numTri)
 	{
 		// vertices
+		Point3f *P = meshdata->vertices->data();
 		p.reset(new Point3f[numVer]);
 		for (int i = 0; i < numVer; ++i) p[i] = P[i]; // add transform
 
 		// uv
+		Point2f *UV = meshdata->uvs == nullptr ? nullptr : meshdata->uvs->data();
 		if (UV) {
 			uv.reset(new Point2f[numVer]);
 			memcpy(uv.get(), UV, numVer * sizeof(Point2f));
 		}
 
 		// normal
+		Normal3f *N = meshdata->normals == nullptr ? nullptr : meshdata->normals->data();
 		if (N) {
 			n.reset(new Normal3f[numVer]);
 			for (int i = 0; i < numVer; ++i) n[i] = N[i]; // add transform
@@ -102,6 +106,27 @@ namespace orion {
 		Float b2 = e2 * invDet;
 		Float t = tScaled * invDet;
 		return true;
+	}
+
+	Bounds3f Triangle::worldBound() const
+	{
+		// default in world coordination
+		auto &p0 = mesh->p[v[0]];
+		auto &p1 = mesh->p[v[1]];
+		auto &p2 = mesh->p[v[2]];
+		return Union(Bounds3f(p0, p1), p2);
+	}
+
+
+	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const std::shared_ptr<MeshData> &meshdata)
+	{
+		std::shared_ptr<TriangleMesh> mesh(new TriangleMesh(meshdata));
+		std::vector<std::shared_ptr<Shape>> tris;
+		tris.reserve(mesh->numTri);
+		for (int i = 0; i < mesh->numTri; ++i) {
+			tris.push_back(std::make_shared<Triangle>(mesh, i));
+		}
+		return tris;
 	}
 
 }

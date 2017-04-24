@@ -18,15 +18,15 @@ System oSystem;
 void main()
 {
 	std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
-	camera->setOrig(Point3f(0.0f, 0.0f, 0.0f));
+	camera->setOrig(Point3f(4.0f, 4.0f, 4.0f));
 	camera->setUp(Vector3f(0.0f, 1.0f, 0.0f));
-	camera->setLookat(Point3f(0.0f, 0.0f, 1.0f));
+	camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
 	camera->setFov(45.0f);
 
-	std::shared_ptr<RenderTarget> film(new RenderTarget(800, 600));
+	std::shared_ptr<RenderTarget> film(new RenderTarget(400, 300));
 	camera->setRenderTarget(film);
 
 	oSystem.setCamera(camera);
 	oSystem.render();
-	oSystem.outputFilm("aaa.bmp");
+	oSystem.outputFilm("res/aaa.bmp");
 }

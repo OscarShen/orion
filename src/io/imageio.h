@@ -13,7 +13,7 @@
 #include <stb_image/stb_image_aug.h>
 namespace orion {
 
-	bool loadImage(const std::string &filename, std::shared_ptr<ImageMemory> &mem);
+	std::shared_ptr<ImageMemory> loadImage(const std::string &filename);
 	unsigned char * loadImage(const std::string & filename, int  &width, int  &height, int &channels);
 	void freeImage(unsigned char *data);
 

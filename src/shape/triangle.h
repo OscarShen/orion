@@ -10,6 +10,7 @@
 #define ORION_TRIANGLE_H_
 #include <orion.h>
 #include <core/geometry.h>
+#include <io/meshio.h>
 #include "shape.h"
 namespace orion {
 
@@ -23,9 +24,7 @@ namespace orion {
 		std::unique_ptr<Normal3f[]> n;		// normal
 		std::unique_ptr<Point2f[]> uv;		// uv
 
-		TriangleMesh(int numTri,
-			const int *vertexIndices, int numVer, const Point3f *P,
-			const Normal3f *N, const Point2f *uv);
+		TriangleMesh(const std::shared_ptr<MeshData> &meshdata);
 	};
 
 	class Triangle : public Shape
@@ -41,7 +40,10 @@ namespace orion {
 		}
 
 		virtual bool intersect(const Ray &ray) const;
+		virtual Bounds3f worldBound() const;
 	};
+	
+	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const std::shared_ptr<MeshData> &meshdata);
 
 }
 

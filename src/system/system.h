@@ -14,6 +14,7 @@
 #include <util/texmanager.h>
 #include <util/logmanager.h>
 #include <util/timer.h>
+#include <util/meshmanager.h>
 namespace orion {
 
 	class System
