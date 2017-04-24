@@ -5,7 +5,10 @@ namespace orion {
 	bool Scene::loadScene(const std::string & name)
 	{
 		auto meshdata = MeshManager::inst()->loadMeshData("res/cube.obj");
-		auto triVec = createTriangleMesh(meshdata);
+		Transform *local2world = new Transform(rotateZ(15.0f) * rotateX(20.0f) * rotateY(15.0f));
+		Transform *world2local = new Transform(local2world->getInverseMatrix());
+		
+		auto triVec = createTriangleMesh(local2world, world2local, meshdata);
 		shapes.insert(shapes.end(), triVec.begin(), triVec.end());
 		return true;
 	}

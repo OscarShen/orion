@@ -16,7 +16,11 @@ namespace orion {
 	class Shape
 	{
 	public:
-		Shape() {}
+		const Transform *local2world, *world2local;
+
+	public:
+		Shape(const Transform *local2world, const Transform *world2local)
+			: local2world(local2world), world2local(world2local) {}
 		virtual ~Shape() {}
 		virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
 		virtual Bounds3f worldBound() const = 0;

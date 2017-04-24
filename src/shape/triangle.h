@@ -10,6 +10,7 @@
 #define ORION_TRIANGLE_H_
 #include <orion.h>
 #include <core/geometry.h>
+#include <core/transform.h>
 #include <io/meshio.h>
 #include <math/linalg.h>
 #include "shape.h"
@@ -25,7 +26,7 @@ namespace orion {
 		std::unique_ptr<Normal3f[]> n;		// normal
 		std::unique_ptr<Point2f[]> uv;		// uv
 
-		TriangleMesh(const std::shared_ptr<MeshData> &meshdata);
+		TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata);
 	};
 
 	class Triangle : public Shape
@@ -35,8 +36,9 @@ namespace orion {
 		const int *v;
 
 	public:
-		Triangle(const std::shared_ptr<TriangleMesh> &mesh, int triNumber)
-			:mesh(mesh) {
+		Triangle(const Transform *local2world, const Transform *world2local, 
+			const std::shared_ptr<TriangleMesh> &mesh, int triNumber)
+			: Shape(local2world, world2local), mesh(mesh) {
 			v = &mesh->vertexIndices[3 * triNumber];
 		}
 
@@ -48,7 +50,8 @@ namespace orion {
 		void _getNormals(Normal3f n[3]) const;
 	};
 	
-	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const std::shared_ptr<MeshData> &meshdata);
+	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const Transform *local2world, const Transform *world2local, 
+		const std::shared_ptr<MeshData> &meshdata);
 
 }
 

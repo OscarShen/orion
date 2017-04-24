@@ -2,14 +2,14 @@
 
 namespace orion {
 
-	TriangleMesh::TriangleMesh(const std::shared_ptr<MeshData> &meshdata)
+	TriangleMesh::TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata)
 		: numTri(meshdata->num_triangles), numVer(meshdata->num_vertices),
 		vertexIndices(meshdata->indices->data(), meshdata->indices->data() + 3 * numTri)
 	{
 		// vertices
 		Point3f *P = meshdata->vertices->data();
 		p.reset(new Point3f[numVer]);
-		for (int i = 0; i < numVer; ++i) p[i] = P[i]; // add transform
+		for (int i = 0; i < numVer; ++i) p[i] = local2world(P[i]);
 
 		// uv
 		Point2f *UV = meshdata->uvs == nullptr ? nullptr : meshdata->uvs->data();
@@ -22,7 +22,7 @@ namespace orion {
 		Normal3f *N = meshdata->normals == nullptr ? nullptr : meshdata->normals->data();
 		if (N) {
 			n.reset(new Normal3f[numVer]);
-			for (int i = 0; i < numVer; ++i) n[i] = N[i]; // add transform
+			for (int i = 0; i < numVer; ++i) n[i] = local2world(N[i]);
 		}
 	}
 
@@ -158,13 +158,14 @@ namespace orion {
 	}
 
 
-	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const std::shared_ptr<MeshData> &meshdata)
+	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const Transform *local2world,
+		const Transform *world2local, const std::shared_ptr<MeshData> &meshdata)
 	{
-		std::shared_ptr<TriangleMesh> mesh(new TriangleMesh(meshdata));
+		std::shared_ptr<TriangleMesh> mesh(new TriangleMesh(*local2world, meshdata));
 		std::vector<std::shared_ptr<Shape>> tris;
 		tris.reserve(mesh->numTri);
 		for (int i = 0; i < mesh->numTri; ++i) {
-			tris.push_back(std::make_shared<Triangle>(mesh, i));
+			tris.push_back(std::make_shared<Triangle>(local2world, world2local, mesh, i));
 		}
 		return tris;
 	}
