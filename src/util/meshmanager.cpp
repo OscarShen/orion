@@ -10,7 +10,7 @@ namespace orion {
 			it = meshes.erase(it);
 		}
 	}
-	std::shared_ptr<MeshData> MeshManager::loadMesh(const std::string & name)
+	std::shared_ptr<MeshData> MeshManager::loadMeshData(const std::string & name)
 	{
 		auto it = meshes.find(name);
 		if (it != meshes.end()) {

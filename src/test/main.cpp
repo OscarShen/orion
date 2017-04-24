@@ -23,9 +23,10 @@ void main()
 	camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
 	camera->setFov(45.0f);
 
-	std::shared_ptr<RenderTarget> film(new RenderTarget(400, 300));
+	std::shared_ptr<RenderTarget> film(new RenderTarget(1960, 1080));
 	camera->setRenderTarget(film);
 
+	oSystem.loadScene(""); // hard code _System_
 	oSystem.setCamera(camera);
 	oSystem.render();
 	oSystem.outputFilm("res/aaa.bmp");

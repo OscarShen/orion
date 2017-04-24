@@ -18,11 +18,12 @@ namespace orion {
 		Point3f pHit;
 		Normal3f n;
 		Point2f uv;
+		Float t;
 
 	public:
 		Intersection() { }
-		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv)
-			:pHit(pHit), n(normal), uv(uv) {}
+		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv, Float t)
+			:pHit(pHit), n(normal), uv(uv), t(t) {}
 		~Intersection() {}
 	};
 

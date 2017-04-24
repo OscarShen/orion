@@ -135,7 +135,7 @@ namespace orion {
 	{
 		Point3f o = (*this)(r.o);
 		Vector3f d = (*this)(r.d);
-		return Ray(o, d, r.depth, r.tMin, r.tMax);
+		return Ray(o, d, r.depth, r.time, r.tMax);
 	}
 	template<typename T>
 	inline Normal3<T> Transform::operator()(const Normal3<T>&n) const

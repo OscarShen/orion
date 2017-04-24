@@ -11,6 +11,7 @@
 #include <orion.h>
 #include <core/geometry.h>
 #include <io/meshio.h>
+#include <math/linalg.h>
 #include "shape.h"
 namespace orion {
 
@@ -39,8 +40,12 @@ namespace orion {
 			v = &mesh->vertexIndices[3 * triNumber];
 		}
 
-		virtual bool intersect(const Ray &ray) const;
+		virtual bool intersect(const Ray &ray, Intersection *isec) const;
 		virtual Bounds3f worldBound() const;
+
+	private:
+		void _getUVs(Point2f uv[3]) const;
+		void _getNormals(Normal3f n[3]) const;
 	};
 	
 	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const std::shared_ptr<MeshData> &meshdata);

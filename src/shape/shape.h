@@ -10,6 +10,7 @@
 #define ORION_SHAPE_H_
 #include <orion.h>
 #include <core/geometry.h>
+#include <core/intersection.h>
 namespace orion {
 
 	class Shape
@@ -17,7 +18,7 @@ namespace orion {
 	public:
 		Shape() {}
 		virtual ~Shape() {}
-		virtual bool intersect(const Ray &ray) const = 0;
+		virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
 		virtual Bounds3f worldBound() const = 0;
 	};
 

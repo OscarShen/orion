@@ -34,7 +34,7 @@ namespace orion {
 	public:
 		static void init() { new MeshManager(); }
 		void clear();
-		std::shared_ptr<MeshData> loadMesh(const std::string &name);
+		std::shared_ptr<MeshData> loadMeshData(const std::string &name);
 
 	private:
 		MeshManager() {}

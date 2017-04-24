@@ -41,9 +41,9 @@ namespace orion {
 
 	// normalize
 	template <typename T>
-	inline Vector3<T> normalize(const Vector3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
+	inline Vector3<T> normalize(const Vector3<T> &v) { return v / length(v); }
 	template <typename T>
-	inline Normal3<T> normalize(const Normal3<T> &v) { return v * (static_cast<T>(1) / length(v)); }
+	inline Normal3<T> normalize(const Normal3<T> &n) { return n / length(n); }
 
 	// clamp between 0 and 1
 	inline Float clamp(Float f) {

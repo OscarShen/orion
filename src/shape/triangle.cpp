@@ -26,7 +26,7 @@ namespace orion {
 		}
 	}
 
-	bool Triangle::intersect(const Ray & ray) const
+	bool Triangle::intersect(const Ray & ray, Intersection *isec) const
 	{
 		// Get triangle vertices in _p0_, _p1_, and _p2_
 		const Point3f &p0 = mesh->p[v[0]];
@@ -105,6 +105,22 @@ namespace orion {
 		Float b1 = e1 * invDet;
 		Float b2 = e2 * invDet;
 		Float t = tScaled * invDet;
+
+		Point2f uv[3];
+		_getUVs(uv);
+
+		Point3f pHit = p0 * b0 + p1 * b1 + p2 * b2;
+		Point2f uvHit = uv[0] * b0 + uv[1] * b1 + uv[2] * b2;
+		*isec = Intersection(pHit, Normal3f(0), uvHit, t);
+
+		// get shading normal, also has shading tangent in future
+		if (mesh->n) {
+			Normal3f n[3];
+			_getNormals(n);
+			Normal3f ns(n[0] * b0 + n[1] * b1 + n[2] * b2);
+			if(ns.lengthSquared() > 0)
+				isec->n = normalize(ns);
+		}
 		return true;
 	}
 
@@ -115,6 +131,30 @@ namespace orion {
 		auto &p1 = mesh->p[v[1]];
 		auto &p2 = mesh->p[v[2]];
 		return Union(Bounds3f(p0, p1), p2);
+	}
+
+	void Triangle::_getUVs(Point2f uv[3]) const
+	{
+		if (mesh->uv != nullptr) {
+			uv[0] = mesh->uv[v[0]];
+			uv[1] = mesh->uv[v[1]];
+			uv[2] = mesh->uv[v[2]];
+		}
+		else {
+			uv[0] = Point2f(0, 0);
+			uv[1] = Point2f(1, 0);
+			uv[2] = Point2f(1, 1);
+		}
+	}
+
+	void Triangle::_getNormals(Normal3f n[3]) const
+	{
+		// call this function means must have normal vector
+		if (mesh->n != nullptr) {
+			n[0] = mesh->n[v[0]];
+			n[1] = mesh->n[v[1]];
+			n[2] = mesh->n[v[2]];
+		}
 	}
 
 

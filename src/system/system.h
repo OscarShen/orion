@@ -15,6 +15,7 @@
 #include <util/logmanager.h>
 #include <util/timer.h>
 #include <util/meshmanager.h>
+#include <core/scene.h>
 namespace orion {
 
 	class System
@@ -32,9 +33,11 @@ namespace orion {
 		}
 
 		void setCamera(const std::shared_ptr<Camera> &camera) { this->camera = camera; }
+		bool loadScene(const std::string &name);
 
 	private:
 		void _init();
+		Scene scene;
 	};
 
 }

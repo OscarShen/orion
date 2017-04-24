@@ -478,6 +478,8 @@ namespace orion {
 			if (i == 1) return y;
 			return z;
 		}
+		Float lengthSquared() const { return x * x + y * y + z * z; }
+		Float length() const { return std::sqrt(lengthSquared()); }
 	};
 
 	template <typename T>
@@ -572,12 +574,12 @@ namespace orion {
 		Point3f o;
 		Vector3f d;
 		int depth;
-		Float tMin;
+		Float time;
 		Float tMax;
 
 		Ray() {}
-		Ray(const Point3f &o, const Vector3f &d, int depth = 0, Float tMin = 0.0f, Float tMax = fInfinity)
-			: o(o), d(d), depth(depth), tMin(tMin), tMax(tMax) {}
+		Ray(const Point3f &o, const Vector3f &d, int depth = 0, Float time = 0.0f, Float tMax = fInfinity)
+			: o(o), d(d), depth(depth), time(time), tMax(tMax) {}
 		Point3f operator()(Float t) const { return o + d * t; }
 		friend std::ostream &operator<<(std::ostream &os, const Ray &r) {
 			os << "[o=" << r.o << ", d=" << r.d << "]";
