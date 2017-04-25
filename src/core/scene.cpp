@@ -5,17 +5,19 @@ namespace orion {
 	bool Scene::loadScene(const std::string & name)
 	{
 		auto meshdata = MeshManager::inst()->loadMeshData("res/cube.obj");
-		Transform *local2world = new Transform(rotateZ(15.0f) * rotateX(20.0f) * rotateY(15.0f));
-		Transform *world2local = new Transform(local2world->getInverseMatrix());
+		Transform t;
+		Transform inv = inverse(t);
 		
-		auto triVec = createTriangleMesh(local2world, world2local, meshdata);
+		auto triVec = createTriangleMesh(&t, &inv, meshdata);
 		shapes.insert(shapes.end(), triVec.begin(), triVec.end());
+		accel = createKdTreeAccelerator(shapes);
 		return true;
 	}
 
 	bool Scene::intersect(const Ray & ray, Intersection *isec) const
 	{
-		return Scene::_bruteForce(ray, isec);
+		//return Scene::_bruteForce(ray, isec);
+		return accel->intersect(ray, isec);
 	}
 
 	bool Scene::_bruteForce(const Ray & ray, Intersection *isec) const

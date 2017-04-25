@@ -6,27 +6,22 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_INTERSECTION_H_
-#define ORION_INTERSECTION_H_
+#ifndef ORION_ACCELERATOR_H_
+#define ORION_ACCELERATOR_H_
 #include <orion.h>
-#include "geometry.h"
+#include <core/geometry.h>
+#include <shape/shape.h>
 namespace orion {
 
-	class Intersection
+	class Accelerator
 	{
 	public:
-		Point3f pHit;
-		Normal3f n;
-		Point2f uv;
-		Float t;
+		Accelerator() {}
+		~Accelerator() {}
 
-	public:
-		Intersection() : t(fInfinity) { }
-		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv, Float t)
-			:pHit(pHit), n(normal), uv(uv), t(t) {}
-		~Intersection() {}
+		virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
 	};
 
 }
 
-#endif // !ORION_INTERSECTION_H_
+#endif // !ORION_ACCELERATOR_H_

@@ -19,7 +19,7 @@ System oSystem;
 void main()
 {
 	std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
-	camera->setOrig(Point3f(0.0f, 0.0f, 4.0f));
+	camera->setOrig(Point3f(4.0f, 4.0f, 4.0f));
 	camera->setUp(Vector3f(0.0f, 1.0f, 0.0f));
 	camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
 	camera->setFov(45.0f);
@@ -30,5 +30,5 @@ void main()
 	oSystem.loadScene(""); // hard code _System_
 	oSystem.setCamera(camera);
 	oSystem.render();
-	oSystem.outputFilm("res/aaa.bmp");
+	oSystem.outputFilm("res/test.bmp");
 }

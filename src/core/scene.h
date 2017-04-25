@@ -11,12 +11,14 @@
 #include <orion.h>
 #include <shape/triangle.h>
 #include <util/meshmanager.h>
+#include <accelerators/kdtree.h>
 namespace orion {
 
 	class Scene
 	{
 	private:
 		std::vector<std::shared_ptr<Shape>> shapes;
+		std::shared_ptr<Accelerator> accel;
 
 	public:
 		Scene() {}
