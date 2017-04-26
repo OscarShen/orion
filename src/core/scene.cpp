@@ -4,11 +4,11 @@ namespace orion {
 
 	bool Scene::loadScene(const std::string & name)
 	{
-		auto meshdata = MeshManager::inst()->loadMeshData("res/cube.obj");
-		Transform t;
-		Transform inv = inverse(t);
+		auto meshdata = MeshManager::inst()->loadMeshData("res/bunny.obj");
+		Transform *t = new Transform();
+		Transform *inv = new Transform(inverse(*t));
 		
-		auto triVec = createTriangleMesh(&t, &inv, meshdata);
+		auto triVec = createTriangleMesh(t, inv, meshdata);
 		shapes.insert(shapes.end(), triVec.begin(), triVec.end());
 		accel = createKdTreeAccelerator(shapes);
 		return true;

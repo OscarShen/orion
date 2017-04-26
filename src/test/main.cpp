@@ -18,17 +18,11 @@ System oSystem;
 
 void main()
 {
-	std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
-	camera->setOrig(Point3f(4.0f, 4.0f, 4.0f));
-	camera->setUp(Vector3f(0.0f, 1.0f, 0.0f));
-	camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
-	camera->setFov(45.0f);
-
-	std::shared_ptr<RenderTarget> film(new RenderTarget(400, 300));
-	camera->setRenderTarget(film);
-
 	oSystem.loadScene(""); // hard code _System_
-	oSystem.setCamera(camera);
+
+	Timer::inst()->reset();
 	oSystem.render();
+	std::cout << "elapsed time : " << Timer::inst()->getElaspedTime() << std::endl;
+
 	oSystem.outputFilm("res/test.bmp");
 }

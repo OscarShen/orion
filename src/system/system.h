@@ -11,17 +11,21 @@
 #include <orion.h>
 #include <texture/rendertarget.h>
 #include <camera/camera.h>
+#include <camera/perspective.h>
 #include <util/texmanager.h>
 #include <util/logmanager.h>
 #include <util/timer.h>
 #include <util/meshmanager.h>
 #include <core/scene.h>
+#include <integrator/whitted.h>
 namespace orion {
 
 	class System
 	{
 	private:
 		std::shared_ptr<Camera> camera;
+		Scene scene;
+		std::shared_ptr<Integrator> integrator;
 
 	public:
 		System() { _init(); }
@@ -37,7 +41,9 @@ namespace orion {
 
 	private:
 		void _init();
-		Scene scene;
+		void _pre();
+		void _post();
+		
 	};
 
 }
