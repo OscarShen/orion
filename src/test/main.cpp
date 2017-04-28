@@ -18,7 +18,7 @@ System oSystem;
 
 void main()
 {
-	oSystem.loadScene(""); // hard code _System_
+	oSystem.setUp();
 
 	Timer::inst()->reset();
 	oSystem.render();

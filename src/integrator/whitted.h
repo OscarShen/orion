@@ -20,7 +20,7 @@ namespace orion {
 		WhittedIntegrator() {}
 		~WhittedIntegrator() {}
 
-		Spectrum Li(const Ray &ray, const Scene &scene) const override;
+		Spectrum Li(const Ray &ray, std::shared_ptr<Scene> scene) const override;
 	};
 
 }

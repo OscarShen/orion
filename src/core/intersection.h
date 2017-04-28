@@ -19,6 +19,7 @@ namespace orion {
 		Normal3f n;
 		Point2f uv;
 		Float t;
+		const Primitive *primitive = nullptr;
 
 	public:
 		Intersection() : t(fInfinity) { }

@@ -27,9 +27,21 @@ namespace orion {
 		return std::string(buf);
 	}
 
+	static std::string	RES_PATH = "";
+
 	std::string getFullPath(const std::string & name)
 	{
 		return getExecutiveDir() + name;
+	}
+
+	void setResPath(const std::string & path)
+	{
+		RES_PATH = getExecutiveDir() + path;
+	}
+
+	std::string getResPath()
+	{
+		return RES_PATH;
 	}
 
 }

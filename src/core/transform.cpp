@@ -172,6 +172,10 @@ namespace orion {
 		m.m[2][3] = 0;
 		return Transform(m, transpose(m));
 	}
+	Transform rotate(Float x, Float y, Float z)
+	{
+		return rotateX(x) * rotateY(y) * rotateZ(z);
+	}
 	Transform lookAt(const Point3f & pos, const Point3f & look, const Vector3f & up)
 	{
 		Vector3f f(normalize(look - pos));

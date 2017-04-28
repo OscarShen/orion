@@ -1,4 +1,6 @@
 #include "system.h"
+#include <util/sceneparser.h>
+#include <util/transformcache.h>
 namespace orion {
 
 	void System::render()
@@ -19,9 +21,13 @@ namespace orion {
 		}
 	}
 
-	bool System::loadScene(const std::string & name)
+	void System::setUp()
 	{
-		return scene.loadScene(name);
+		auto parser = Parser::inst();
+		parser->makeRenderOption();
+		scene = std::shared_ptr<Scene>(new Scene(parser->renderOption->accel));
+		integrator = parser->renderOption->integrator;
+		// camera : TODO next time
 	}
 
 	void System::_init()
@@ -30,7 +36,10 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 		MeshManager::init();
+		Parser::init("D:/cpp/orion/res/bunny.ori");
+		TransformCache::init();
 
+		// TODO : add camera to _Parser_
 		// camera
 		std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
 		camera->setOrig(Point3f(25.0f));

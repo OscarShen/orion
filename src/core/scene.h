@@ -17,19 +17,13 @@ namespace orion {
 	class Scene
 	{
 	private:
-		std::vector<std::shared_ptr<Shape>> shapes;
 		std::shared_ptr<Accelerator> accel;
 
 	public:
-		Scene() {}
+		Scene(std::shared_ptr<Accelerator> accel) : accel(accel) {}
 		~Scene() {}
 
-		// Load scene from script file
-		bool loadScene(const std::string &name);
 		bool intersect(const Ray &ray, Intersection *isec) const;
-
-	private:
-		bool _bruteForce(const Ray &ray, Intersection *isec) const;
 	};
 
 }

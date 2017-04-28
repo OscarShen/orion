@@ -6,19 +6,21 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_INTEGRATOR
-#define ORION_INTEGRATOR
+#ifndef ORION_UTIL_STRING_H_
+#define ORION_UTIL_STRING_H_
 #include <orion.h>
-#include "scene.h"
+#include <core/transform.h>
 namespace orion {
 
-	class Integrator
-	{
-	public:
-		virtual ~Integrator() {}
-		virtual Spectrum Li(const Ray &ray, std::shared_ptr<Scene> scene) const = 0;
-	};
+	void trim(std::string &s);
 
+	std::vector<std::string> split(const std::string &s, const std::string &delim);
+
+	Vector3f parseVector3f(const std::string &s);
+
+	Transform parseTransform(const std::string &s);
+
+	std::string nextToken(std::string &str, char t);
 }
 
-#endif // !ORION_INTEGRATOR
+#endif // !ORION_UTIL_STRING_H_

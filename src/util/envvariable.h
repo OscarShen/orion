@@ -22,6 +22,10 @@ namespace orion {
 	std::string getExecutiveDir();
 
 	std::string getFullPath(const std::string &name);
+
+	void setResPath(const std::string &path);
+
+	std::string getResPath();
 }
 #endif // ERROR
 #endif // !ORION_ENVIRONMENT_VARIBLE_H_

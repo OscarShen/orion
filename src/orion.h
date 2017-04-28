@@ -35,7 +35,7 @@ namespace orion {
 
 	constexpr Float epsilon = 1e-6f;
 
-	constexpr float fInfinity = std::numeric_limits<Float>::max();
+	constexpr Float fInfinity = std::numeric_limits<Float>::max();
 	constexpr Float pi = 3.14159265358979323846f;
 	constexpr Float invpi = 0.31830988618379067154f;
 	constexpr Float inv2pi = 0.15915494309189533577f;
@@ -63,6 +63,10 @@ namespace orion {
 	typedef RGBSpectrum Spectrum;
 	class Ray;
 	class Transform;
+	class Intersection;
+	class Shape;
+	class Material;
+	class Primitive;
 }
 
 #endif // !ENG_H_

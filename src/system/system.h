@@ -24,7 +24,7 @@ namespace orion {
 	{
 	private:
 		std::shared_ptr<Camera> camera;
-		Scene scene;
+		std::shared_ptr<Scene> scene;
 		std::shared_ptr<Integrator> integrator;
 
 	public:
@@ -37,7 +37,7 @@ namespace orion {
 		}
 
 		void setCamera(const std::shared_ptr<Camera> &camera) { this->camera = camera; }
-		bool loadScene(const std::string &name);
+		void setUp();
 
 	private:
 		void _init();

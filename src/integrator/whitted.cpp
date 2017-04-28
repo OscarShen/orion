@@ -1,10 +1,10 @@
 #include "whitted.h"
 namespace orion {
 
-	Spectrum WhittedIntegrator::Li(const Ray & ray, const Scene & scene) const
+	Spectrum WhittedIntegrator::Li(const Ray & ray, std::shared_ptr<Scene> scene) const
 	{
 		Intersection isec;
-		if (!scene.intersect(ray, &isec)) {
+		if (!scene->intersect(ray, &isec)) {
 			return Spectrum();
 		}
 

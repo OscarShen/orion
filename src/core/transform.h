@@ -94,6 +94,14 @@ namespace orion {
 		inline Normal3<T> operator()(const Normal3<T> &n) const;
 		inline Ray operator()(const Ray &r) const;
 		Transform operator*(const Transform &t2) const;
+		bool operator<(const Transform &t2) const {
+			for (int i = 0; i < 4; ++i)
+				for (int j = 0; j < 4; ++j) {
+					if (m.m[i][j] < t2.m.m[i][j]) return true;
+					if (m.m[i][j] > t2.m.m[i][j]) return false;
+				}
+			return false;
+		}
 		friend std::ostream &operator<<(std::ostream &os, const Transform &t) {
 			os << "t=" << t.m << ", inv=" << t.mInv;
 			return os;
@@ -106,6 +114,7 @@ namespace orion {
 	Transform rotateY(Float theta);
 	Transform rotateZ(Float theta);
 	Transform rotate(Float theta, const Vector3f &axis);
+	Transform rotate(Float x,Float y,Float z);
 	// camera to world
 	Transform lookAt(const Point3f &pos, const Point3f &look, const Vector3f &up);
 
