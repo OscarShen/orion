@@ -11,6 +11,7 @@
 #include <orion.h>
 #include <core/geometry.h>
 #include <shape/shape.h>
+#include <core/primitive.h>
 namespace orion {
 
 	class Accelerator

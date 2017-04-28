@@ -17,7 +17,7 @@ namespace orion {
 	class KdTreeAccel : public Accelerator {
 	public:
 		// KdTreeAccel Public Methods
-		KdTreeAccel(const std::vector<std::shared_ptr<Shape>> &p,
+		KdTreeAccel(const std::vector<std::shared_ptr<Primitive>> &p,
 			int isectCost = 80, int traversalCost = 1,
 			Float emptyBonus = 0.5, int maxPrims = 1, int maxDepth = -1);
 		Bounds3f worldBound() const { return bounds; }
@@ -35,7 +35,7 @@ namespace orion {
 		// KdTreeAccel Private Data
 		const int isectCost, traversalCost, maxPrims;
 		const Float emptyBonus;
-		std::vector<std::shared_ptr<Shape>> primitives;
+		std::vector<std::shared_ptr<Primitive>> primitives;
 		std::vector<int> primitiveIndices;
 		KdAccelNode *nodes;
 		int nAllocedNodes, nextFreeNode;

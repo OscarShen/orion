@@ -55,7 +55,7 @@ namespace orion {
 		EdgeType type;
 	};
 
-	KdTreeAccel::KdTreeAccel(const std::vector<std::shared_ptr<Shape>>& p, int isectCost, int traversalCost, Float emptyBonus, int maxPrims, int maxDepth)
+	KdTreeAccel::KdTreeAccel(const std::vector<std::shared_ptr<Primitive>>& p, int isectCost, int traversalCost, Float emptyBonus, int maxPrims, int maxDepth)
 		: isectCost(isectCost),
 		traversalCost(traversalCost),
 		maxPrims(maxPrims),
@@ -69,7 +69,7 @@ namespace orion {
 		// Compute bounds for kd-tree construction
 		std::vector<Bounds3f> primBounds;
 		primBounds.reserve(primitives.size());
-		for (const std::shared_ptr<Shape> &prim : primitives) {
+		for (const std::shared_ptr<Primitive> &prim : primitives) {
 			Bounds3f b = prim->worldBound();
 			bounds = Union(bounds, b);
 			primBounds.push_back(b);
@@ -156,7 +156,7 @@ namespace orion {
 				// Check for intersections inside leaf node
 				int nPrimitives = node->nPrimitives();
 				if (nPrimitives == 1) {
-					const std::shared_ptr<Shape> &p =
+					const std::shared_ptr<Primitive> &p =
 						primitives[node->onePrimitive];
 					// Check one primitive inside leaf node
 					Intersection tempIsec;
@@ -169,7 +169,7 @@ namespace orion {
 					for (int i = 0; i < nPrimitives; ++i) {
 						int index =
 							primitiveIndices[node->primitiveIndicesOffset + i];
-						const std::shared_ptr<Shape> &p = primitives[index];
+						const std::shared_ptr<Primitive> &p = primitives[index];
 						// Check one primitive inside leaf node
 						Intersection tempIsec;
 						if (p->intersect(ray, &tempIsec) && tempIsec.t < isect->t) {
@@ -317,8 +317,8 @@ namespace orion {
 		buildTree(aboveChild, bounds1, allPrimBounds, prims1, n1, depth - 1, edges,
 			prims0, prims1 + nPrimitives, badRefines);
 	}
-	std::shared_ptr<KdTreeAccel> createKdTreeAccelerator(const std::vector<std::shared_ptr<Shape>>& shapes)
+	std::shared_ptr<KdTreeAccel> createKdTreeAccelerator(const std::vector<std::shared_ptr<Primitive>>& prims)
 	{
-		return std::shared_ptr<KdTreeAccel>(new KdTreeAccel(shapes));
+		return std::shared_ptr<KdTreeAccel>(new KdTreeAccel(prims));
 	}
 }
