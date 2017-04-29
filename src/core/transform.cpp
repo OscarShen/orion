@@ -124,6 +124,10 @@ namespace orion {
 		Matrix4f minv(1 / x, 0, 0, 0, 0, 1 / y, 0, 0, 0, 0, 1 / z, 0, 0, 0, 0, 1);
 		return Transform(m, minv);
 	}
+	Transform scale(const Vector3f &xyz)
+	{
+		return scale(xyz.x, xyz.y, xyz.z);
+	}
 	Transform rotateX(Float theta)
 	{
 		Float sinTheta = std::sin(radians(theta));
@@ -175,6 +179,10 @@ namespace orion {
 	Transform rotate(Float x, Float y, Float z)
 	{
 		return rotateX(x) * rotateY(y) * rotateZ(z);
+	}
+	Transform rotate(const Vector3f & xyz)
+	{
+		return rotate(xyz.x, xyz.y, xyz.z);
 	}
 	Transform lookAt(const Point3f & pos, const Point3f & look, const Vector3f & up)
 	{

@@ -1,5 +1,5 @@
 #include "system.h"
-#include <util/sceneparser.h>
+#include <util/parser.h>
 #include <util/transformcache.h>
 namespace orion {
 
@@ -25,9 +25,10 @@ namespace orion {
 	{
 		auto parser = Parser::inst();
 		parser->makeRenderOption();
-		scene = std::shared_ptr<Scene>(new Scene(parser->renderOption->accel));
-		integrator = parser->renderOption->integrator;
-		// camera : TODO next time
+		auto &option = parser->getRenderOption();
+		scene = std::shared_ptr<Scene>(new Scene(option->accel));
+		integrator = option->integrator;
+		camera = option->camera;
 	}
 
 	void System::_init()
@@ -38,21 +39,8 @@ namespace orion {
 		MeshManager::init();
 		Parser::init("D:/cpp/orion/res/bunny.ori");
 		TransformCache::init();
-
-		// TODO : add camera to _Parser_
-		// camera
-		std::shared_ptr<PerspectiveCamera> camera(new PerspectiveCamera());
-		camera->setOrig(Point3f(25.0f));
-		camera->setUp(Vector3f(0.0f, 1.0f, 0.0f));
-		camera->setLookat(Point3f(0.0f, 0.0f, 0.0f));
-		camera->setFov(45.0f);
-		std::shared_ptr<RenderTarget> film(new RenderTarget(1960, 1080));
-		camera->setRenderTarget(film);
-		this->camera = camera;
-
-		// integrator
-		integrator.reset(new WhittedIntegrator());
 	}
+
 	void System::_pre()
 	{
 		CHECK_INFO(camera != nullptr, "No camera in _System_!");

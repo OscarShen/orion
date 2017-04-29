@@ -110,11 +110,13 @@ namespace orion {
 
 	Transform translate(const Vector3f &delta);
 	Transform scale(Float x, Float y, Float z);
+	Transform scale(const Vector3f &xyz);
 	Transform rotateX(Float theta);
 	Transform rotateY(Float theta);
 	Transform rotateZ(Float theta);
 	Transform rotate(Float theta, const Vector3f &axis);
 	Transform rotate(Float x,Float y,Float z);
+	Transform rotate(const Vector3f &xyz);
 	// camera to world
 	Transform lookAt(const Point3f &pos, const Point3f &look, const Vector3f &up);
 

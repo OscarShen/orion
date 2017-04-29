@@ -16,11 +16,13 @@ namespace orion {
 
 	std::vector<std::string> split(const std::string &s, const std::string &delim);
 
+	Float parseFloat(const std::string &s);
+
+	Vector2i parseVector2i(const std::string &s);
+
 	Vector3f parseVector3f(const std::string &s);
 
-	Transform parseTransform(const std::string &s);
-
-	std::string nextToken(std::string &str, char t);
+	Point3f parsePoint3f(const std::string &s);
 }
 
 #endif // !ORION_UTIL_STRING_H_
