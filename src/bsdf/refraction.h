@@ -6,21 +6,17 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_BXDF_LAMBERT_H_
-#define ORION_BXDF_LAMBERT_H_
+#ifndef ORION_BSDF_REFRACTION_H_
+#define ORION_BSDF_REFRACTION_H_
 #include <orion.h>
-#include <core/spectrum.h>
 #include "bxdf.h"
 namespace orion {
 
-	class Lambert : public BxDF
+	class Refraction : public BxDF
 	{
-	private:
-		Spectrum s;
-
 	public:
-		Lambert(const Spectrum &ss) : s(ss) {}
-		~Lambert() {}
+		Refraction() { type = BxDF_REFLECTION; }
+		~Refraction() {}
 
 		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
 
@@ -29,4 +25,4 @@ namespace orion {
 
 }
 
-#endif // !ORION_BXDF_LAMBERT_H_
+#endif // !ORION_BSDF_REFRACTION_H_

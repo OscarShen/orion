@@ -30,6 +30,7 @@ namespace orion {
 	Vector2i parseVector2i(const std::string & s)
 	{
 		auto v = split(s, ",");
+		CHECK_INFO(v.size() >= 2, "Error, number of elements not enough to parse!");
 		return Vector2i(
 			atoi(v[0].c_str()),
 			atoi(v[1].c_str())
@@ -39,6 +40,7 @@ namespace orion {
 	Vector3f parseVector3f(const std::string & s)
 	{
 		auto v = split(s, ",");
+		CHECK_INFO(v.size() >= 3, "Error, number of elements not enough to parse!");
 		return Vector3f(
 			static_cast<Float>(atof(v[0].c_str())),
 			static_cast<Float>(atof(v[1].c_str())),
@@ -48,7 +50,17 @@ namespace orion {
 	Point3f parsePoint3f(const std::string & s)
 	{
 		auto v = split(s, ",");
+		CHECK_INFO(v.size() >= 3, "Error, number of elements not enough to parse!");
 		return Point3f(
+			static_cast<Float>(atof(v[0].c_str())),
+			static_cast<Float>(atof(v[1].c_str())),
+			static_cast<Float>(atof(v[2].c_str())));
+	}
+	Spectrum parseSpectrum(const std::string & s)
+	{
+		auto v = split(s, ",");
+		CHECK_INFO(v.size() >= 3, "Error, number of elements not enough to parse!");
+		return Spectrum(
 			static_cast<Float>(atof(v[0].c_str())),
 			static_cast<Float>(atof(v[1].c_str())),
 			static_cast<Float>(atof(v[2].c_str())));

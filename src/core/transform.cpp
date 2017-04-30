@@ -1,5 +1,5 @@
 #include "transform.h"
-
+#include <util/strutil.h>
 namespace orion {
 	Matrix4f::Matrix4f(Float mat[4][4]) { memcpy(m, mat, 16 * sizeof(Float)); }
 
@@ -204,5 +204,22 @@ namespace orion {
 		result.m[1][3] = -dot(u, Vector3f(pos));
 		result.m[2][3] = dot(f, Vector3f(pos));
 		return Transform(inverse(result), result);	// local to world, so we need inverse _Matrix4f_
+	}
+	Transform createTransform(const ParamSet & param)
+	{
+		Transform t;
+		if (param.hasParam("scale")) {
+			Vector3f scaleVec = parseVector3f(param.getParam("scale"));
+			t = scale(scaleVec) * t;
+		}
+		if (param.hasParam("rotate")) {
+			Vector3f rotateVec = parseVector3f(param.getParam("rotate"));
+			t = rotate(rotateVec) * t;
+		}
+		if (param.hasParam("translate")) {
+			Vector3f translateVec = parseVector3f(param.getParam("translate"));
+			t = translate(translateVec) * t;
+		}
+		return t;
 	}
 }

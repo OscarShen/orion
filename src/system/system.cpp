@@ -37,7 +37,7 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 		MeshManager::init();
-		Parser::init("D:/cpp/orion/res/bunny.ori");
+		Parser::init("D:/cpp/orion/xml/bunny.ori");
 		TransformCache::init();
 	}
 

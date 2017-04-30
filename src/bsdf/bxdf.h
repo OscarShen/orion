@@ -13,8 +13,24 @@
 #include <core/geometry.h>
 namespace orion {
 
+	enum BxDF_TYPE
+	{
+		BxDF_DIFFUSE = 1,
+		BxDF_GLOSSY = 2,
+		BxDF_SPECULAR = 4,
+		BxDF_REFLECTION = 8,
+		BxDF_REFRACTION = 16,
+		BxDF_ALL_TYPES = BxDF_DIFFUSE | BxDF_GLOSSY | BxDF_SPECULAR,
+		BxDF_ALL_REFLECTION = BxDF_ALL_TYPES | BxDF_REFLECTION,
+		BxDF_ALL_REFRACTION = BxDF_ALL_TYPES | BxDF_REFRACTION,
+		BxDF_ALL = BxDF_ALL_REFLECTION | BxDF_ALL_REFRACTION
+	};
+
 	class BxDF
 	{
+	protected:
+		BxDF_TYPE type;
+
 	public:
 		BxDF() {}
 		virtual ~BxDF() {}

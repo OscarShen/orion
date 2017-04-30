@@ -21,6 +21,17 @@
 
 namespace orion {
 
+#define GET_PARAMSET(node, paramset) {\
+	auto paramNode = node->FirstChildElement("Param");\
+	while (paramNode) {\
+		auto attributeNode = paramNode->FirstAttribute();\
+		while (attributeNode) {\
+			paramset.setParam(attributeNode->Name(), attributeNode->Value());\
+			attributeNode = attributeNode->Next();\
+		}\
+		paramNode = paramNode->NextSiblingElement("Param");\
+	}}
+
 	struct RenderOption
 	{
 		std::shared_ptr<Camera> camera;

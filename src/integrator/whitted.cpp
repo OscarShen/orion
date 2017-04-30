@@ -10,6 +10,21 @@ namespace orion {
 
 		Vector3f lightDir = normalize(Vector3f(-1.0f, -5.0f, 7.0f));
 
-		return dot(-ray.d, isec.n);
+		Spectrum t(1.0f);
+		if (isec.primitive->getMaterial()) {
+			std::shared_ptr<BSDF> bsdf = isec.primitive->getMaterial()->getBSDF(&isec);
+			if (bsdf)
+				t = bsdf->f(lightDir, -ray.d);
+		}
+
+		return t * dot(-ray.d, isec.n);
+	}
+	std::shared_ptr<Integrator> createWhittedIntegrator(const ParamSet & param)
+	{
+		return std::shared_ptr<Integrator>(new WhittedIntegrator());
+	}
+	std::shared_ptr<Integrator> createWhittedIntegrator(const ParamSet & param)
+	{
+		return std::shared_ptr<Integrator>(new WhittedIntegrator());
 	}
 }

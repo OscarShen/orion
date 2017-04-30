@@ -40,6 +40,18 @@ namespace orion {
 		RGBSpectrum operator+(const RGBSpectrum &rhs) const {
 			return RGBSpectrum(rhs.r + r, rhs.g + g, rhs.b + b);
 		}
+		RGBSpectrum &operator+=(const RGBSpectrum &rhs) {
+			r += rhs.r;
+			g += rhs.g;
+			b += rhs.b;
+			return *this;
+		}
+		RGBSpectrum &operator-=(const RGBSpectrum &rhs) {
+			r -= rhs.r;
+			g -= rhs.g;
+			b -= rhs.b;
+			return *this;
+		}
 	};
 
 	inline std::ostream &operator<<(std::ostream &os, const RGBSpectrum &s) {

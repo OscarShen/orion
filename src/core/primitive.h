@@ -26,7 +26,7 @@ namespace orion {
 			:shape(shape), material(nullptr) {}
 		virtual Bounds3f worldBound() const { return shape->worldBound(); }
 		virtual bool intersect(const Ray &ray, Intersection *isec) const;
-		const Material *getMaterial() const { return material.get(); }
+		std::shared_ptr<Material> getMaterial() const { return material; }
 		void setMaterial(const std::shared_ptr<Material> &material) { this->material = material; }
 	};
 

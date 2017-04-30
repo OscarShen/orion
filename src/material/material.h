@@ -6,27 +6,22 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_BXDF_LAMBERT_H_
-#define ORION_BXDF_LAMBERT_H_
+#ifndef ORION_MATERIAL_H_
+#define ORION_MATERIAL_H_
 #include <orion.h>
-#include <core/spectrum.h>
-#include "bxdf.h"
+#include <core/intersection.h>
+#include <bsdf/bsdf.h>
 namespace orion {
 
-	class Lambert : public BxDF
+	class Material
 	{
-	private:
-		Spectrum s;
-
 	public:
-		Lambert(const Spectrum &ss) : s(ss) {}
-		~Lambert() {}
+		Material() {}
+		virtual ~Material() {}
 
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
-
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const = 0;
 	};
 
 }
 
-#endif // !ORION_BXDF_LAMBERT_H_
+#endif // !ORION_MATERIAL_H_

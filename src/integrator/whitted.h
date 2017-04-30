@@ -12,6 +12,7 @@
 #include <core/integrator.h>
 #include <core/spectrum.h>
 #include <bsdf/lambert.h>
+#include <common/paramset.h>
 namespace orion {
 
 	class WhittedIntegrator : public Integrator
@@ -23,6 +24,7 @@ namespace orion {
 		Spectrum Li(const Ray &ray, std::shared_ptr<Scene> scene) const override;
 	};
 
+	std::shared_ptr<Integrator> createWhittedIntegrator(const ParamSet &param);
 }
 
 #endif // !ORION_INTEGRATOR_WHITTED_H_

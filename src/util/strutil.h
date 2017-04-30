@@ -10,6 +10,7 @@
 #define ORION_UTIL_STRING_H_
 #include <orion.h>
 #include <core/transform.h>
+#include <core/spectrum.h>
 namespace orion {
 
 	void trim(std::string &s);
@@ -23,6 +24,8 @@ namespace orion {
 	Vector3f parseVector3f(const std::string &s);
 
 	Point3f parsePoint3f(const std::string &s);
+
+	Spectrum parseSpectrum(const std::string &s);
 }
 
 #endif // !ORION_UTIL_STRING_H_

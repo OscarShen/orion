@@ -18,11 +18,13 @@ System oSystem;
 
 void main()
 {
+	Timer::inst()->reset();
 	oSystem.setUp();
+	std::cout << "setup time : " << Timer::inst()->getElaspedTime() << "ms" << std::endl;
 
 	Timer::inst()->reset();
 	oSystem.render();
-	std::cout << "elapsed time : " << Timer::inst()->getElaspedTime() << std::endl;
+	std::cout << "render time : " << Timer::inst()->getElaspedTime() << "ms" << std::endl;
 
-	oSystem.outputFilm("res/test.bmp");
+	oSystem.outputFilm("res/bunny.bmp");
 }

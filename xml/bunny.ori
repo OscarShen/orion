@@ -1,0 +1,35 @@
+﻿<Scene>
+  <Resource filename ="../../res/"/>
+	<Model filename = "bunny.obj">
+    <Param scale="1,1,1"/>
+    <Param rotate="0,30,0"/>
+    <Param translate="-10,-5,0"/>
+
+    <Material type = "matte">
+      <Param type ="constant" color ="1,0,1"/>
+    </Material>
+	</Model>
+
+  <Model filename = "bunny.obj">
+    <Param scale="1,1,1"/>
+    <Param rotate="0,30,0"/>
+    <Param translate="10,-5,0"/>
+
+    <Material type = "matte">
+      <Param type = "checkbox" color0="1,0,0" color1="0,1,0"/>
+    </Material>
+  </Model>
+	
+	<Camera type = "perspective">
+    <Param origin="15,15,15"/>
+    <Param lookat="0,0,0"/>
+    <Param up="0,1,0"/>
+    <Param fov="45"/>
+    <Param filmsize="1960,1080"/>
+	</Camera>
+  
+	<Accelerator type ="kdtree"/>
+  
+	<Integrator type="whitted"/>
+
+</Scene>

@@ -9,6 +9,7 @@
 #ifndef ORION_PERSPECTIVE_CAMEREA_H_
 #define ORION_PERSPECTIVE_CAMEREA_H_
 #include <orion.h>
+#include <common/paramset.h>
 #include <core/geometry.h>
 #include <core/transform.h>
 #include "camera.h"
@@ -40,6 +41,7 @@ namespace orion {
 		Float getFov() const { return vfov; }
 	};
 
+	std::shared_ptr<Camera> createPerspectiveCamera(const ParamSet &param);
 }
 
 #endif // !ORION_PERSPECTIVE_CAMEREA_H_

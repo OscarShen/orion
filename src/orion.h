@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <memory>
 #include <vector>
+#include <list>
 #include <iostream>
 #include <string>
 #include <functional>

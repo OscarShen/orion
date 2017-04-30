@@ -48,7 +48,7 @@ namespace orion {
 	};
 
 	std::shared_ptr<KdTreeAccel> createKdTreeAccelerator(
-		const std::vector<std::shared_ptr<Shape>> &shapes);
+		const std::vector<std::shared_ptr<Primitive>> &shapes);
 }
 
 #endif // !ORION_KDTREE_H_
