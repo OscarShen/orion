@@ -106,12 +106,25 @@ namespace orion {
 		Float b2 = e2 * invDet;
 		Float t = tScaled * invDet;
 
+		// Compute triangle partial derivatives
+		Vector3f dpdu, dpdv;
 		Point2f uv[3];
 		_getUVs(uv);
 
+		// Compute deltas for triangle partial derivatives
+		Vector2f duv02 = uv[0] - uv[2], duv12 = uv[1] - uv[2];
+		Vector3f dp02 = p0 - p2, dp12 = p1 - p2;
+		Float determinant = duv02[0] * duv12[1] - duv02[1] * duv12[0];
+		Float invdet = 1 / determinant;
+		dpdu = ( duv12[1] * dp02 - duv02[1] * dp12) * invdet;
+		dpdv = (-duv12[0] * dp02 + duv02[0] * dp12) * invdet;
+
 		Point3f pHit = p0 * b0 + p1 * b1 + p2 * b2;
 		Point2f uvHit = uv[0] * b0 + uv[1] * b1 + uv[2] * b2;
+
 		*isec = Intersection(pHit, Normal3f(0), uvHit, t);
+		isec->dpdu = dpdu;
+		isec->dpdv = dpdv;
 
 		// get shading normal, also has shading tangent in future
 		if (mesh->n) {

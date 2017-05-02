@@ -1,22 +1,14 @@
 ﻿<Scene>
   <Resource filename ="../../res/"/>
-	<Model filename = "bunny.obj">
-    <Param scale="1,1,1"/>
-    <Param rotate="0,30,0"/>
-    <Param translate="-10,-5,0"/>
 
-    <Material type = "matte">
-      <Param type ="constant" color ="1,0,1"/>
-    </Material>
-	</Model>
 
   <Model filename = "bunny.obj">
     <Param scale="1,1,1"/>
     <Param rotate="0,30,0"/>
-    <Param translate="10,-5,0"/>
+    <Param translate="0.0f,0.0f,0.0f"/>
 
-    <Material type = "matte">
-      <Param type = "checkbox" color0="1,0,0" color1="0,1,0"/>
+    <Material type = "merl">
+      <Param filename = "red-fabric.binary"/>
     </Material>
   </Model>
 	

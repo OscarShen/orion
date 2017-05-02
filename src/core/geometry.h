@@ -625,6 +625,11 @@ namespace orion {
 		return true;
 	}
 
+	template <typename T, typename U>
+	inline Vector3<T> operator*(U s, const Vector3<T> &v) {
+		return v * s;
+	}
+
 	// return dimension of vector, x=0, y=1, z=2
 	template <typename T>
 	int maxDimension(const Vector3<T> &v) {

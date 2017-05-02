@@ -17,6 +17,7 @@ namespace orion {
 	public:
 		Point3f pHit;
 		Normal3f n;
+		Vector3f dpdu, dpdv;
 		Point2f uv;
 		Float t;
 		const Primitive *primitive = nullptr;

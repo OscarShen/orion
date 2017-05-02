@@ -2,6 +2,7 @@
 #include <core/primitive.h>
 #include <integrator/whitted.h>
 #include <material/matte.h>
+#include <material/merlmaterial.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -45,6 +46,11 @@ namespace orion {
 					ParamSet matParam;
 					GET_PARAMSET(mat, matParam);
 					material = createMatteMaterial(matParam);
+				}
+				else if (mattype == "merl") {
+					ParamSet matParam;
+					GET_PARAMSET(mat, matParam);
+					material = createMerlMaterial(matParam);
 				}
 			}
 

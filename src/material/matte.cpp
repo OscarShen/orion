@@ -13,6 +13,7 @@ namespace orion {
 		auto bsdf = std::make_shared<BSDF>();
 		std::shared_ptr<BxDF> lambert(new Lambert(color));
 		bsdf->addBxDF(lambert);
+		bsdf->setIntersection(isec);
 		return bsdf;
 	}
 	std::shared_ptr<Material> createMatteMaterial(const ParamSet & param)
