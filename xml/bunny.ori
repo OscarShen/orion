@@ -8,7 +8,7 @@
     <Param translate="0.0f,0.0f,0.0f"/>
 
     <Material type = "merl">
-      <Param filename = "red-fabric.binary"/>
+      <Param filename = "alum-bronze.binary"/>
     </Material>
   </Model>
 	

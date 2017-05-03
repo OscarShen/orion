@@ -8,7 +8,7 @@ namespace orion {
 		sn = normalize(isec->dpdu);
 		tn = cross(sn, nn);
 	}
-	Spectrum BSDF::f(const Vector3f & wi, const Vector3f & wo) const
+	Spectrum BSDF::f(const Vector3f & wi, const Vector3f & wo, BxDF_TYPE flags) const
 	{
 		Spectrum r;
 
@@ -18,7 +18,8 @@ namespace orion {
 		swo = normalize(swo);
 
 		for (size_t i = 0; i < bxdf.size(); ++i) {
-			r += bxdf[i]->f(swi, swo);
+			if(bxdf[i]->matchesFlags(flags))
+				r += bxdf[i]->f(swi, swo);
 		}
 		return r;
 	}

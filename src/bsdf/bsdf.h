@@ -28,7 +28,7 @@ namespace orion {
 		void addBxDF(const std::shared_ptr<BxDF> &bxdf) { this->bxdf.push_back(bxdf); }
 		void setIntersection(const Intersection *isec);
 
-		Spectrum f(const Vector3f &wi, const Vector3f &wo) const;
+		Spectrum f(const Vector3f &wi, const Vector3f &wo, BxDF_TYPE flags = BxDF_ALL) const;
 		Vector3f world2local(const Vector3f &v) const {
 			return Vector3f(dot(v, sn), dot(v, nn), dot(v, tn)); // coordinate transform
 		}

@@ -19,7 +19,7 @@ namespace orion {
 		Spectrum s;
 
 	public:
-		Lambert(const Spectrum &ss) : s(ss) {}
+		Lambert(const Spectrum &ss) : s(ss) { type = BxDF_DIFFUSE; }
 		~Lambert() {}
 
 		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
