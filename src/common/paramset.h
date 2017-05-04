@@ -11,6 +11,27 @@
 #include <orion.h>
 namespace orion {
 
+	class ParamVec
+	{
+	private:
+		std::vector<std::pair<std::string, std::string>> pairs;
+		mutable size_t pos;
+
+	public:
+		void addParam(const std::string &key, const std::string &value) {
+			pairs.push_back(std::make_pair(key, value));
+		}
+		const std::pair<std::string, std::string> *getPair() const {
+			if (pos < pairs.size()) {
+				return &pairs[pos++];
+			}
+			else {
+				return nullptr;
+			}
+		}
+		void reset() const { pos = 0; }
+	};
+
 	class ParamSet
 	{
 	private:

@@ -32,6 +32,17 @@ namespace orion {
 		paramNode = paramNode->NextSiblingElement("Param");\
 	}}
 
+#define GET_PARAMVEC(node, paramvec) {\
+	auto paramNode = node->FirstChildElement("Param");\
+	while (paramNode) {\
+		auto attributeNode = paramNode->FirstAttribute();\
+		while (attributeNode) {\
+			paramvec.addParam(attributeNode->Name(), attributeNode->Value());\
+			attributeNode = attributeNode->Next();\
+		}\
+		paramNode = paramNode->NextSiblingElement("Param");\
+	}}
+
 	struct RenderOption
 	{
 		std::shared_ptr<Camera> camera;

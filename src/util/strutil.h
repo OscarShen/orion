@@ -23,6 +23,8 @@ namespace orion {
 
 	Vector3f parseVector3f(const std::string &s);
 
+	Vector3f parseRotate(const std::string & s, Float &degree);
+
 	Point3f parsePoint3f(const std::string &s);
 
 	Spectrum parseSpectrum(const std::string &s);

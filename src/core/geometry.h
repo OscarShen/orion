@@ -577,7 +577,7 @@ namespace orion {
 		Float time;
 		Float tMax;
 
-		Ray() {}
+		Ray() { tMax = fInfinity; }
 		Ray(const Point3f &o, const Vector3f &d, int depth = 0, Float time = 0.0f, Float tMax = fInfinity)
 			: o(o), d(d), depth(depth), time(time), tMax(tMax) {}
 		Point3f operator()(Float t) const { return o + d * t; }

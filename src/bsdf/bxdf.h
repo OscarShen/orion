@@ -29,7 +29,7 @@ namespace orion {
 	class BxDF
 	{
 	protected:
-		BxDF_TYPE type;
+		int type;
 
 	public:
 		BxDF() {}

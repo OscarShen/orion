@@ -176,14 +176,6 @@ namespace orion {
 		m.m[2][3] = 0;
 		return Transform(m, transpose(m));
 	}
-	Transform rotate(Float x, Float y, Float z)
-	{
-		return rotateX(x) * rotateY(y) * rotateZ(z);
-	}
-	Transform rotate(const Vector3f & xyz)
-	{
-		return rotate(xyz.x, xyz.y, xyz.z);
-	}
 	Transform lookAt(const Point3f & pos, const Point3f & look, const Vector3f & up)
 	{
 		Vector3f f(normalize(look - pos));
@@ -205,20 +197,25 @@ namespace orion {
 		result.m[2][3] = dot(f, Vector3f(pos));
 		return Transform(inverse(result), result);	// local to world, so we need inverse _Matrix4f_
 	}
-	Transform createTransform(const ParamSet & param)
+	Transform createTransform(const ParamVec & param)
 	{
 		Transform t;
-		if (param.hasParam("scale")) {
-			Vector3f scaleVec = parseVector3f(param.getParam("scale"));
-			t = scale(scaleVec) * t;
-		}
-		if (param.hasParam("rotate")) {
-			Vector3f rotateVec = parseVector3f(param.getParam("rotate"));
-			t = rotate(rotateVec) * t;
-		}
-		if (param.hasParam("translate")) {
-			Vector3f translateVec = parseVector3f(param.getParam("translate"));
-			t = translate(translateVec) * t;
+		param.reset();
+		const std::pair<std::string, std::string> *pair = nullptr;
+		while (pair = param.getPair()) {
+			if (pair->first == "scale") {
+				Vector3f scaleVec = parseVector3f(pair->second);
+				t = scale(scaleVec) * t;
+			}
+			else if (pair->first == "rotate") {
+				Float degree;
+				Vector3f rotateAxis = parseRotate(pair->second, degree);
+				t = rotate(degree, rotateAxis) * t;
+			}
+			else if (pair->first == "translate") {
+				Vector3f translateVec = parseVector3f(pair->second);
+				t = translate(translateVec) * t;
+			}
 		}
 		return t;
 	}

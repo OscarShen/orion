@@ -3,8 +3,7 @@
 namespace orion {
 	std::shared_ptr<BSDF> MerlMaterial::getBSDF(const Intersection * isec) const
 	{
-		BSDF *bsdf = new BSDF();
-		bsdf->setIntersection(isec);
+		BSDF *bsdf = new BSDF(isec);
 		bsdf->addBxDF(bxdf);
 		return std::shared_ptr<BSDF>(bsdf);
 	}

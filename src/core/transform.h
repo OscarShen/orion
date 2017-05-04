@@ -116,8 +116,6 @@ namespace orion {
 	Transform rotateY(Float theta);
 	Transform rotateZ(Float theta);
 	Transform rotate(Float theta, const Vector3f &axis);
-	Transform rotate(Float x,Float y,Float z);
-	Transform rotate(const Vector3f &xyz);
 	// camera to world
 	Transform lookAt(const Point3f &pos, const Point3f &look, const Vector3f &up);
 
@@ -159,7 +157,7 @@ namespace orion {
 	}
 
 
-	Transform createTransform(const ParamSet &param);
+	Transform createTransform(const ParamVec &param);
 }
 
 #endif // !ORION_TRANSFORM_H_

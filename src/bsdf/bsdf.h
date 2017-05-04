@@ -11,6 +11,7 @@
 #include <orion.h>
 #include "bxdf.h"
 #include <math/linalg.h>
+#include <core/intersection.h>
 namespace orion {
 
 	class BSDF
@@ -22,15 +23,24 @@ namespace orion {
 		Vector3f sn, tn;// tangent vector, bitangent vector
 
 	public:
-		BSDF() {}
+		BSDF(const Intersection *isec) {
+			nn = isec->n;
+			sn = normalize(isec->dpdu);
+			tn = cross(sn, nn);
+		}
 		~BSDF() {}
-		int numBxDF() const { return static_cast<int>(bxdf.size()); }
+		int numBxDF(BxDF_TYPE type = BxDF_ALL) const;
 		void addBxDF(const std::shared_ptr<BxDF> &bxdf) { this->bxdf.push_back(bxdf); }
-		void setIntersection(const Intersection *isec);
 
 		Spectrum f(const Vector3f &wi, const Vector3f &wo, BxDF_TYPE flags = BxDF_ALL) const;
+		Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf, BxDF_TYPE type = BxDF_ALL) const;
 		Vector3f world2local(const Vector3f &v) const {
 			return Vector3f(dot(v, sn), dot(v, nn), dot(v, tn)); // coordinate transform
+		}
+		Vector3f local2world(const Vector3f &v) const {
+			return Vector3f(sn.x * v.x + nn.x * v.y + tn.x * v.z,
+				sn.y * v.x + nn.y * v.y + tn.y * v.z,
+				sn.z * v.x + nn.z * v.y + tn.z * v.z);
 		}
 	};
 

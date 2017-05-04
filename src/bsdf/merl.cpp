@@ -169,7 +169,6 @@ namespace orion {
 	}
 	Spectrum Merl::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
 	{
-		CHECK_INFO(false, "no impl");
 		return Spectrum();
 	}
 	std::shared_ptr<Merl> Merl::clone() const

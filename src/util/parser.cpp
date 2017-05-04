@@ -3,6 +3,7 @@
 #include <integrator/whitted.h>
 #include <material/matte.h>
 #include <material/merlmaterial.h>
+#include <material/mirror.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -28,8 +29,8 @@ namespace orion {
 		while (model) {
 			std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
 			// Transform
-			ParamSet transParam;
-			GET_PARAMSET(model, transParam);
+			ParamVec transParam;
+			GET_PARAMVEC(model, transParam);
 			Transform transform = createTransform(transParam);
 			Transform *t, *invt;
 			TransformCache::inst()->lookup(transform, &t, &invt);
@@ -42,15 +43,16 @@ namespace orion {
 			auto mat = model->FirstChildElement("Material");
 			if (mat) {
 				std::string mattype = mat->Attribute("type");
+				ParamSet matParam;
+				GET_PARAMSET(mat, matParam);
 				if (mattype == "matte") {
-					ParamSet matParam;
-					GET_PARAMSET(mat, matParam);
 					material = createMatteMaterial(matParam);
 				}
 				else if (mattype == "merl") {
-					ParamSet matParam;
-					GET_PARAMSET(mat, matParam);
 					material = createMerlMaterial(matParam);
+				}
+				else if (mattype == "mirror") {
+					material = createMirrorMaterial(matParam);
 				}
 			}
 
@@ -59,7 +61,7 @@ namespace orion {
 				prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material)));
 			}
 			renderOption->prims.insert(renderOption->prims.end(), prims.begin(), prims.end());
-
+			prims.clear();
 			// Next
 			model = model->NextSiblingElement("Model");
 		}

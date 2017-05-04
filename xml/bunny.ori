@@ -2,18 +2,25 @@
   <Resource filename ="../../res/"/>
 
 
-  <Model filename = "bunny.obj">
-    <Param scale="1,1,1"/>
-    <Param rotate="0,30,0"/>
+  <Model filename = "cube.obj">
+    <Param scale="5.0f,5.0f,5.0f"/>
     <Param translate="0.0f,0.0f,0.0f"/>
+
+    <Material type = "mirror">
+    </Material>
+  </Model>
+
+  <Model filename = "bunny.obj">
+    <Param rotate = "0,1,0,180"/>
+    <Param translate = "0.0f,-5.0f,20.0f"/>
 
     <Material type = "merl">
       <Param filename = "alum-bronze.binary"/>
     </Material>
   </Model>
-	
+
 	<Camera type = "perspective">
-    <Param origin="15,15,15"/>
+    <Param origin="0,0,10"/>
     <Param lookat="0,0,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>

@@ -47,6 +47,17 @@ namespace orion {
 			static_cast<Float>(atof(v[2].c_str())));
 	}
 
+	Vector3f parseRotate(const std::string & s, Float &degree)
+	{
+		auto v = split(s, ",");
+		CHECK_INFO(v.size() > 3, "Error, number of elements not enough to parse!");
+		degree = static_cast<Float>(atof(v[3].c_str()));
+		return Vector3f(
+			static_cast<Float>(atof(v[0].c_str())),
+			static_cast<Float>(atof(v[1].c_str())),
+			static_cast<Float>(atof(v[2].c_str())));
+	}
+
 	Point3f parsePoint3f(const std::string & s)
 	{
 		auto v = split(s, ",");

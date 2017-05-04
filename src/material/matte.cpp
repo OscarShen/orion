@@ -10,10 +10,9 @@ namespace orion {
 	{
 		Spectrum color(1.0f);
 		color = diffuse->evaluate(isec);
-		auto bsdf = std::make_shared<BSDF>();
+		auto bsdf = std::make_shared<BSDF>(isec);
 		std::shared_ptr<BxDF> lambert(new Lambert(color));
 		bsdf->addBxDF(lambert);
-		bsdf->setIntersection(isec);
 		return bsdf;
 	}
 	std::shared_ptr<Material> createMatteMaterial(const ParamSet & param)
