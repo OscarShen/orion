@@ -49,6 +49,9 @@ namespace orion {
 		RGBSpectrum operator*(const RGBSpectrum &rhs) const {
 			return RGBSpectrum(rhs.r * r, rhs.g * g, rhs.b * b);
 		}
+		RGBSpectrum operator/(const RGBSpectrum &rhs) const {
+			return RGBSpectrum(r / rhs.r, g / rhs.g, b / rhs.b);
+		}
 		RGBSpectrum &operator*=(const RGBSpectrum &rhs) {
 			r *= rhs.r;
 			g *= rhs.g;
@@ -67,6 +70,7 @@ namespace orion {
 			b -= rhs.b;
 			return *this;
 		}
+		friend RGBSpectrum sqrt(const RGBSpectrum &s);
 	};
 
 	inline RGBSpectrum operator*(Float f, const RGBSpectrum &s) {
@@ -76,6 +80,14 @@ namespace orion {
 	inline std::ostream &operator<<(std::ostream &os, const RGBSpectrum &s) {
 		os << "RGBSpectrum : [" << s.r << ", " << s.g << ", " << s.b << "] ";
 		return os;
+	}
+
+	inline RGBSpectrum orion::sqrt(const RGBSpectrum & s)
+	{
+		return RGBSpectrum(
+			std::sqrt(s.r),
+			std::sqrt(s.g),
+			std::sqrt(s.b));
 	}
 }
 

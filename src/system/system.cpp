@@ -26,7 +26,7 @@ namespace orion {
 		auto parser = Parser::inst();
 		parser->makeRenderOption();
 		auto &option = parser->getRenderOption();
-		scene = std::shared_ptr<Scene>(new Scene(option->accel));
+		scene = std::shared_ptr<Scene>(new Scene(option->accel, option->lights));
 		integrator = option->integrator;
 		camera = option->camera;
 	}

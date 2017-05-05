@@ -68,8 +68,10 @@ namespace orion {
 	class Shape;
 	class Material;
 	class Primitive;
-
+	class Intersection;
+	class Scene;
 	class ParamSet;
+	class Light;
 }
 
 #endif // !ENG_H_

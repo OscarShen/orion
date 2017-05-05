@@ -49,6 +49,7 @@ namespace orion {
 		std::vector<std::shared_ptr<Primitive>> prims;
 		std::shared_ptr<Accelerator> accel;
 		std::shared_ptr<Integrator> integrator;
+		std::vector<std::shared_ptr<Light>> lights;
 	};
 
 	class Parser : public Singleton<Parser>
@@ -68,6 +69,7 @@ namespace orion {
 		void _makeAccel();
 		void _makeIntegrator();
 		void _makeCamera();
+		void _makeLight();
 		Parser(const std::string &path);
 	};
 

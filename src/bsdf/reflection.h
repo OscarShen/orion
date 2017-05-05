@@ -20,6 +20,17 @@ namespace orion {
 		virtual Spectrum evaluate(Float cosI) const = 0;
 	};
 
+	class FresnelConductor : public Fresnel
+	{
+	private:
+		Spectrum etaI, etaT, k;
+
+	public:
+		FresnelConductor(const Spectrum &etaI, const Spectrum &etaT, const Spectrum &k)
+			: etaI(etaI), etaT(etaT), k(k) {}
+		Spectrum evaluate(Float cosThetaI) const override;
+	};
+
 	class FresnelDielectric : public Fresnel
 	{
 	private:
@@ -84,6 +95,7 @@ namespace orion {
 
 		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
 	};
+
 }
 
 #endif // !ORION_REFLECTION_H_

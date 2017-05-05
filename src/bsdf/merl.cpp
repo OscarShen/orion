@@ -15,7 +15,7 @@ namespace orion {
 			return 0;
 		Float theta_half_deg = theta_half * 2 * invpi * MERL_SAMPLING_RES_THETA_H;
 		Float temp = theta_half_deg * MERL_SAMPLING_RES_THETA_H;
-		temp = sqrt(temp);
+		temp = std::sqrt(temp);
 		int ret_val = (int)temp;
 		if (ret_val < 0) ret_val = 0;
 		if (ret_val >= MERL_SAMPLING_RES_THETA_H)

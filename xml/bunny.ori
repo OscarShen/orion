@@ -1,23 +1,36 @@
 ﻿<Scene>
   <Resource filename ="../../res/"/>
 
-
-  <Model filename = "cube.obj">
-    <Param scale="1.0f,1.0f,0.0005f"/>
-    <Param translate="0.0f,2.0f,10.0f"/>
-
-    <Material type = "glass">
-      <Param eta="1.2f"/>
-    </Material>
-  </Model>
-
   <Model filename = "bunny.obj">
-    <Param scale="1.0f,1.0f,1.0f"/>
-    <Param translate="0.0f,-3.0f,0.0f"/>
+    <Transform>
+      <Param scale="1.0f,1.0f,1.0f"/>
+      <Param translate="0.0f,-3.0f,0.0f"/>
+    </Transform>
     <Material type = "merl">
       <Param filename = "alum-bronze.binary"/>
     </Material>
   </Model>
+
+  <Light type ="point">
+    <Transform>
+      <Param translate="1500,1000,1000"/>
+    </Transform>
+    <Param intensity="90000000, 0, 0"/>
+  </Light>
+
+  <Light type ="point">
+    <Transform>
+      <Param translate="1000,1500,1000"/>
+    </Transform>
+    <Param intensity="0, 90000000, 0"/>
+  </Light>
+
+  <Light type ="point">
+    <Transform>
+      <Param translate="1000,1000,1500"/>
+    </Transform>
+    <Param intensity="0, 0, 90000000"/>
+  </Light>
 
 	<Camera type = "perspective">
     <Param origin="0,0,20"/>

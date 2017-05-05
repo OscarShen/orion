@@ -70,7 +70,9 @@ namespace orion {
 	Spectrum parseSpectrum(const std::string & s)
 	{
 		auto v = split(s, ",");
-		CHECK_INFO(v.size() >= 3, "Error, number of elements not enough to parse!");
+		CHECK_INFO(v.size() > 0, "Error, number of elements not enough to parse!");
+		if (v.size() < 3)
+			return Spectrum(static_cast<Float>(atof(v[0].c_str())));
 		return Spectrum(
 			static_cast<Float>(atof(v[0].c_str())),
 			static_cast<Float>(atof(v[1].c_str())),

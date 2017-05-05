@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <core/primitive.h>
 #include <integrator/whitted.h>
+#include <light/light.h>
 #include <material/matte.h>
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
@@ -8,6 +9,7 @@
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
+#include <util/meshmanager.h>
 
 namespace orion {
 
@@ -20,6 +22,7 @@ namespace orion {
 		_makeCamera();
 		_makeModel();
 		_makeAccel();
+		_makeLight();
 		_makeIntegrator();
 	}
 
@@ -30,9 +33,13 @@ namespace orion {
 		while (model) {
 			std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
 			// Transform
-			ParamVec transParam;
-			GET_PARAMVEC(model, transParam);
-			Transform transform = createTransform(transParam);
+			TiXmlElement *transNode = model->FirstChildElement("Transform");
+			Transform transform;
+			if (transNode) {
+				ParamVec transParam;
+				GET_PARAMVEC(transNode, transParam);
+				transform = createTransform(transParam);
+			}
 			Transform *t, *invt;
 			TransformCache::inst()->lookup(transform, &t, &invt);
 
@@ -111,6 +118,30 @@ namespace orion {
 		}
 		else {
 			CHECK_INFO(false, "Not support now!");
+		}
+	}
+
+	void Parser::_makeLight()
+	{
+		TiXmlElement *lightNode = root->FirstChildElement("Light");
+		while (lightNode) {
+			std::string type = lightNode->Attribute("type");
+			trim(type);
+			ParamSet ps;
+			GET_PARAMSET(lightNode, ps);
+			if (type == "point") {
+				TiXmlElement *transNode = lightNode->FirstChildElement("Transform");
+				Transform t;
+				if (transNode) {
+					ParamVec pv;
+					GET_PARAMVEC(transNode, pv);
+					t = createTransform(pv);
+				}
+				std::shared_ptr<Light> light = createPointLight(t, ps);
+				renderOption->lights.push_back(light);
+			}
+
+			lightNode = lightNode->NextSiblingElement("Light");
 		}
 	}
 
