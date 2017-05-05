@@ -31,6 +31,14 @@ namespace orion {
 	inline T dot(const Vector3<T> &v1, const Normal3<T> &v2) {
 		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 	}
+	template <typename T>
+	inline T dot(const Normal3<T> &v1, const Normal3<T> &v2) {
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	}
+	template <typename T>
+	inline T dot(const Normal3<T> &v1, const Vector3<T> &v2) {
+		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+	}
 
 	// cross
 	template <typename T>
@@ -132,6 +140,11 @@ namespace orion {
 	inline Float sphericalPhi(const Vector3f &v) {
 		Float p = std::atan2(-v.z, v.x);
 		return (p < 0) ? p + 2 * pi : p;
+	}
+
+	template <typename T>
+	inline Normal3<T> faceforward(const Normal3<T> &n, const Vector3<T> &v) {
+		return (dot(n, v) < 0.f) ? -n : n;
 	}
 }
 

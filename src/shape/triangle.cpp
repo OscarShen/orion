@@ -131,8 +131,8 @@ namespace orion {
 			Normal3f n[3];
 			_getNormals(n);
 			Normal3f ns(n[0] * b0 + n[1] * b1 + n[2] * b2);
-			if(ns.lengthSquared() > 0)
-				isec->n = normalize(ns);
+			if (ns.lengthSquared() > 0)
+				isec->n = faceforward(normalize(ns), -ray.d);
 		}
 		return true;
 	}

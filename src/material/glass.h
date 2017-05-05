@@ -6,27 +6,24 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_BXDF_LAMBERT_H_
-#define ORION_BXDF_LAMBERT_H_
+#ifndef ORION_MATERIAL_GLASS_H_
+#define ORION_MATERIAL_GLASS_H_
 #include <orion.h>
-#include <core/spectrum.h>
-#include "bxdf.h"
+#include "material.h"
 namespace orion {
 
-	class Lambert : public BxDF
+	class GlassMaterial : public Material
 	{
 	private:
-		Spectrum s;
+		Float eta;
 
 	public:
-		Lambert(const Spectrum &ss) : BxDF(BxDF_DIFFUSE), s(ss) { }
-		~Lambert() {}
-
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
-
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		GlassMaterial(Float eta) : eta(eta) {}
+		std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const override;
 	};
 
+	std::shared_ptr<GlassMaterial> createGlassMaterial(const ParamSet &param);
 }
 
-#endif // !ORION_BXDF_LAMBERT_H_
+
+#endif // !ORION_MATERIAL_GLASS_H_

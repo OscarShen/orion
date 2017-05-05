@@ -3,28 +3,28 @@
 
 
   <Model filename = "cube.obj">
-    <Param scale="5.0f,5.0f,5.0f"/>
-    <Param translate="0.0f,0.0f,0.0f"/>
+    <Param scale="1.0f,1.0f,0.0005f"/>
+    <Param translate="0.0f,2.0f,10.0f"/>
 
-    <Material type = "mirror">
+    <Material type = "glass">
+      <Param eta="1.2f"/>
     </Material>
   </Model>
 
   <Model filename = "bunny.obj">
-    <Param rotate = "0,1,0,180"/>
-    <Param translate = "0.0f,-5.0f,20.0f"/>
-
+    <Param scale="1.0f,1.0f,1.0f"/>
+    <Param translate="0.0f,-3.0f,0.0f"/>
     <Material type = "merl">
       <Param filename = "alum-bronze.binary"/>
     </Material>
   </Model>
 
 	<Camera type = "perspective">
-    <Param origin="0,0,10"/>
+    <Param origin="0,0,20"/>
     <Param lookat="0,0,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>
-    <Param filmsize="1960,1080"/>
+    <Param filmsize="800,600"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>

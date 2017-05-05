@@ -19,23 +19,26 @@ namespace orion {
 		BxDF_GLOSSY = 2,
 		BxDF_SPECULAR = 4,
 		BxDF_REFLECTION = 8,
-		BxDF_REFRACTION = 16,
+		BxDF_TRANSMISSION = 16,
 		BxDF_ALL_TYPES = BxDF_DIFFUSE | BxDF_GLOSSY | BxDF_SPECULAR,
 		BxDF_ALL_REFLECTION = BxDF_ALL_TYPES | BxDF_REFLECTION,
-		BxDF_ALL_REFRACTION = BxDF_ALL_TYPES | BxDF_REFRACTION,
-		BxDF_ALL = BxDF_ALL_REFLECTION | BxDF_ALL_REFRACTION
+		BxDF_ALL_TRANSMISSION = BxDF_ALL_TYPES | BxDF_TRANSMISSION,
+		BxDF_ALL = BxDF_ALL_REFLECTION | BxDF_ALL_TRANSMISSION
 	};
 
 	class BxDF
 	{
 	protected:
-		int type;
+		BxDF_TYPE type;
 
 	public:
-		BxDF() {}
+		BxDF(BxDF_TYPE type) : type(type) {}
 		virtual ~BxDF() {}
 
-		bool matchesFlags(BxDF_TYPE t) const { return (type & t) == type; }
+		bool matchesFlags(BxDF_TYPE t) const { 
+			int a = type & t;
+			return a == type;
+		}
 
 		// evaluate bxdf
 		// param wi : in vector, normalized

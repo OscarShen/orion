@@ -4,6 +4,7 @@
 #include <material/matte.h>
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
+#include <material/glass.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -53,6 +54,9 @@ namespace orion {
 				}
 				else if (mattype == "mirror") {
 					material = createMirrorMaterial(matParam);
+				}
+				else if (mattype == "glass") {
+					material = createGlassMaterial(matParam);
 				}
 			}
 

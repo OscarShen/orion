@@ -6,23 +6,14 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_BSDF_REFRACTION_H_
-#define ORION_BSDF_REFRACTION_H_
+#ifndef ORION_PHYSICS_OPTICS_H_
+#define ORION_PHYSICS_OPTICS_H_
 #include <orion.h>
-#include "bxdf.h"
 namespace orion {
 
-	class Refraction : public BxDF
-	{
-	public:
-		Refraction() { type = BxDF_REFLECTION; }
-		~Refraction() {}
-
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
-
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
-	};
+	// ¾øÔµÌå·´ÉäÂÊ
+	Float frDielectric(Float cosThetaI, Float etaI, Float etaT);
 
 }
 
-#endif // !ORION_BSDF_REFRACTION_H_
+#endif // !ORION_PHYSICS_OPTICS_H_

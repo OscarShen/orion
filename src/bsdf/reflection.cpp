@@ -1,14 +1,32 @@
 #include "reflection.h"
-
+#include <physics/optics.h>
+#include "bsdf.h"
 namespace orion {
 
-	Spectrum Reflection::f(const Vector3f & wi, const Vector3f & wo) const
-	{
-		return Spectrum();
-	}
-	Spectrum Reflection::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
+	Spectrum SpecularReflection::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
 	{
 		wi = Vector3f(-wo.x, wo.y, -wo.z);
-		return Spectrum(1.0f);
+		return fresnel->evaluate(cosTheta(wi)) / absCosTheta(wi);
+	}
+
+	Spectrum FresnelDielectric::evaluate(Float cosThetaI) const
+	{
+		return frDielectric(cosThetaI, etaI, etaT);
+	}
+	Spectrum SpecularTransmission::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
+	{
+		bool entering = cosTheta(wo) > 0;
+		// incident eta
+		Float etaI = entering ? etaA : etaB;
+		Float etaT = entering ? etaB : etaA;
+
+		// compute ray direction
+		if (!refract(wo, faceforward(Normal3f(0, 1, 0), wo), etaI / etaT, &wi)) {
+			return 0;
+		}
+		Spectrum ft = T * (Spectrum(1.0f) - fresnel.evaluate(cosTheta(wi)));
+		// Conservation of energy
+		ft *= (etaI * etaI) / (etaT * etaT);
+		return ft / absCosTheta(wi);
 	}
 }

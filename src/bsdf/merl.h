@@ -26,7 +26,7 @@ namespace orion {
 		std::vector<Float> data;
 
 	public:
-		Merl() { type = BxDF_REFLECTION | BxDF_GLOSSY; }
+		Merl() : BxDF((BxDF_TYPE)(BxDF_REFLECTION | BxDF_GLOSSY)) { }
 
 		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
 

@@ -184,6 +184,7 @@ namespace orion {
 		Vector3<T> operator-() const { return Vector3<T>(-x, -y, -z); }
 		Float lengthSquared() const { return x * x + y * y + z * z; }
 		Float length() const { return std::sqrt(lengthSquared()); }
+		explicit Vector3(const Normal3<T> &n);
 	};
 
 	template <typename T>
@@ -577,7 +578,7 @@ namespace orion {
 		Float time;
 		Float tMax;
 
-		Ray() { tMax = fInfinity; }
+		Ray() : depth(0), tMax(fInfinity) { }
 		Ray(const Point3f &o, const Vector3f &d, int depth = 0, Float time = 0.0f, Float tMax = fInfinity)
 			: o(o), d(d), depth(depth), time(time), tMax(tMax) {}
 		Point3f operator()(Float t) const { return o + d * t; }
@@ -653,6 +654,9 @@ namespace orion {
 	Vector3<T> abs(const Vector3<T> &v) {
 		return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
 	}
+	template<typename T>
+	inline Vector3<T>::Vector3(const Normal3<T>& n)
+		:x(n.x), y(n.y), z(n.z) {}
 }
 
 #endif // !ORT_GEOMETRY_H_
