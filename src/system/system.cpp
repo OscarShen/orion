@@ -16,8 +16,12 @@ namespace orion {
 
 				film->setSpectrum(i, j, s);
 			}
-			if(Timer::inst()->getElaspedTime() % 1000 == 0)
+
+			static uint64_t timecount = 1000;
+			if ((int64_t)(Timer::inst()->getElaspedTime() - timecount) > 0) {
+				timecount += 1000;
 				std::cout << (int)(j / (Float)height * 100) << "%" << std::endl;
+			}
 		}
 	}
 

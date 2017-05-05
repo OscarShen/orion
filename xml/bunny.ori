@@ -11,25 +11,14 @@
     </Material>
   </Model>
 
-  <Light type ="point">
+  <Light type ="spot">
     <Transform>
-      <Param translate="1500,1000,1000"/>
+      <Param rotate="0,0,1,180"/>
+      <Param translate="0,1500,0"/>
     </Transform>
-    <Param intensity="90000000, 0, 0"/>
-  </Light>
-
-  <Light type ="point">
-    <Transform>
-      <Param translate="1000,1500,1000"/>
-    </Transform>
-    <Param intensity="0, 90000000, 0"/>
-  </Light>
-
-  <Light type ="point">
-    <Transform>
-      <Param translate="1000,1000,1500"/>
-    </Transform>
-    <Param intensity="0, 0, 90000000"/>
+    <Param angle="30"/>
+    <Param delta="5"/>
+    <Param intensity="90000000, 90000000, 90000000"/>
   </Light>
 
 	<Camera type = "perspective">

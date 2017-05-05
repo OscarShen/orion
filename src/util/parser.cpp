@@ -129,16 +129,19 @@ namespace orion {
 			trim(type);
 			ParamSet ps;
 			GET_PARAMSET(lightNode, ps);
+			TiXmlElement *transNode = lightNode->FirstChildElement("Transform");
+			Transform t;
+			if (transNode) {
+				ParamVec pv;
+				GET_PARAMVEC(transNode, pv);
+				t = createTransform(pv);
+			}
+
 			if (type == "point") {
-				TiXmlElement *transNode = lightNode->FirstChildElement("Transform");
-				Transform t;
-				if (transNode) {
-					ParamVec pv;
-					GET_PARAMVEC(transNode, pv);
-					t = createTransform(pv);
-				}
-				std::shared_ptr<Light> light = createPointLight(t, ps);
-				renderOption->lights.push_back(light);
+				renderOption->lights.push_back(createPointLight(t, ps));
+			}
+			else if (type == "spot") {
+				renderOption->lights.push_back(createSpotLight(t, ps));
 			}
 
 			lightNode = lightNode->NextSiblingElement("Light");

@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  build scene from xml file
+ * @author		:  Oscar Shen
+ * @creat 		:  2017Äê5ÔÂ5ÈÕ
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  

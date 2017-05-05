@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  mesh resource manager
+ * @author		:  Oscar Shen
+ * @creat 		:  2017Äê4ÔÂ24ÈÕ
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
@@ -13,18 +13,6 @@
 #include <shape/triangle.h>
 #include <io/meshio.h>
 namespace orion {
-
-	//struct MeshBuffer
-	//{
-	//	int numTri, numVer;
-	//	const int *vertexIndices;
-	//	const Point3f *p;		// position
-	//	const Normal3f *n;		// normal
-	//	const Point2f *uv;		// uv
-	//	MeshBuffer(int numTri, const int *vertexIndices, const Point3f *P,
-	//		const Normal3f *N, const Point2f *UV) :numTri(numTri),
-	//		vertexIndices(vertexIndices), p(P), n(N), uv(UV) {}
-	//};
 
 	class MeshManager : public Singleton<MeshManager>
 	{

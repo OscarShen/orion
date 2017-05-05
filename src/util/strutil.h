@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  some utilities of string
+ * @author		:  Oscar Shen
+ * @creat 		:  2017Äê4ÔÂ28ÈÕ
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
