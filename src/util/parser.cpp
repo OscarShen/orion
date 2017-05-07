@@ -129,19 +129,14 @@ namespace orion {
 			trim(type);
 			ParamSet ps;
 			GET_PARAMSET(lightNode, ps);
-			TiXmlElement *transNode = lightNode->FirstChildElement("Transform");
-			Transform t;
-			if (transNode) {
-				ParamVec pv;
-				GET_PARAMVEC(transNode, pv);
-				t = createTransform(pv);
-			}
-
 			if (type == "point") {
-				renderOption->lights.push_back(createPointLight(t, ps));
+				renderOption->lights.push_back(createPointLight(ps));
 			}
 			else if (type == "spot") {
-				renderOption->lights.push_back(createSpotLight(t, ps));
+				renderOption->lights.push_back(createSpotLight(ps));
+			}
+			else if (type == "distant") {
+				renderOption->lights.push_back(createDistantLight(ps));
 			}
 
 			lightNode = lightNode->NextSiblingElement("Light");

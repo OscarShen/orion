@@ -146,6 +146,16 @@ namespace orion {
 	inline Normal3<T> faceforward(const Normal3<T> &n, const Vector3<T> &v) {
 		return (dot(n, v) < 0.f) ? -n : n;
 	}
+
+	template <typename T>
+	inline void coordinateSystem(const Vector3<T> &v1, Vector3<T> *v2,
+		Vector3<T> *v3) {
+		if (std::abs(v1.x) > std::abs(v1.y))
+			*v2 = Vector3<T>(-v1.z, 0, v1.x) / std::sqrt(v1.x * v1.x + v1.z * v1.z);
+		else
+			*v2 = Vector3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y * v1.y + v1.z * v1.z);
+		*v3 = cross(v1, *v2);
+	}
 }
 
 #endif // !ORT_LINALG_H_

@@ -94,6 +94,7 @@ namespace orion {
 		template <typename T>
 		inline Normal3<T> operator()(const Normal3<T> &n) const;
 		inline Ray operator()(const Ray &r) const;
+		Bounds3f operator()(const Bounds3f &b) const;
 		Transform operator*(const Transform &t2) const;
 		bool operator<(const Transform &t2) const {
 			for (int i = 0; i < 4; ++i)
@@ -147,6 +148,19 @@ namespace orion {
 		Vector3f d = (*this)(r.d);
 		return Ray(o, d, r.depth, r.time, r.tMax);
 	}
+	inline Bounds3f Transform::operator()(const Bounds3f & b) const
+	{
+		const Transform &M = *this;
+		Bounds3f ret(M(Point3f(b.pMin.x, b.pMin.y, b.pMin.z)));
+		ret = Union(ret, M(Point3f(b.pMax.x, b.pMin.y, b.pMin.z)));
+		ret = Union(ret, M(Point3f(b.pMin.x, b.pMax.y, b.pMin.z)));
+		ret = Union(ret, M(Point3f(b.pMin.x, b.pMin.y, b.pMax.z)));
+		ret = Union(ret, M(Point3f(b.pMin.x, b.pMax.y, b.pMax.z)));
+		ret = Union(ret, M(Point3f(b.pMax.x, b.pMax.y, b.pMin.z)));
+		ret = Union(ret, M(Point3f(b.pMax.x, b.pMin.y, b.pMax.z)));
+		ret = Union(ret, M(Point3f(b.pMax.x, b.pMax.y, b.pMax.z)));
+		return ret;
+	}
 	template<typename T>
 	inline Normal3<T> Transform::operator()(const Normal3<T>&n) const
 	{
@@ -159,5 +173,4 @@ namespace orion {
 
 	Transform createTransform(const ParamVec &param);
 }
-
 #endif // !ORION_TRANSFORM_H_

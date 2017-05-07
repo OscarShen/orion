@@ -35,6 +35,7 @@ namespace orion {
 	public:
 		PointLight(const Transform &light2world, const Spectrum &I)
 			: Light(light2world), I(I), p(light2world(Point3f(0))) {}
+
 		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf) const;
 	};
 
@@ -49,13 +50,27 @@ namespace orion {
 	public:
 		SpotLight(const Transform &light2world, const Spectrum &I, Float totalWidth, Float falloffStart);
 
-		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf) const;
+		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf) const override;
 
 		Float falloff(const Vector3f &w) const;
 	};
 
-	std::shared_ptr<PointLight> createPointLight(const Transform &light2world, const ParamSet &param);
-	std::shared_ptr<SpotLight> createSpotLight(const Transform &light2world, const ParamSet &param);
+	class DistantLight : public Light
+	{
+	private:
+		const Spectrum L;
+		const Vector3f dir;
+
+	public:
+		DistantLight(const Transform &light2world, const Spectrum &L, const Vector3f &dir)
+			: Light(light2world), L(L), dir(dir) {}
+
+		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf) const override;
+	};
+
+	std::shared_ptr<PointLight> createPointLight(const ParamSet &param);
+	std::shared_ptr<SpotLight> createSpotLight(const ParamSet &param);
+	std::shared_ptr<DistantLight> createDistantLight(const ParamSet &param);
 }
 
 #endif // !ORION_LIGHT_H_
