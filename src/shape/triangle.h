@@ -43,7 +43,8 @@ namespace orion {
 		}
 
 		virtual bool intersect(const Ray &ray, Intersection *isec) const;
-		virtual Bounds3f worldBound() const;
+		virtual Bounds3f worldBound() const override;
+		virtual Bounds3f localBound() const override;
 
 	private:
 		void _getUVs(Point2f uv[3]) const;

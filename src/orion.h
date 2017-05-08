@@ -34,7 +34,8 @@ namespace orion {
 
 	typedef float Float;
 
-	constexpr Float epsilon = 1e-6f;
+	constexpr Float epsilon = 1e-5f;
+	constexpr Float shadowEpsilon = 0.0001f;
 
 	constexpr Float fInfinity = std::numeric_limits<Float>::max();
 	constexpr Float pi = 3.14159265358979323846f;

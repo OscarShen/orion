@@ -24,9 +24,18 @@ namespace orion {
 
 	public:
 		Intersection() : t(fInfinity) { }
+		Intersection(const Point3f &pHit) : pHit(pHit) {} // for shadow
 		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv, Float t)
 			:pHit(pHit), n(normal), uv(uv), t(t) {}
+		Intersection(const Point3f &pHit, const Normal3f &normal, const Point2f &uv, Float t, const Vector3f &dpdu, const Vector3f &dpdv)
+			:pHit(pHit), n(normal), uv(uv), t(t), dpdu(dpdu), dpdv(dpdv) {}
 		~Intersection() {}
+
+		Ray spawnRay(const Intersection &isec) const {
+			Vector3f dir = isec.pHit - pHit;		// This is not normal vector!!
+			Point3f origin = pHit + dir * epsilon;
+			return Ray(origin, dir, 0, t, 1 - shadowEpsilon);
+		}
 	};
 
 }

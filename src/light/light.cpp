@@ -1,15 +1,16 @@
 #include "light.h"
-#include <core/intersection.h>
+#include <core/scene.h>
 #include <math/linalg.h>
 #include <common/paramset.h>
 #include <util/strutil.h>
 namespace orion {
 
-	Spectrum PointLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf) const
+	Spectrum PointLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
 	{
 		Vector3f v = p - isec.pHit;
 		*wi = normalize(v);
 		*pdf = 1.0f;
+		*sdt = ShadowTester(isec, Intersection(p));
 		return I / v.lengthSquared();
 	}
 	std::shared_ptr<PointLight> createPointLight(const ParamSet & param)
@@ -45,11 +46,12 @@ namespace orion {
 		: Light(light2world), I(I), p(light2world(Point3f(0))),
 		cosTotalWidth(std::cos(radians(totalWidth))),
 		cosFalloffStart(std::cos(radians(cosFalloffStart))) {}
-	Spectrum SpotLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf) const
+	Spectrum SpotLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
 	{
 		Vector3f v = p - isec.pHit;
 		*wi = normalize(v);
 		*pdf = 1.0f;
+		*sdt = ShadowTester(isec, Intersection(p));
 		return I * falloff(-*wi) / v.lengthSquared();
 	}
 	Float SpotLight::falloff(const Vector3f & w) const
@@ -62,10 +64,16 @@ namespace orion {
 		Float delta = (cosTh - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 		return delta * delta * delta * delta;
 	}
-	Spectrum DistantLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf) const
+	Spectrum DistantLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
 	{
 		*wi = -dir;
 		*pdf = 1;
+		*sdt = ShadowTester(isec, Intersection(isec.pHit + 1e5f * -dir));
 		return L;
+	}
+	bool ShadowTester::unoccluded(const std::shared_ptr<Scene> & scene) const
+	{
+		Intersection isec;
+		return !scene->intersect(p0.spawnRay(p1), &isec); // TODO : add a fast calculation
 	}
 }

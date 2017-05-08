@@ -21,6 +21,7 @@ namespace orion {
 		~Accelerator() {}
 
 		virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
+		virtual Bounds3f worldBound() const = 0;
 	};
 
 }

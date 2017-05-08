@@ -27,6 +27,11 @@ namespace orion {
 			this->b = b * inv;
 		}
 		~RGBSpectrum() {}
+		bool isBlack() const {
+			if (r != 0.0f || g != 0.0f || b != 0.0f)
+				return false;
+			return true;
+		}
 
 		RGBSpectrum operator+(Float f) const {
 			return RGBSpectrum(r + f, g + f, b + f);

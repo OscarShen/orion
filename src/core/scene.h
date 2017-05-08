@@ -20,14 +20,16 @@ namespace orion {
 
 	private:
 		std::shared_ptr<Accelerator> accel;
+		Bounds3f bound;
 
 
 	public:
 		Scene(std::shared_ptr<Accelerator> accel, const std::vector<std::shared_ptr<Light>> &lights)
-			: accel(accel), lights(lights) {}
+			: accel(accel), lights(lights), bound(accel->worldBound()) { }
 		~Scene() {}
 
 		bool intersect(const Ray &ray, Intersection *isec) const;
+		Bounds3f worldBound() const { return bound; }
 	};
 
 }

@@ -1,4 +1,5 @@
 #include "transform.h"
+#include "intersection.h"
 #include <util/strutil.h>
 namespace orion {
 	Matrix4f::Matrix4f(Float mat[4][4]) { memcpy(m, mat, 16 * sizeof(Float)); }
@@ -109,6 +110,21 @@ namespace orion {
 	Transform Transform::operator*(const Transform & t2) const
 	{
 		return Transform(m * t2.m, t2.mInv * mInv);
+	}
+	Intersection Transform::operator()(const Intersection & isec) const
+	{
+		Intersection ret;
+		const Transform &t = *this;
+
+		ret.pHit = t(isec.pHit);
+		ret.n = normalize(t(isec.n));
+		ret.dpdu = t(isec.dpdu);
+		ret.dpdv = t(isec.dpdv);
+
+		ret.t = isec.t;
+		ret.primitive = isec.primitive;
+		ret.uv = isec.uv;
+		return ret;
 	}
 	Transform translate(const Vector3f & delta)
 	{

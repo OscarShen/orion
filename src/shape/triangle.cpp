@@ -146,6 +146,15 @@ namespace orion {
 		return Union(Bounds3f(p0, p1), p2);
 	}
 
+	Bounds3f Triangle::localBound() const
+	{
+		const Point3f &p0 = mesh->p[v[0]];
+		const Point3f &p1 = mesh->p[v[1]];
+		const Point3f &p2 = mesh->p[v[2]];
+		return Union(Bounds3f((*world2local)(p0), (*world2local)(p1)),
+			(*world2local)(p2));
+	}
+
 	void Triangle::_getUVs(Point2f uv[3]) const
 	{
 		if (mesh->uv != nullptr) {

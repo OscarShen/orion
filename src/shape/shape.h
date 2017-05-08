@@ -11,6 +11,7 @@
 #include <orion.h>
 #include <core/geometry.h>
 #include <core/intersection.h>
+#include <core/transform.h>
 namespace orion {
 
 	class Shape
@@ -23,7 +24,8 @@ namespace orion {
 			: local2world(local2world), world2local(world2local) {}
 		virtual ~Shape() {}
 		virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
-		virtual Bounds3f worldBound() const = 0;
+		virtual Bounds3f localBound() const = 0;
+		virtual Bounds3f worldBound() const;
 	};
 
 }

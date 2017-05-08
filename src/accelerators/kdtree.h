@@ -20,7 +20,7 @@ namespace orion {
 		KdTreeAccel(const std::vector<std::shared_ptr<Primitive>> &p,
 			int isectCost = 80, int traversalCost = 1,
 			Float emptyBonus = 0.5, int maxPrims = 1, int maxDepth = -1);
-		Bounds3f worldBound() const { return bounds; }
+		Bounds3f worldBound() const override { return bounds; }
 		~KdTreeAccel();
 		bool intersect(const Ray &ray, Intersection *isect) const;
 

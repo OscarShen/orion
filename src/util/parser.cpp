@@ -1,5 +1,6 @@
 #include "parser.h"
 #include <core/primitive.h>
+#include <shape/disk.h>
 #include <integrator/whitted.h>
 #include <light/light.h>
 #include <material/matte.h>
@@ -31,7 +32,8 @@ namespace orion {
 		std::vector<std::shared_ptr<Primitive>> prims;
 		TiXmlElement *model = root->FirstChildElement("Model");
 		while (model) {
-			std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
+			std::vector<std::shared_ptr<Shape>> shapes;
+			ParamSet ps;
 			// Transform
 			TiXmlElement *transNode = model->FirstChildElement("Transform");
 			Transform transform;
@@ -43,8 +45,17 @@ namespace orion {
 			Transform *t, *invt;
 			TransformCache::inst()->lookup(transform, &t, &invt);
 
-			// Shapes
-			std::vector<std::shared_ptr<Shape>> shapes = createTriangleMesh(t, invt, meshdata);
+			// shape
+			std::string modeltype = model->Attribute("type");
+			if (modeltype == "triangleMesh") {
+				std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
+				// Shapes
+				shapes = createTriangleMesh(t, invt, meshdata);
+			}
+			else if (modeltype == "disk") {
+				GET_PARAMSET(model, ps);
+				shapes.push_back(createDisk(t, invt, ps));
+			}
 
 			// Material
 			std::shared_ptr<Material> material;

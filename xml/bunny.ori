@@ -1,28 +1,43 @@
 ﻿<Scene>
   <Resource filename ="../../res/"/>
 
-  <Model filename = "bunny.obj">
+  <Model type ="disk">
+    <Param radius="100"/>
+    <Param height="0"/>
     <Transform>
-      <Param scale="1.0f,1.0f,1.0f"/>
-      <Param translate="0.0f,-3.0f,0.0f"/>
+      <Param translate="0.0f,-3,0"/>
     </Transform>
-    <Material type = "merl">
-      <Param filename = "alum-bronze.binary"/>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.6f,0.6f,0.6f"/>
     </Material>
   </Model>
 
-  <Light type ="distant">
-    <Param from="1500,1500,1500"/>
+  <Model type="triangleMesh" filename = "bunny.obj">
+    <Transform>
+      <Param scale="0.3f,0.3f,0.3f"/>
+      <Param translate="0.0f,-3.0f,0.0f"/>
+    </Transform>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.6f,0.6f,0.6f"/>
+    </Material>
+  </Model>
+    
+  <Light type ="spot">
+    <Param from="3,10,10"/>
     <Param to="0,0,0"/>
-    <Param L="10.0f,10.0f,10.0f"/>
+    <Param angle="40"/>
+    <Param delta="10"/>
+    <Param intensity="1500.0f,1500.0f,1500.0f"/>
   </Light>
 
 	<Camera type = "perspective">
-    <Param origin="0,0,20"/>
-    <Param lookat="0,0,0"/>
+    <Param origin="0,0,10"/>
+    <Param lookat="0,-3,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>
-    <Param filmsize="800,600"/>
+    <Param filmsize="1960,1080"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>

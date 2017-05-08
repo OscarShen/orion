@@ -96,6 +96,7 @@ namespace orion {
 		inline Ray operator()(const Ray &r) const;
 		Bounds3f operator()(const Bounds3f &b) const;
 		Transform operator*(const Transform &t2) const;
+		Intersection operator()(const Intersection &isec) const;
 		bool operator<(const Transform &t2) const {
 			for (int i = 0; i < 4; ++i)
 				for (int j = 0; j < 4; ++j) {
