@@ -45,6 +45,12 @@ namespace orion {
 		RGBSpectrum operator/(Float f) const {
 			return RGBSpectrum(r / f, g / f, b / f);
 		}
+		RGBSpectrum &operator/=(Float f) {
+			r /= f;
+			g /= f;
+			b /= f;
+			return *this;
+		}
 		RGBSpectrum operator-(const RGBSpectrum &rhs) const {
 			return RGBSpectrum(r - rhs.r, g - rhs.g, b - rhs.b);
 		}

@@ -26,6 +26,7 @@ namespace orion {
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Scene> scene;
 		std::shared_ptr<Integrator> integrator;
+		std::shared_ptr<StateSequence> rand;
 
 	public:
 		System() { _init(); }
@@ -36,7 +37,6 @@ namespace orion {
 			TexManager::inst()->write(camera->getFilm(), name);
 		}
 
-		void setCamera(const std::shared_ptr<Camera> &camera) { this->camera = camera; }
 		void setUp();
 
 	private:

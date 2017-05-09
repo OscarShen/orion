@@ -21,6 +21,7 @@ namespace orion {
 		Point3f lookat; // Point which camera look at.
 		Vector3f up;	// Up vector of camera
 		Float vfov, tan_half_fov;		// Vertical fov of camera, and a good value for calculation
+		Transform t;
 
 	public:
 		PerspectiveCamera() {}
@@ -28,10 +29,11 @@ namespace orion {
 			: Camera(orig, film), lookat(lookat), up(up)
 		{
 			setFov(vfov);
+			t = lookAt(orig, lookat, up);
 		}
 		~PerspectiveCamera() {}
 		
-		virtual Ray generateRay(int x, int y) const override;
+		virtual Ray generateRay(const Point2f &offset, StateSequence &rand) const override;
 		void setLookat(const Point3f &lookat) { this->lookat = lookat; }
 		void setUp(const Vector3f &up) { this->up = up; }
 		void setFov(Float vfov) {

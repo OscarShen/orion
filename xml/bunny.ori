@@ -44,4 +44,6 @@
   
 	<Integrator type="whitted"/>
 
+  <Sampler type="pseudo"/>
+
 </Scene>

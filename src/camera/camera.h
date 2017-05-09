@@ -25,7 +25,7 @@ namespace orion {
 			:orig(orig), film(film) {}
 		virtual ~Camera() {}
 
-		virtual Ray generateRay(int x, int y) const = 0;
+		virtual Ray generateRay(const Point2f &offset, StateSequence &rand) const = 0;
 
 		void setRenderTarget(const std::shared_ptr<RenderTarget> &film) { this->film = film; }
 		void setOrig(const Point3f &o) { orig = o; }
@@ -33,6 +33,11 @@ namespace orion {
 		std::shared_ptr<RenderTarget> getFilm() const { 
 			CHECK_INFO(film.get() != nullptr, "Note : no render target in camera!");
 			return film;
+		}
+
+	protected:
+		Point2f randomOffset(const Point2f &offset, Float u, Float v) const {
+			return Point2f(offset.x + u, offset.y + v);
 		}
 	};
 

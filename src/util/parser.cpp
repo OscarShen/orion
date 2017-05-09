@@ -7,6 +7,7 @@
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
 #include <material/glass.h>
+#include <sampler/pseudo.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -25,6 +26,7 @@ namespace orion {
 		_makeAccel();
 		_makeLight();
 		_makeIntegrator();
+		_makeSampler();
 	}
 
 	void orion::Parser::_makeModel()
@@ -151,6 +153,22 @@ namespace orion {
 			}
 
 			lightNode = lightNode->NextSiblingElement("Light");
+		}
+	}
+
+	void Parser::_makeSampler()
+	{
+		TiXmlElement *samplerNode = root->FirstChildElement("Sampler");
+		if (samplerNode) {
+			std::string type = samplerNode->Attribute("type");
+			ParamSet ps;
+			GET_PARAMSET(samplerNode, ps);
+			if (type == "pseudo") {
+				renderOption->rand.reset(new RandomSequence(createPseudoSampler(), 0)); // pseudo sampler does not need instance.
+			}
+			else {
+				CHECK_INFO(false, "Not support now!");
+			}
 		}
 	}
 

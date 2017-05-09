@@ -73,6 +73,7 @@ namespace orion {
 	class Scene;
 	class ParamSet;
 	class Light;
+	class StateSequence;
 }
 
 #endif // !ENG_H_

@@ -10,10 +10,18 @@ namespace orion {
 		int width = film->getWidth(), height = film->getHeight();
 		for (int j = 0; j < height; ++j) {
 			for (int i = 0; i < width; ++i) {
-				Ray ray = camera->generateRay(i, j);
+				int nSamples = 10;
+				std::vector<Spectrum> ret(nSamples);
+				for (int k = 0; k < nSamples; ++k) {
+					Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), *rand);
 
-				Spectrum s = integrator->Li(ray, scene);
-
+					ret[k] = integrator->Li(ray, scene);
+				}
+				Spectrum s(0);
+				for (int k = 0; k < nSamples; ++k) {
+					s += ret[k];
+				}
+				s /= nSamples;
 				film->setSpectrum(i, j, s);
 			}
 
@@ -33,6 +41,7 @@ namespace orion {
 		scene = std::shared_ptr<Scene>(new Scene(option->accel, option->lights));
 		integrator = option->integrator;
 		camera = option->camera;
+		rand = option->rand;
 	}
 
 	void System::_init()

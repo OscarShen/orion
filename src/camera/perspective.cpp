@@ -1,22 +1,25 @@
 #include "perspective.h"
 #include <util/strutil.h>
+#include <sampler/sampler.h>
 namespace orion {
 
-	Ray PerspectiveCamera::generateRay(int x, int y) const
+	Ray PerspectiveCamera::generateRay(const Point2f &offset, StateSequence &rand) const
 	{
+		Point2f rand_offset = randomOffset(offset, rand(), rand());
+
 		CHECK_INFO(film.get() != nullptr, "Note : no render target in camera!");
 		Float width = (Float)film->getWidth();
 		Float height = (Float)film->getHeight();
 		Float aspectRatio = width / height;
 
-		Float xx = (2 * (x + 0.5f) / (Float)width - 1) * aspectRatio * tan_half_fov;
-		Float yy = (1 - 2 * (y + 0.5f) / (Float)height) * tan_half_fov;
+		Float xx = (2 * (rand_offset.x + 0.5f) / (Float)width - 1) * aspectRatio * tan_half_fov;
+		Float yy = (1 - 2 * (rand_offset.y + 0.5f) / (Float)height) * tan_half_fov;
 		Float zz = -1.0f;
 
-		Transform t = lookAt(orig, lookat, up);
 		Vector3f dir = normalize(Vector3f(xx, yy, zz));
 		Ray before(Point3f(0), dir);
 		Ray after = t(before);
+		after.d = normalize(after.d);
 
 		return after;
 	}
