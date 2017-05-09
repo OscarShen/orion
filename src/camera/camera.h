@@ -40,7 +40,6 @@ namespace orion {
 			return Point2f(offset.x + u, offset.y + v);
 		}
 	};
-
 }
 
 #endif // !ORION_CAMERA_H_

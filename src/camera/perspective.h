@@ -17,7 +17,7 @@ namespace orion {
 
 	class PerspectiveCamera : public Camera
 	{
-	private:
+	protected:
 		Point3f lookat; // Point which camera look at.
 		Vector3f up;	// Up vector of camera
 		Float vfov, tan_half_fov;		// Vertical fov of camera, and a good value for calculation

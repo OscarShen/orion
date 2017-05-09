@@ -10,7 +10,6 @@ namespace orion {
 		int width = film->getWidth(), height = film->getHeight();
 		for (int j = 0; j < height; ++j) {
 			for (int i = 0; i < width; ++i) {
-				int nSamples = 10;
 				std::vector<Spectrum> ret(nSamples);
 				for (int k = 0; k < nSamples; ++k) {
 					Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), *rand);
@@ -25,9 +24,9 @@ namespace orion {
 				film->setSpectrum(i, j, s);
 			}
 
-			static uint64_t timecount = 1000;
+			static uint64_t timecount = 5000;
 			if ((int64_t)(Timer::inst()->getElaspedTime() - timecount) > 0) {
-				timecount += 1000;
+				timecount += 5000;
 				std::cout << (int)(j / (Float)height * 100) << "%" << std::endl;
 			}
 		}
@@ -42,6 +41,7 @@ namespace orion {
 		integrator = option->integrator;
 		camera = option->camera;
 		rand = option->rand;
+		nSamples = option->nSamples;
 	}
 
 	void System::_init()

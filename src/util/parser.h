@@ -51,6 +51,7 @@ namespace orion {
 		std::shared_ptr<Integrator> integrator;
 		std::vector<std::shared_ptr<Light>> lights;
 		std::shared_ptr<StateSequence> rand;
+		int nSamples = 1;
 	};
 
 	class Parser : public Singleton<Parser>

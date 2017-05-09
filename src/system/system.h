@@ -27,6 +27,7 @@ namespace orion {
 		std::shared_ptr<Scene> scene;
 		std::shared_ptr<Integrator> integrator;
 		std::shared_ptr<StateSequence> rand;
+		int nSamples;
 
 	public:
 		System() { _init(); }

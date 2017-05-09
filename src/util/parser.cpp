@@ -3,6 +3,7 @@
 #include <shape/disk.h>
 #include <integrator/whitted.h>
 #include <light/light.h>
+#include <camera/thinlens.h>
 #include <material/matte.h>
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
@@ -123,14 +124,21 @@ namespace orion {
 		if (cameraNode) {
 			std::string cam = cameraNode->Attribute("type");
 			trim(cam);
+			ParamSet camParam;
+			GET_PARAMSET(cameraNode, camParam);
+			renderOption->nSamples = parseFloat(camParam.getParam("nSamples"));
 			if (cam == "perspective") {
-				ParamSet camParam;
-				GET_PARAMSET(cameraNode, camParam);
 				renderOption->camera = createPerspectiveCamera(camParam);
+			}
+			else if (cam == "thinlens") {
+				renderOption->camera = createThinLensCamera(camParam);
+			}
+			else {
+				CHECK_INFO(false, "Not support now!");
 			}
 		}
 		else {
-			CHECK_INFO(false, "Not support now!");
+			CHECK_INFO(false, "No camera!");
 		}
 	}
 

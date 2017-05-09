@@ -9,7 +9,7 @@
     </Transform>
     <Material type="matte">
       <Param type="constant"/>
-      <Param color="0.6f,0.6f,0.6f"/>
+      <Param color="0.58f,0.58f,0.46f"/>
     </Material>
   </Model>
 
@@ -23,21 +23,58 @@
       <Param color="0.6f,0.6f,0.6f"/>
     </Material>
   </Model>
+
+  <Model type="triangleMesh" filename = "bunny.obj">
+    <Transform>
+      <Param scale="0.3f,0.3f,0.3f"/>
+      <Param translate="5.0f,-3.0f,0.0f"/>
+    </Transform>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.6f,0.6f,0.6f"/>
+    </Material>
+  </Model>
+
+  <Model type="triangleMesh" filename = "bunny.obj">
+    <Transform>
+      <Param scale="0.3f,0.3f,0.3f"/>
+      <Param translate="10.0f,-3.0f,0.0f"/>
+    </Transform>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.6f,0.6f,0.6f"/>
+    </Material>
+  </Model>
+
+  <Model type="triangleMesh" filename = "bunny.obj">
+    <Transform>
+      <Param scale="0.3f,0.3f,0.3f"/>
+      <Param translate="15.0f,-3.0f,0.0f"/>
+    </Transform>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.6f,0.6f,0.6f"/>
+    </Material>
+  </Model>
     
-  <Light type ="spot">
+  <Light type ="distant">
     <Param from="3,10,10"/>
     <Param to="0,0,0"/>
     <Param angle="40"/>
     <Param delta="10"/>
     <Param intensity="1500.0f,1500.0f,1500.0f"/>
+    <Param L="5,5,5"/>
   </Light>
 
-	<Camera type = "perspective">
-    <Param origin="0,0,10"/>
-    <Param lookat="0,-3,0"/>
+	<Camera type = "thinlens">
+    <Param origin="-5,0,7.5f"/>
+    <Param lookat="7.5,-3,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>
     <Param filmsize="1960,1080"/>
+    <Param lensRadius="0.2f"/>
+    <Param focalDistance="10"/>
+    <Param nSamples="128"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>
