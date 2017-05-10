@@ -33,7 +33,7 @@ namespace orion {
 		}
 		~PerspectiveCamera() {}
 		
-		virtual Ray generateRay(const Point2f &offset, StateSequence &rand) const override;
+		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
 		void setLookat(const Point3f &lookat) { this->lookat = lookat; }
 		void setUp(const Vector3f &up) { this->up = up; }
 		void setFov(Float vfov) {

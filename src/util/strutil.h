@@ -17,6 +17,8 @@ namespace orion {
 
 	std::vector<std::string> split(const std::string &s, const std::string &delim);
 
+	int parseInt(const std::string &s);
+
 	Float parseFloat(const std::string &s);
 
 	Vector2i parseVector2i(const std::string &s);

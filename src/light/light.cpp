@@ -5,7 +5,7 @@
 #include <util/strutil.h>
 namespace orion {
 
-	Spectrum PointLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
+	Spectrum PointLight::sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const
 	{
 		Vector3f v = p - isec.pHit;
 		*wi = normalize(v);
@@ -46,7 +46,7 @@ namespace orion {
 		: Light(light2world), I(I), p(light2world(Point3f(0))),
 		cosTotalWidth(std::cos(radians(totalWidth))),
 		cosFalloffStart(std::cos(radians(cosFalloffStart))) {}
-	Spectrum SpotLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
+	Spectrum SpotLight::sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const
 	{
 		Vector3f v = p - isec.pHit;
 		*wi = normalize(v);
@@ -64,7 +64,7 @@ namespace orion {
 		Float delta = (cosTh - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 		return delta * delta * delta * delta;
 	}
-	Spectrum DistantLight::sample_Li(const Intersection & isec, Vector3f * wi, Float * pdf, ShadowTester *sdt) const
+	Spectrum DistantLight::sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const
 	{
 		*wi = -dir;
 		*pdf = 1;

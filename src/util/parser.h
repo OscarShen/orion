@@ -12,7 +12,7 @@
 #include <common/singleton.h>
 #include <shape/shape.h>
 #include <core/scene.h>
-#include <core/integrator.h>
+#include <integrator/integrator.h>
 #include <camera/perspective.h>
 
 #include <tinyXML/tinyxml.h>
@@ -45,12 +45,13 @@ namespace orion {
 
 	struct RenderOption
 	{
+		std::shared_ptr<Scene> scene;
 		std::shared_ptr<Camera> camera;
 		std::vector<std::shared_ptr<Primitive>> prims;
 		std::shared_ptr<Accelerator> accel;
 		std::shared_ptr<Integrator> integrator;
 		std::vector<std::shared_ptr<Light>> lights;
-		std::shared_ptr<StateSequence> rand;
+		std::shared_ptr<Sampler> sampler;
 		int nSamples = 1;
 	};
 
@@ -73,6 +74,7 @@ namespace orion {
 		void _makeCamera();
 		void _makeLight();
 		void _makeSampler();
+		void _makeScene();
 		Parser(const std::string &path);
 	};
 

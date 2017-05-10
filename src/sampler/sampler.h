@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  sampler
+ * @author		:  Oscar Shen
+ * @creat 		:  2017Äê5ÔÂ10ÈÕ20:01:05
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
@@ -10,45 +10,34 @@
 #define ORION_SAMPLER_H_
 #include <orion.h>
 #include <core/geometry.h>
+#include <math/mathutil.h>
 namespace orion {
-
-	class StateSequence
-	{
-	protected:
-		int cursor = 0;
-
-	public:
-		virtual Float sample() = 0;
-		virtual Float operator()() {
-			return sample();
-		}
-		int getCursor() const { return cursor; }
-		void checkCursorPos(int cursor) const {
-			CHECK_INFO(this->cursor == cursor, std::string("Cursor position should be " + std::to_string(cursor) +
-				" instead of " + std::to_string(this->cursor)));
-		}
-		Vector2f next2() { return Vector2f(sample(), sample()); }
-		Vector3f next3() { return Vector3f(sample(), sample(), sample()); }
-	};
 
 	class Sampler
 	{
-	public:
-		virtual Float sample(int d, long long i) const = 0;
-	};
-
-	class RandomSequence : public StateSequence
-	{
 	private:
-		std::shared_ptr<Sampler> sampler;
+		int cursor = 0;
 		long long instance;
 
 	public:
-		RandomSequence(const std::shared_ptr<Sampler> &sampler, long long instance)
-			: sampler(sampler), instance(instance) {}
+		Sampler() : instance(74207281LL) {}
+		Sampler(long long instance) : instance(instance) {}
+		virtual Float sample(int d, long long i) = 0;
 
-		Float sample() override;
+		Float next() { return sample(cursor++, instance); }
+		Point2f next2() { return Point2f(next(), next()); }
+		Point3f next3() { return Point3f(next(), next(), next()); }
 	};
+
+	class PseudoRandomSampler : public Sampler
+	{
+	public:
+		virtual Float sample(int d, long long i) override {
+			return orion::rand();
+		}
+	};
+
+	std::shared_ptr<PseudoRandomSampler> createPseudoSampler();
 }
 
 #endif // !ORION_SAMPLER_H_

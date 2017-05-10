@@ -26,7 +26,7 @@ namespace orion {
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Scene> scene;
 		std::shared_ptr<Integrator> integrator;
-		std::shared_ptr<StateSequence> rand;
+		std::shared_ptr<Sampler> sampler;
 		int nSamples;
 
 	public:

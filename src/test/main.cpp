@@ -8,7 +8,6 @@
 #include <texture/mixtexture.h>
 #include <texture/gridtexture.h>
 #include <util/timer.h>
-#include <camera/perspective.h>
 #include <system/system.h>
 #include <shape/triangle.h>
 #include <util/envvariable.h>

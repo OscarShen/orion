@@ -23,6 +23,10 @@ namespace orion {
 		}
 		return res;
 	}
+	int parseInt(const std::string & s)
+	{
+		return atoi(s.c_str());
+	}
 	Float parseFloat(const std::string & s)
 	{
 		return static_cast<Float>(atof(s.c_str()));

@@ -1,8 +1,10 @@
 #include "whitted.h"
 #include <light/light.h>
+#include <util/strutil.h>
+#include <sampler/sampler.h>
 namespace orion {
 
-	Spectrum WhittedIntegrator::Li(const Ray & ray, std::shared_ptr<Scene> scene) const
+	Spectrum WhittedIntegrator::Li(const Ray &ray, const std::shared_ptr<Scene> &scene, const std::shared_ptr<Sampler> &sampler, int depth) const
 	{
 		Intersection isec;
 		if (!scene->intersect(ray, &isec)) {
@@ -13,25 +15,27 @@ namespace orion {
 		auto material = isec.primitive->getMaterial();
 		std::shared_ptr<BSDF> bsdf = material->getBSDF(&isec);
 
-		for (auto it = scene->lights.begin(); it != scene->lights.end(); ++it) {
+		for (const auto &light : scene->lights) {
 			Vector3f lightDir;
 			Float pdf;
 			ShadowTester sdt;
-			Spectrum Li = (*it)->sample_Li(isec, &lightDir, &pdf, &sdt);
+			Spectrum Li = light->sample_Li(isec, sampler->next2(), &lightDir, &pdf, &sdt);
 			if (Li.isBlack() || pdf == 0) continue;
 			Spectrum f = bsdf->f(-ray.d, lightDir);
 			if (!f.isBlack() && sdt.unoccluded(scene))
 				t += Li * f * std::max(0.0f, dot(isec.n, lightDir)) / pdf;
 		}
 
-		if (ray.depth + 1 < 5) {
-			t += specularReflect(ray, &isec, bsdf, scene, ray.depth);
-			t += specularTransmit(ray, &isec, bsdf, scene, ray.depth);
+		if (depth + 1 < maxDepth) {
+			t += specularReflect(ray, &isec, sampler, bsdf, scene, depth);
+			t += specularTransmit(ray, &isec, sampler, bsdf, scene, depth);
 		}
 		return t;
 	}
-	std::shared_ptr<Integrator> createWhittedIntegrator(const ParamSet & param)
+	std::shared_ptr<Integrator> createWhittedIntegrator(const std::shared_ptr<const Camera> &camera, 
+		const std::shared_ptr<Sampler> &sampler, const ParamSet & param)
 	{
-		return std::shared_ptr<Integrator>(new WhittedIntegrator());
+		int maxDepth = parseInt(param.getParam("maxDepth"));
+		return std::shared_ptr<Integrator>(new WhittedIntegrator(camera, sampler, maxDepth));
 	}
 }

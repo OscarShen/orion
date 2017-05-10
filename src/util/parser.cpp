@@ -8,7 +8,7 @@
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
 #include <material/glass.h>
-#include <sampler/pseudo.h>
+#include <sampler/sampler.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -28,6 +28,7 @@ namespace orion {
 		_makeLight();
 		_makeIntegrator();
 		_makeSampler();
+		_makeScene();
 	}
 
 	void orion::Parser::_makeModel()
@@ -109,8 +110,10 @@ namespace orion {
 		TiXmlElement *inteNode = root->FirstChildElement("Integrator");
 		std::string inte = inteNode->Attribute("type");
 		trim(inte);
+		ParamSet ps;
+		GET_PARAMSET(inteNode, ps);
 		if (inte == "whitted") {
-			renderOption->integrator.reset(new WhittedIntegrator());
+			renderOption->integrator = createWhittedIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
 		else {
 			CHECK_INFO(false, "Not support now!");
@@ -126,7 +129,7 @@ namespace orion {
 			trim(cam);
 			ParamSet camParam;
 			GET_PARAMSET(cameraNode, camParam);
-			renderOption->nSamples = parseFloat(camParam.getParam("nSamples"));
+			renderOption->nSamples = parseInt(camParam.getParam("nSamples"));
 			if (cam == "perspective") {
 				renderOption->camera = createPerspectiveCamera(camParam);
 			}
@@ -172,12 +175,21 @@ namespace orion {
 			ParamSet ps;
 			GET_PARAMSET(samplerNode, ps);
 			if (type == "pseudo") {
-				renderOption->rand.reset(new RandomSequence(createPseudoSampler(), 0)); // pseudo sampler does not need instance.
+				renderOption->sampler = createPseudoSampler(); // pseudo sampler does not need instance.
 			}
 			else {
 				CHECK_INFO(false, "Not support now!");
 			}
 		}
+	}
+
+	void Parser::_makeScene()
+	{
+		renderOption->scene.reset(new Scene(renderOption->accel, renderOption->lights));
+
+		// erase resource which won't be used.
+		renderOption->prims.erase(renderOption->prims.begin(), renderOption->prims.end());
+		renderOption->lights.erase(renderOption->lights.begin(), renderOption->lights.end());
 	}
 
 	Parser::Parser(const std::string &scenepath) {

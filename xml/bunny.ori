@@ -72,14 +72,16 @@
     <Param up="0,1,0"/>
     <Param fov="45"/>
     <Param filmsize="1960,1080"/>
-    <Param lensRadius="0.2f"/>
+    <Param lensRadius="0.15f"/>
     <Param focalDistance="10"/>
-    <Param nSamples="128"/>
+    <Param nSamples="1"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>
-  
-	<Integrator type="whitted"/>
+
+  <Integrator type="whitted">
+    <Param maxDepth ="5"/>
+  </Integrator>
 
   <Sampler type="pseudo"/>
 

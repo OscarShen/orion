@@ -36,6 +36,11 @@ namespace orion {
 			Point3f origin = pHit + dir * epsilon;
 			return Ray(origin, dir, 0, t, 1 - shadowEpsilon);
 		}
+
+		Ray spawnRay(const Vector3f &d) const {
+			Point3f o = pHit + d * epsilon;
+			return Ray(o, d, 0, t, 1 - shadowEpsilon);
+		}
 	};
 
 }

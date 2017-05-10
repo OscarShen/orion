@@ -35,7 +35,7 @@ namespace orion {
 		virtual ~Light() {}
 		Light(const Transform &light2world)
 			: local2world(light2world), world2local(inverse(light2world)) {}
-		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf, ShadowTester *sdt) const = 0;
+		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const = 0;
 		virtual void preprocess(const Scene &scene) {}
 	};
 
@@ -49,7 +49,7 @@ namespace orion {
 		PointLight(const Transform &light2world, const Spectrum &I)
 			: Light(light2world), I(I), p(light2world(Point3f(0))) {}
 
-		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf, ShadowTester *sdt) const;
+		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 	};
 
 
@@ -63,7 +63,7 @@ namespace orion {
 	public:
 		SpotLight(const Transform &light2world, const Spectrum &I, Float totalWidth, Float falloffStart);
 
-		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
+		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 
 		Float falloff(const Vector3f &w) const;
 	};
@@ -78,7 +78,7 @@ namespace orion {
 		DistantLight(const Transform &light2world, const Spectrum &L, const Vector3f &dir)
 			: Light(light2world), L(L), dir(dir) {}
 
-		virtual Spectrum sample_Li(const Intersection &isec, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
+		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 	};
 
 	std::shared_ptr<PointLight> createPointLight(const ParamSet &param);

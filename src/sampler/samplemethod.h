@@ -6,22 +6,16 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_SAMPLER_PSEUDO_H_
-#define ORION_SAMPLER_PSEUDO_H_
+#ifndef ORION_SAMPLE_METHOD_H_
+#define ORION_SAMPLE_METHOD_H_
 #include <orion.h>
-#include <math/mathutil.h>
-#include "sampler.h"
+#include <core/geometry.h>
 namespace orion {
 
-	class PseudoRandomSampler : public Sampler
-	{
-	public:
-		Float sample(int d, long long i) const {
-			return rand();
-		}
-	};
+	Point2f	uniformSampleDisk(const Point2f &u);
 
-	std::shared_ptr<PseudoRandomSampler> createPseudoSampler();
+	Point2f uniformSampleTriangle(const Point2f &u);
+
 }
 
-#endif // !ORION_SAMPLER_PSEUDO_H_
+#endif // !ORION_SAMPLE_METHOD_H_

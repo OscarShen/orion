@@ -28,9 +28,7 @@ namespace orion {
 			setFov(vfov);
 			t = lookAt(orig, lookat, up);
 		}
-		virtual Ray generateRay(const Point2f &offset, StateSequence &rand) const override;
-
-		Vector2f sampleLens(const Vector2f &uv) const;
+		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
 	};
 
 	std::shared_ptr<ThinLensCamera> createThinLensCamera(const ParamSet &param);

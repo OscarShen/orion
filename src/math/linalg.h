@@ -39,6 +39,21 @@ namespace orion {
 	inline T dot(const Normal3<T> &v1, const Vector3<T> &v2) {
 		return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 	}
+	// absdot
+	template <typename T>
+	inline T absDot(const Normal3<T> &n1, const Vector3<T> &v2) {
+		return std::abs(n1.x * v2.x + n1.y * v2.y + n1.z * v2.z);
+	}
+
+	template <typename T>
+	inline T absDot(const Vector3<T> &v1, const Normal3<T> &n2) {
+		return std::abs(v1.x * n2.x + v1.y * n2.y + v1.z * n2.z);
+	}
+
+	template <typename T>
+	inline T absDot(const Normal3<T> &n1, const Normal3<T> &n2) {
+		return std::abs(n1.x * n2.x + n1.y * n2.y + n1.z * n2.z);
+	}
 
 	// cross
 	template <typename T>
