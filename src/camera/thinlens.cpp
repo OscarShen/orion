@@ -1,6 +1,6 @@
 #include "thinlens.h"
 #include <sampler/sampler.h>
-#include <sampler/samplemethod.h>
+#include <sampler/sampling.h>
 #include <util/strutil.h>
 
 namespace orion {

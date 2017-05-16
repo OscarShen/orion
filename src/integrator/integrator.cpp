@@ -1,6 +1,6 @@
 #include "integrator.h"
 #include <sampler/sampler.h>
-#include <sampler/samplemethod.h>
+#include <sampler/sampling.h>
 #include <light/light.h>
 namespace orion {
 
@@ -44,7 +44,7 @@ namespace orion {
 				Point2f lightSample = sampler.next2(), BSDFSample = sampler.next2();
 				Ld += estimateDirect(ray, isec, BSDFSample, *light, lightSample, scene, sampler, BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR));
 			}
-			L += Ld / nSamples;
+			L += Ld / (Float)nSamples;
 		}
 		return L;
 	}

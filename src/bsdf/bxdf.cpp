@@ -1,9 +1,17 @@
 #include "bxdf.h"
 #include <math/linalg.h>
+#include <sampler/sampling.h>
 namespace orion {
-
-	Float BxDF::pdf(const Vector3f & wi, const Vector3f & wo) const
+	Spectrum BxDF::sample_f(Vector3f * swi, const Vector3f & swo, const Point2f & rnd, Float * pdf, BxDF_TYPE * sampledType) const
 	{
-		return sameHemisphere(wi, wo) ? absCosTheta(wi) * invpi : 0;
+		*swi = cosineSampleHemisphere(rnd);
+		if (swo.y < 0) // almost never occur
+			swi->y *= -1;
+		*pdf = BxDF::pdf(*swi, swo);
+		return f(*swi, swo);
+	}
+	Float BxDF::pdf(const Vector3f & swi, const Vector3f & swo) const
+	{
+		return sameHemisphere(swi, swo) ? absCosTheta(swi) * invpi : 0;
 	}
 }

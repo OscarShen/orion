@@ -1,5 +1,5 @@
 #include "glass.h"
-#include <bsdf/reflection.h>
+#include <bsdf/specular.h>
 #include <common/paramset.h>
 #include <util/strutil.h>
 namespace orion {
@@ -9,7 +9,7 @@ namespace orion {
 		std::shared_ptr<BSDF> bsdf(new BSDF(isec));
 		std::shared_ptr<Fresnel> fresnel(new FresnelDielectric(1.0f, eta));
 		bsdf->addBxDF(std::make_shared<SpecularTransmission>(Spectrum(1.0f), 1.0f, eta));
-		bsdf->addBxDF(std::make_shared<SpecularReflection>(fresnel));
+		bsdf->addBxDF(std::make_shared<SpecularReflection>(Spectrum(1.0f), fresnel)); // TODO : Add Ks in glass
 		return bsdf;
 	}
 	std::shared_ptr<GlassMaterial> createGlassMaterial(const ParamSet & param)

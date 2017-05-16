@@ -48,7 +48,7 @@ namespace orion {
 		if (swo.y == 0) return 0;
 		*pdf = 0;
 		if (sampledType) *sampledType = bxdf->type;
-		Spectrum f = bxdf->sample_f(&swi, swo, pdf);
+		Spectrum f = bxdf->sample_f(&swi, swo, rndRemapped, pdf);
 		if (*pdf == 0) {
 			if (sampledType) *sampledType = BxDF_TYPE(0);
 			return 0;

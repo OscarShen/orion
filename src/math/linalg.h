@@ -136,6 +136,7 @@ namespace orion {
 
 	}
 
+	// solid angle algorithm
 	inline Float cosTheta(const Vector3f &w) { return w.y; }
 	inline Float absCosTheta(const Vector3f &w) { return std::abs(w.y); }
 	inline Float sinTheta2(const Vector3f &w) { return std::max(0.0f, 1.0f - cosTheta(w) * cosTheta(w)); }

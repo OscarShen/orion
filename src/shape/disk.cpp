@@ -1,7 +1,7 @@
 #include "disk.h"
 #include <common/paramset.h>
 #include <util/strutil.h>
-#include <sampler/samplemethod.h>
+#include <sampler/sampling.h>
 namespace orion {
 	bool Disk::intersect(const Ray & ray, Intersection * isec) const
 	{

@@ -13,20 +13,27 @@
 #include "bxdf.h"
 namespace orion {
 
-	class Lambert : public BxDF
+	class LambertianReflection : public BxDF
 	{
 	private:
-		Spectrum s;
+		Spectrum R;
 
 	public:
-		Lambert(const Spectrum &ss) : BxDF(BxDF_TYPE(BxDF_DIFFUSE | BxDF_REFLECTION)), s(ss) { }
-		~Lambert() {}
+		LambertianReflection(const Spectrum &R) : BxDF(BxDF_TYPE(BxDF_DIFFUSE | BxDF_REFLECTION)), R(R) { }
 
 		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
-
-		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
 	};
 
+	class LambertianTransmission : public BxDF
+	{
+	private:
+		Spectrum T;
+
+	public:
+		LambertianTransmission(const Spectrum &T) : BxDF(BxDF_TYPE(BxDF_DIFFUSE | BxDF_TRANSMISSION)), T(T) {}
+
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
+	};
 }
 
 #endif // !ORION_BXDF_LAMBERT_H_

@@ -12,9 +12,16 @@
 #include <core/geometry.h>
 namespace orion {
 
-	Point2f	uniformSampleDisk(const Point2f &u);
+	Point2f	uniformSampleDisk(const Point2f &rand);
+	Point2f concentricSampleDisk(const Point2f &rand);
 
-	Point2f uniformSampleTriangle(const Point2f &u);
+	Point2f uniformSampleTriangle(const Point2f &rand);
+
+	inline Vector3f cosineSampleHemisphere(const Point2f &rand) {
+		Point2f sample = concentricSampleDisk(rand);
+		Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
+		return Vector3f(sample[0], y, sample[0]);
+	}
 
 	inline Float powerHeuristic(int nf, Float fPdf, int ng, Float gPdf) {
 		Float f = nf * fPdf, g = ng * gPdf;

@@ -298,6 +298,11 @@ namespace orion {
 		return os;
 	}
 
+	template <typename T, typename U>
+	inline Point2<T> operator*(U f, const Point2<T> &p) {
+		return p * f;
+	}
+
 	template <typename T>
 	class Point3 {
 	public:
@@ -396,6 +401,11 @@ namespace orion {
 	inline std::ostream &operator<<(std::ostream &os, const Point3<T> &v) {
 		os << "[ " << v.x << ", " << v.y << ", " << v.z << " ]";
 		return os;
+	}
+
+	template <typename T, typename U>
+	inline Point3<T> operator*(U f, const Point3<T> &p) {
+		return p * f;
 	}
 
 	typedef Point2<Float> Point2f;

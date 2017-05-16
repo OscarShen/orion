@@ -51,4 +51,13 @@ namespace orion {
 		return 0.5f * (Rp + Rs);
 	}
 
+	Spectrum FresnelDielectric::evaluate(Float cosThetaI) const
+	{
+		return frDielectric(cosThetaI, etaI, etaT);
+	}
+
+	Spectrum FresnelConductor::evaluate(Float cosThetaI) const
+	{
+		return frConductor(std::abs(cosThetaI), etaI, etaT, k);
+	}
 }

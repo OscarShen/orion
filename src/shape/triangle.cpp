@@ -1,5 +1,5 @@
 #include "triangle.h"
-#include <sampler/samplemethod.h>
+#include <sampler/sampling.h>
 namespace orion {
 
 	TriangleMesh::TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata)

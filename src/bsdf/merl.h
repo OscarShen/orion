@@ -30,10 +30,6 @@ namespace orion {
 
 		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
 
-		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
-
-		std::shared_ptr<Merl> clone() const;
-
 		static std::map<std::string, std::shared_ptr<Merl>> loadedMerl;
 
 		friend std::shared_ptr<Merl> loadMerl(const std::string & filename);
