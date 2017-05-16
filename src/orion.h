@@ -74,6 +74,7 @@ namespace orion {
 	class ParamSet;
 	class Light;
 	class Sampler;
+	class AreaLight;
 }
 
 #endif // !ENG_H_

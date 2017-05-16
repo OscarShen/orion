@@ -42,9 +42,11 @@ namespace orion {
 			v = &mesh->vertexIndices[3 * triNumber];
 		}
 
-		virtual bool intersect(const Ray &ray, Intersection *isec) const;
+		virtual bool intersect(const Ray &ray, Intersection *isec) const override;
 		virtual Bounds3f worldBound() const override;
 		virtual Bounds3f localBound() const override;
+		virtual Float area() const override;
+		virtual Intersection sample(const Point2f &u, Float *pdf) const override;
 
 	private:
 		void _getUVs(Point2f uv[3]) const;

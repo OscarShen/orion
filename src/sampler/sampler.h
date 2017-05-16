@@ -13,6 +13,8 @@
 #include <math/mathutil.h>
 namespace orion {
 
+	constexpr Float oneMinusEpsilon = sizeof(Float) == sizeof(float) ? 0.99999994f : 0.99999999999999989;
+
 	class Sampler
 	{
 	private:

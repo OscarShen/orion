@@ -34,6 +34,10 @@ namespace orion {
 			const std::shared_ptr<BSDF> &bsdf, const std::shared_ptr<Scene> &scene, int depth) const;
 	};
 
+	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection &isec, const Scene &scene, Sampler &sampler, int nSamples);
+
+	Spectrum estimateDirect(const Ray &ray, const Intersection &isec, const Point2f &BSDFSample, const Light &light,
+		const Point2f &lightSample, const Scene &scene, Sampler &sampler, BxDF_TYPE type = BxDF_ALL);
 }
 
 #endif // !ORION_INTEGRATOR

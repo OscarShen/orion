@@ -7,7 +7,7 @@ namespace orion {
 		return s * invpi;
 	}
 
-	Spectrum Lambert::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
+	Spectrum Lambert::sample_f(Vector3f * wi, const Vector3f & wo, Float * pdf) const
 	{
 		ERROR("no imp");
 		return Spectrum();

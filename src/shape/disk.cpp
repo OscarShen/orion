@@ -1,6 +1,7 @@
 #include "disk.h"
 #include <common/paramset.h>
 #include <util/strutil.h>
+#include <sampler/samplemethod.h>
 namespace orion {
 	bool Disk::intersect(const Ray & ray, Intersection * isec) const
 	{
@@ -33,6 +34,20 @@ namespace orion {
 	{
 		return Bounds3f(Point3f(-radius, height, -radius),
 						Point3f(radius, height, radius));
+	}
+	Float Disk::area() const
+	{
+		return pi * radius * radius;
+	}
+	Intersection Disk::sample(const Point2f & u, Float * pdf) const
+	{
+		Point2f sampling = uniformSampleDisk(u);
+		Point3f pos(sampling.x * radius, height, sampling.y * radius);
+		Intersection isec;
+		isec.n = normalize((*local2world)(Normal3f(0, 1, 0)));
+		isec.pHit = (*local2world)(Point3f(0));
+		*pdf = 1 / area();
+		return isec;
 	}
 	std::shared_ptr<Disk> createDisk(const Transform * local2world, const Transform * world2local, const ParamSet & param)
 	{

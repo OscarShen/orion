@@ -43,7 +43,7 @@ namespace orion {
 		return std::shared_ptr<DistantLight>(new DistantLight(translate(Vector3f(from)), L, dir));
 	}
 	SpotLight::SpotLight(const Transform & light2world, const Spectrum & I, Float totalWidth, Float falloffStart)
-		: Light(light2world), I(I), p(light2world(Point3f(0))),
+		: Light((int)LightType::DeltaPosition, light2world), I(I), p(light2world(Point3f(0))),
 		cosTotalWidth(std::cos(radians(totalWidth))),
 		cosFalloffStart(std::cos(radians(cosFalloffStart))) {}
 	Spectrum SpotLight::sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const
@@ -75,5 +75,10 @@ namespace orion {
 	{
 		Intersection isec;
 		return !scene->intersect(p0.spawnRay(p1), &isec); // TODO : add a fast calculation
+	}
+	bool ShadowTester::unoccluded(const Scene & scene) const
+	{
+		Intersection isec;
+		return !scene.intersect(p0.spawnRay(p1), &isec); // TODO : add a fast calculation
 	}
 }

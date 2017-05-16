@@ -167,7 +167,7 @@ namespace orion {
 		CHECK_INFO(red >= 0.0f && green >= 0.0f && blue >= 0.0f, "Below horizon.");
 		return Spectrum((Float)red, (Float)green, (Float)blue);
 	}
-	Spectrum Merl::sample_f(Vector3f & wi, const Vector3f & wo, Float * pdf) const
+	Spectrum Merl::sample_f(Vector3f * wi, const Vector3f & wo, Float * pdf) const
 	{
 		return Spectrum();
 	}

@@ -28,9 +28,9 @@ namespace orion {
 	public:
 		Merl() : BxDF((BxDF_TYPE)(BxDF_REFLECTION | BxDF_GLOSSY)) { }
 
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
 
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
 
 		std::shared_ptr<Merl> clone() const;
 

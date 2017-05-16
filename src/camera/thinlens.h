@@ -23,16 +23,12 @@ namespace orion {
 		ThinLensCamera() { }
 		ThinLensCamera(const Point3f &orig, const Point3f &lookat, const Vector3f &up, Float vfov,
 			const std::shared_ptr<RenderTarget> &film, Float focalDistance, Float lensRadius)
-			: PerspectiveCamera(orig, lookat, up, vfov, film), focalDistance(focalDistance), lensRadius(lensRadius)
-		{
-			setFov(vfov);
-			t = lookAt(orig, lookat, up);
-		}
+			: PerspectiveCamera(orig, lookat, up, vfov, film), focalDistance(focalDistance),
+			lensRadius(lensRadius) {}
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
 	};
 
 	std::shared_ptr<ThinLensCamera> createThinLensCamera(const ParamSet &param);
-
 }
 
 #endif // !ORION_CAMERA_THIN_LENS_H_

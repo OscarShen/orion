@@ -28,27 +28,25 @@ namespace orion {
 
 	class BxDF
 	{
-	protected:
+	public:
 		BxDF_TYPE type;
 
-	public:
+
 		BxDF(BxDF_TYPE type) : type(type) {}
 		virtual ~BxDF() {}
 
-		bool matchesFlags(BxDF_TYPE t) const { 
-			int a = type & t;
-			return a == type;
-		}
+		bool matchesFlags(BxDF_TYPE t) const { return (type & t) == type; }
 
 		// evaluate bxdf
 		// param wi : in vector, normalized
 		// param wo : out vector, normalized
 		// return : portion in wo from wi
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const = 0;
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const = 0;
 
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const = 0;
+		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const = 0;
+
+		virtual Float pdf(const Vector3f &swi, const Vector3f &swo) const;
 	};
-
 }
 
 #endif // !ORION_BXDF_H_

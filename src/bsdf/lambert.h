@@ -19,12 +19,12 @@ namespace orion {
 		Spectrum s;
 
 	public:
-		Lambert(const Spectrum &ss) : BxDF(BxDF_DIFFUSE), s(ss) { }
+		Lambert(const Spectrum &ss) : BxDF(BxDF_TYPE(BxDF_DIFFUSE | BxDF_REFLECTION)), s(ss) { }
 		~Lambert() {}
 
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override;
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
 
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
 	};
 
 }

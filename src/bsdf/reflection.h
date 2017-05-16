@@ -73,10 +73,10 @@ namespace orion {
 			fresnel(fresnel) {}
 		~SpecularReflection() {}
 
-		virtual Spectrum f(const Vector3f &wi, const Vector3f &wo) const override
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override
 		{ return Spectrum(0.0f); }
 
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
 	};
 
 	class SpecularTransmission : public BxDF
@@ -91,9 +91,9 @@ namespace orion {
 			: BxDF(BxDF_TYPE(BxDF_TRANSMISSION | BxDF_SPECULAR)),
 			T(T), etaA(etaA), etaB(etaB), fresnel(etaA, etaB) {}
 
-		Spectrum f(const Vector3f &wi, const Vector3f &wo) const override { return Spectrum(0.0f); }
+		Spectrum f(const Vector3f &swi, const Vector3f &swo) const override { return Spectrum(0.0f); }
 
-		virtual Spectrum sample_f(Vector3f &wi, const Vector3f &wo, Float *pdf) const override;
+		virtual Spectrum sample_f(Vector3f *wi, const Vector3f &wo, Float *pdf) const override;
 	};
 
 }

@@ -2,6 +2,7 @@
 #include <core/primitive.h>
 #include <shape/disk.h>
 #include <integrator/whitted.h>
+#include <integrator/directlighting.h>
 #include <light/light.h>
 #include <camera/thinlens.h>
 #include <material/matte.h>
@@ -114,6 +115,9 @@ namespace orion {
 		GET_PARAMSET(inteNode, ps);
 		if (inte == "whitted") {
 			renderOption->integrator = createWhittedIntegrator(renderOption->camera, renderOption->sampler, ps);
+		}
+		else if (inte == "directLighting") {
+			renderOption->integrator = createDirectLightingIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
 		else {
 			CHECK_INFO(false, "Not support now!");

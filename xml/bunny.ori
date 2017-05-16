@@ -7,7 +7,20 @@
     <Transform>
       <Param translate="0.0f,-3,0"/>
     </Transform>
-    <Material type="matte">
+    <Material type="mirror">
+      <Param type="constant"/>
+      <Param color="0.58f,0.58f,0.46f"/>
+    </Material>
+  </Model>
+
+  <Model type ="disk">
+    <Param radius="50"/>
+    <Param height="0"/>
+    <Transform>
+      <Param rotate="1,0,0,90"/>
+      <Param translate="0,0,-5"/>
+    </Transform>
+    <Material type="mirror">
       <Param type="constant"/>
       <Param color="0.58f,0.58f,0.46f"/>
     </Material>
@@ -15,18 +28,7 @@
 
   <Model type="triangleMesh" filename = "bunny.obj">
     <Transform>
-      <Param scale="0.3f,0.3f,0.3f"/>
-      <Param translate="0.0f,-3.0f,0.0f"/>
-    </Transform>
-    <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.6f,0.6f,0.6f"/>
-    </Material>
-  </Model>
-
-  <Model type="triangleMesh" filename = "bunny.obj">
-    <Transform>
-      <Param scale="0.3f,0.3f,0.3f"/>
+      <Param scale="0.5f,0.5f,0.5f"/>
       <Param translate="5.0f,-3.0f,0.0f"/>
     </Transform>
     <Material type="matte">
@@ -34,29 +36,7 @@
       <Param color="0.6f,0.6f,0.6f"/>
     </Material>
   </Model>
-
-  <Model type="triangleMesh" filename = "bunny.obj">
-    <Transform>
-      <Param scale="0.3f,0.3f,0.3f"/>
-      <Param translate="10.0f,-3.0f,0.0f"/>
-    </Transform>
-    <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.6f,0.6f,0.6f"/>
-    </Material>
-  </Model>
-
-  <Model type="triangleMesh" filename = "bunny.obj">
-    <Transform>
-      <Param scale="0.3f,0.3f,0.3f"/>
-      <Param translate="15.0f,-3.0f,0.0f"/>
-    </Transform>
-    <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.6f,0.6f,0.6f"/>
-    </Material>
-  </Model>
-    
+  
   <Light type ="distant">
     <Param from="3,10,10"/>
     <Param to="0,0,0"/>
@@ -66,7 +46,7 @@
     <Param L="5,5,5"/>
   </Light>
 
-	<Camera type = "thinlens">
+	<Camera type = "perspective">
     <Param origin="-5,0,7.5f"/>
     <Param lookat="7.5,-3,0"/>
     <Param up="0,1,0"/>
@@ -79,8 +59,9 @@
   
 	<Accelerator type ="kdtree"/>
 
-  <Integrator type="whitted">
+  <Integrator type="directLighting">
     <Param maxDepth ="5"/>
+    <Param nSamples="1"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

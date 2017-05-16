@@ -18,6 +18,7 @@ namespace orion {
 	private:
 		std::shared_ptr<Shape> shape;
 		std::shared_ptr<Material> material;
+		std::shared_ptr<AreaLight> areaLight; // handle area light pointer if it is emissive.
 
 	public:
 		Primitive(const std::shared_ptr<Shape> &shape, const std::shared_ptr<Material> &material)
@@ -28,6 +29,8 @@ namespace orion {
 		virtual bool intersect(const Ray &ray, Intersection *isec) const;
 		std::shared_ptr<Material> getMaterial() const { return material; }
 		void setMaterial(const std::shared_ptr<Material> &material) { this->material = material; }
+
+		const AreaLight * getAreaLight() const { return areaLight.get(); }
 	};
 
 }

@@ -161,6 +161,10 @@ namespace orion {
 	inline Normal3<T> faceforward(const Normal3<T> &n, const Vector3<T> &v) {
 		return (dot(n, v) < 0.f) ? -n : n;
 	}
+	template <typename T>
+	inline Normal3<T> faceforward(const Normal3<T> &n, const Normal3<T> &v) {
+		return (dot(n, v) < 0.f) ? -n : n;
+	}
 
 	template <typename T>
 	inline void coordinateSystem(const Vector3<T> &v1, Vector3<T> *v2,

@@ -1,5 +1,5 @@
 #include "triangle.h"
-
+#include <sampler/samplemethod.h>
 namespace orion {
 
 	TriangleMesh::TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata)
@@ -153,6 +153,32 @@ namespace orion {
 		const Point3f &p2 = mesh->p[v[2]];
 		return Union(Bounds3f((*world2local)(p0), (*world2local)(p1)),
 			(*world2local)(p2));
+	}
+
+	Float Triangle::area() const
+	{
+		const Point3f &p0 = mesh->p[v[0]];
+		const Point3f &p1 = mesh->p[v[1]];
+		const Point3f &p2 = mesh->p[v[2]];
+		return 0.5f * cross(p1 - p0, p2 - p0).length();
+	}
+
+	Intersection Triangle::sample(const Point2f & u, Float * pdf) const
+	{
+		Point2f b = uniformSampleTriangle(u);
+
+		const Point3f &p0 = mesh->p[v[0]];
+		const Point3f &p1 = mesh->p[v[1]];
+		const Point3f &p2 = mesh->p[v[2]];
+		Intersection isec;
+		isec.pHit = p0 * b[0] + p1 * b[1] + p2 * (1 - b[0] - b[1]);
+		isec.n = normalize(Normal3f(cross(p2 - p0, p1 - p0))); // right hand
+		if (mesh->n) {
+			Normal3f ns(mesh->n[v[0]] * b[0] + mesh->n[v[1]] * b[1] + mesh->n[v[2]] * (1 - b[0] - b[1]));
+			isec.n = faceforward(isec.n, ns);
+		}
+		*pdf = 1 / area();
+		return isec;
 	}
 
 	void Triangle::_getUVs(Point2f uv[3]) const

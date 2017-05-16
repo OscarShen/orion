@@ -16,6 +16,11 @@ namespace orion {
 
 	Point2f uniformSampleTriangle(const Point2f &u);
 
+	inline Float powerHeuristic(int nf, Float fPdf, int ng, Float gPdf) {
+		Float f = nf * fPdf, g = ng * gPdf;
+		return (f * f) / (f * f + g * g);
+	}
+
 }
 
 #endif // !ORION_SAMPLE_METHOD_H_

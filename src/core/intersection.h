@@ -39,8 +39,10 @@ namespace orion {
 
 		Ray spawnRay(const Vector3f &d) const {
 			Point3f o = pHit + d * epsilon;
-			return Ray(o, d, 0, t, 1 - shadowEpsilon);
+			return Ray(o, d, 0, t);
 		}
+
+		Spectrum Le(const Vector3f &wo) const;
 	};
 
 }

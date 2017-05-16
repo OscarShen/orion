@@ -24,6 +24,8 @@ namespace orion {
 
 		virtual bool intersect(const Ray &ray, Intersection *isec) const override;
 		virtual Bounds3f localBound() const override;
+		virtual Float area() const override;
+		virtual Intersection sample(const Point2f &u, Float *pdf) const override;
 	};
 
 	std::shared_ptr<Disk> createDisk(const Transform *local2world, const Transform *world2local, const ParamSet &param);
