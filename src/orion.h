@@ -75,6 +75,7 @@ namespace orion {
 	class Light;
 	class Sampler;
 	class AreaLight;
+	class FloatTexture;
 }
 
 #endif // !ENG_H_

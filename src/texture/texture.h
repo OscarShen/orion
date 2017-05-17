@@ -27,7 +27,11 @@ namespace orion {
 		TextureFilter filter;
 
 	public:
-		Texture() { _init(); }
+		Texture() {
+			width = 0;
+			height = 0;
+			filter = TextureFilter::FILTER_WRAP;
+		}
 		virtual Spectrum sample(int x, int y) const = 0;
 		virtual Spectrum evaluate(const Intersection *isec) const;
 
@@ -42,13 +46,6 @@ namespace orion {
 
 	protected:
 		void _coordFilter(int &u, int &v) const;
-
-	private:
-		void _init() {
-			width = 0;
-			height = 0;
-			filter = TextureFilter::FILTER_WRAP;
-		}
 	};
 }
 

@@ -7,7 +7,7 @@
     <Transform>
       <Param translate="0.0f,-3,0"/>
     </Transform>
-    <Material type="mirror">
+    <Material type="matte">
       <Param type="constant"/>
       <Param color="0.58f,0.58f,0.46f"/>
     </Material>
@@ -20,7 +20,7 @@
       <Param rotate="1,0,0,90"/>
       <Param translate="0,0,-5"/>
     </Transform>
-    <Material type="mirror">
+    <Material type="matte">
       <Param type="constant"/>
       <Param color="0.58f,0.58f,0.46f"/>
     </Material>
@@ -33,16 +33,17 @@
     </Transform>
     <Material type="matte">
       <Param type="constant"/>
+      <Param sigma="80"/>
       <Param color="0.6f,0.6f,0.6f"/>
     </Material>
   </Model>
   
-  <Light type ="distant">
+  <Light type ="point">
     <Param from="3,10,10"/>
-    <Param to="0,0,0"/>
+    <Param to="5.0f,-3.0f,0.0f"/>
     <Param angle="40"/>
     <Param delta="10"/>
-    <Param intensity="1500.0f,1500.0f,1500.0f"/>
+    <Param intensity="1000.0f,1000.0f,1000.0f"/>
     <Param L="5,5,5"/>
   </Light>
 

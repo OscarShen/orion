@@ -17,9 +17,10 @@ namespace orion {
 	{
 	private:
 		std::shared_ptr<Texture> Kd;
+		std::shared_ptr<FloatTexture> sigma;
 
 	public:
-		MatteMaterial(const std::shared_ptr<Texture> &Kd) :Kd(Kd) {}
+		MatteMaterial(const std::shared_ptr<Texture> &Kd, const std::shared_ptr<FloatTexture> &sigma) :Kd(Kd), sigma(sigma) {}
 		~MatteMaterial() {}
 		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const override;
 	};
