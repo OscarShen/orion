@@ -15,7 +15,6 @@ namespace orion {
 
 		auto bsdf = std::make_shared<BSDF>(isec);
 		if (!color.isBlack()) {
-			std::cout << "sigma : " << sigma << std::endl;
 			if (sigma == 0)
 				bsdf->addBxDF(std::make_shared<LambertianReflection>(color));
 			else

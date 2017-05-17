@@ -26,6 +26,7 @@ namespace orion {
 			const std::shared_ptr<Sampler> &sampler)
 			: camera(camera), sampler(sampler) {}
 		virtual ~Integrator() {}
+		virtual void preprocess(const Scene &scene, Sampler &sampler) {}
 		virtual Spectrum Li(const Ray &ray, const std::shared_ptr<Scene> &scene,
 			const std::shared_ptr<Sampler> &sampler, int depth) const = 0;
 		Spectrum specularReflect(const Ray &ray, const Intersection *isec, const std::shared_ptr<Sampler> &sampler,
@@ -34,7 +35,8 @@ namespace orion {
 			const std::shared_ptr<BSDF> &bsdf, const std::shared_ptr<Scene> &scene, int depth) const;
 	};
 
-	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection &isec, const Scene &scene, Sampler &sampler, int nSamples);
+	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection &isec, const Scene &scene,
+		Sampler &sampler, const std::vector<int> &nLightSamples);
 
 	Spectrum estimateDirect(const Ray &ray, const Intersection &isec, const Point2f &BSDFSample, const Light &light,
 		const Point2f &lightSample, const Scene &scene, Sampler &sampler, BxDF_TYPE type = BxDF_ALL);

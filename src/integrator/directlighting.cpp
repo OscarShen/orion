@@ -1,7 +1,12 @@
 #include "directlighting.h"
+#include <light/light.h>
 #include <util/strutil.h>
 namespace orion {
-
+	void DirectLighting::preprocess(const Scene & scene, Sampler & sampler)
+	{
+		for (const auto &light : scene.lights)
+			nLightSamples.push_back(light->nSamples);
+	}
 	Spectrum DirectLighting::Li(const Ray & ray, const std::shared_ptr<Scene>& scene, const std::shared_ptr<Sampler>& sampler, int depth) const
 	{
 		Intersection isec;
@@ -14,7 +19,7 @@ namespace orion {
 
 		for (const auto &light : scene->lights) {
 			if (scene->lights.size() > 0) {
-				L += uniformSampleAllLights(ray, isec, *scene, *sampler, nSamples);
+				L += uniformSampleAllLights(ray, isec, *scene, *sampler, nLightSamples);
 			}
 		}
 		std::shared_ptr<BSDF> bsdf = isec.primitive->getMaterial()->getBSDF(&isec);
@@ -27,7 +32,6 @@ namespace orion {
 	std::shared_ptr<DirectLighting> createDirectLightingIntegrator(std::shared_ptr<Camera> camera, std::shared_ptr<Sampler> sampler, const ParamSet & param)
 	{
 		int maxDepth = parseInt(param.getParam("maxDepth"));
-		int nSamples = parseInt(param.getParam("nSamples"));
-		return std::shared_ptr<DirectLighting>(new DirectLighting(camera, sampler, maxDepth, nSamples));
+		return std::shared_ptr<DirectLighting>(new DirectLighting(camera, sampler, maxDepth));
 	}
 }

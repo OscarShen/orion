@@ -16,11 +16,12 @@ namespace orion {
 	{
 	private:
 		const int maxDepth;
-		const int nSamples;
+		std::vector<int> nLightSamples;
 
 	public:
-		DirectLighting(std::shared_ptr<Camera> camera, std::shared_ptr<Sampler> sampler, int maxDepth, int nSamples)
-			: Integrator(camera, sampler), maxDepth(maxDepth), nSamples(nSamples) {}
+		DirectLighting(std::shared_ptr<Camera> camera, std::shared_ptr<Sampler> sampler, int maxDepth)
+			: Integrator(camera, sampler), maxDepth(maxDepth) {}
+		virtual void preprocess(const Scene &scene, Sampler &sampler) override;
 		virtual Spectrum Li(const Ray &ray, const std::shared_ptr<Scene> &scene,
 			const std::shared_ptr<Sampler> &sampler, int depth) const;
 	};

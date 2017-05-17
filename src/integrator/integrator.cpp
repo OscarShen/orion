@@ -34,12 +34,13 @@ namespace orion {
 		}
 		return Spectrum(0);
 	}
-	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection & isec, const Scene & scene, Sampler & sampler, int nSamples)
+	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection & isec, const Scene & scene, Sampler & sampler, const std::vector<int> &nLightSamples)
 	{
 		Spectrum L;
 		for (size_t i = 0; i < scene.lights.size(); ++i) {
 			const std::shared_ptr<Light> &light = scene.lights[i];
 			Spectrum Ld;
+			int nSamples = nLightSamples[i];
 			for (int j = 0; j < nSamples; ++j) {
 				Point2f lightSample = sampler.next2(), BSDFSample = sampler.next2();
 				Ld += estimateDirect(ray, isec, BSDFSample, *light, lightSample, scene, sampler, BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR));

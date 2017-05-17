@@ -21,8 +21,9 @@ namespace orion {
 		std::shared_ptr<AreaLight> areaLight; // handle area light pointer if it is emissive.
 
 	public:
-		Primitive(const std::shared_ptr<Shape> &shape, const std::shared_ptr<Material> &material)
-			:shape(shape), material(material) {}
+		Primitive(const std::shared_ptr<Shape> &shape, const std::shared_ptr<Material> &material,
+			const std::shared_ptr<AreaLight> &areaLight = nullptr)
+			:shape(shape), material(material), areaLight(areaLight) {}
 		Primitive(const std::shared_ptr<Shape> &shape)
 			:shape(shape), material(nullptr) {}
 		virtual Bounds3f worldBound() const { return shape->worldBound(); }

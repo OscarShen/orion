@@ -8,6 +8,7 @@ namespace orion {
 		_pre();
 		auto film = camera->getFilm();
 		int width = film->getWidth(), height = film->getHeight();
+		integrator->preprocess(*scene, *sampler);
 		for (int j = 0; j < height; ++j) {
 			for (int i = 0; i < width; ++i) {
 				std::vector<Spectrum> ret(nSamples);

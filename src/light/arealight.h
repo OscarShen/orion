@@ -27,6 +27,7 @@ namespace orion {
 		Spectrum L(const Intersection &isec, const Vector3f &w) const;
 	};
 
+	std::shared_ptr<AreaLight> createAreaLight(const Transform &light2world, const std::shared_ptr<Shape> &shape, const ParamSet &param);
 }
 
 #endif // !ORION_AREA_LIGHT_H_

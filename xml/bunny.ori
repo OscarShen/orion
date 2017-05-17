@@ -26,6 +26,22 @@
     </Material>
   </Model>
 
+  <Model type ="disk">
+    <Param radius="4"/>
+    <Transform>
+      <Param rotate="1,0,0,180"/>
+      <Param translate="5,5,3"/>
+    </Transform>
+    <Material type="matte">
+      <Param type="constant"/>
+      <Param color="0.58f,0.58f,0.46f"/>
+    </Material>
+    <AreaLight>
+      <Param Le="10"/>
+      <Param nLightSamples="20"/>
+    </AreaLight>
+  </Model>
+
   <Model type="triangleMesh" filename = "bunny.obj">
     <Transform>
       <Param scale="0.5f,0.5f,0.5f"/>
@@ -37,22 +53,13 @@
       <Param color="0.6f,0.6f,0.6f"/>
     </Material>
   </Model>
-  
-  <Light type ="point">
-    <Param from="3,10,10"/>
-    <Param to="5.0f,-3.0f,0.0f"/>
-    <Param angle="40"/>
-    <Param delta="10"/>
-    <Param intensity="1000.0f,1000.0f,1000.0f"/>
-    <Param L="5,5,5"/>
-  </Light>
 
 	<Camera type = "perspective">
-    <Param origin="-5,0,7.5f"/>
+    <Param origin="-15,0,22.5f"/>
     <Param lookat="7.5,-3,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>
-    <Param filmsize="1960,1080"/>
+    <Param filmsize="800,600"/>
     <Param lensRadius="0.15f"/>
     <Param focalDistance="10"/>
     <Param nSamples="1"/>
@@ -62,7 +69,6 @@
 
   <Integrator type="directLighting">
     <Param maxDepth ="5"/>
-    <Param nSamples="1"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

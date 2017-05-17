@@ -4,6 +4,7 @@
 #include <integrator/whitted.h>
 #include <integrator/directlighting.h>
 #include <light/light.h>
+#include <light/arealight.h>
 #include <camera/thinlens.h>
 #include <material/matte.h>
 #include <material/merlmaterial.h>
@@ -83,12 +84,25 @@ namespace orion {
 				}
 			}
 
-			// Primitives
-			for (auto &item : shapes) {
-				prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material)));
+			// area light
+			TiXmlElement *areaLightNode = model->FirstChildElement("AreaLight");
+			if (areaLightNode) {
+				ParamSet areaParam;
+				GET_PARAMSET(areaLightNode, areaParam);
+				for (auto &item : shapes) {
+					std::shared_ptr<AreaLight> areaLight = createAreaLight(transform, item, areaParam);
+					renderOption->lights.push_back(areaLight);
+					prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material, areaLight)));
+					std::cout << "产生一个区域光源！" << std::endl;
+				}
 			}
+			else {
+				for (auto &item : shapes)
+					prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material)));
+			}
+
+
 			renderOption->prims.insert(renderOption->prims.end(), prims.begin(), prims.end());
-			prims.clear();
 			// Next
 			model = model->NextSiblingElement("Model");
 		}
