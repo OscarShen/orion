@@ -17,10 +17,8 @@ namespace orion {
 		// if hit a emissive primitive
 		L += isec.Le(-ray.d);
 
-		for (const auto &light : scene->lights) {
-			if (scene->lights.size() > 0) {
-				L += uniformSampleAllLights(ray, isec, *scene, *sampler, nLightSamples);
-			}
+		if (scene->lights.size() > 0) {
+			L += uniformSampleAllLights(ray, isec, *scene, *sampler, nLightSamples);
 		}
 		std::shared_ptr<BSDF> bsdf = isec.primitive->getMaterial()->getBSDF(&isec);
 		if (depth + 1 < maxDepth) {

@@ -9,7 +9,7 @@ namespace orion {
 
 		// No parallel
 		if (r.d.y == 0) return false;
-		Float tHit = (height - r.o.y) / r.d.y;
+		Float tHit = -r.o.y / r.d.y;
 		if (tHit <= 0 || tHit >= r.tMax) return false;
 
 		Point3f pHit = r(tHit);
@@ -32,8 +32,8 @@ namespace orion {
 	}
 	Bounds3f Disk::localBound() const
 	{
-		return Bounds3f(Point3f(-radius, height, -radius),
-						Point3f(radius, height, radius));
+		return Bounds3f(Point3f(-radius, 0, -radius),
+						Point3f(radius, 0, radius));
 	}
 	Float Disk::area() const
 	{
@@ -42,17 +42,16 @@ namespace orion {
 	Intersection Disk::sample(const Point2f & u, Float * pdf) const
 	{
 		Point2f sampling = uniformSampleDisk(u);
-		Point3f pos(sampling.x * radius, height, sampling.y * radius);
+		Point3f pos(sampling.x * radius, 0, sampling.y * radius);
 		Intersection isec;
 		isec.n = normalize((*local2world)(Normal3f(0, 1, 0)));
-		isec.pHit = (*local2world)(Point3f(0));
+		isec.pHit = (*local2world)(pos);
 		*pdf = 1 / area();
 		return isec;
 	}
 	std::shared_ptr<Disk> createDisk(const Transform * local2world, const Transform * world2local, const ParamSet & param)
 	{
 		Float radius = parseFloat(param.getParam("radius"));
-		Float height = parseFloat(param.getParam("height"));
-		return std::shared_ptr<Disk>(new Disk(local2world, world2local, height, radius));
+		return std::shared_ptr<Disk>(new Disk(local2world, world2local, radius));
 	}
 }

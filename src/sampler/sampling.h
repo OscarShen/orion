@@ -20,7 +20,7 @@ namespace orion {
 	inline Vector3f cosineSampleHemisphere(const Point2f &rand) {
 		Point2f sample = concentricSampleDisk(rand);
 		Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
-		return Vector3f(sample[0], y, sample[0]);
+		return Vector3f(sample[0], y, sample[1]);
 	}
 
 	inline Float powerHeuristic(int nf, Float fPdf, int ng, Float gPdf) {

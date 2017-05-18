@@ -15,12 +15,12 @@ namespace orion {
 	class Disk : public Shape
 	{
 	private:
-		const Float height, radius;
+		const Float radius;
 
 	public:
 		Disk(const Transform *local2world, const Transform *world2local,
-			Float height, Float radius) : Shape(local2world, world2local),
-			height(height), radius(radius) {}
+			Float radius) : Shape(local2world, world2local),
+			radius(radius) {}
 
 		virtual bool intersect(const Ray &ray, Intersection *isec) const override;
 		virtual Bounds3f localBound() const override;
