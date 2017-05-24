@@ -75,6 +75,8 @@ namespace orion {
 		void _makeLight();
 		void _makeSampler();
 		void _makeScene();
+		std::shared_ptr<Material> _makeMaterial(TiXmlElement *matNode);
+		std::shared_ptr<Texture> _makeTexture(const ParamSet &param);
 		Parser(const std::string &path);
 	};
 

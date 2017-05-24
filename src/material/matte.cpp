@@ -22,48 +22,14 @@ namespace orion {
 		}
 		return bsdf;
 	}
-	std::shared_ptr<Material> createMatteMaterial(const ParamSet & param)
+	std::shared_ptr<Material> createMatteMaterial(std::shared_ptr<Texture> &Kd, std::shared_ptr<Texture> &sigma)
 	{
-		std::string type = param.getParam("type");
-		bool stringEmpty = false;
-		std::shared_ptr<Texture> tex;
-		if (type == "image") {
-			std::string filename = param.getParam("filename");
-			if (!filename.empty())
-				tex = TexManager::inst()->read(filename);
-			else
-				stringEmpty = true;
+		if (Kd == nullptr) {
+			Kd.reset(new ConstantTexture(Spectrum(0.5f)));
+			CHECK_INFO(false, "no kd, use default!");
 		}
-		else if (type == "checkbox") {
-			std::string color0Str = param.getParam("color0");
-			std::string color1Str = param.getParam("color1");
-			if (!color0Str.empty() && !color1Str.empty()) {
-				Spectrum color0 = parseSpectrum(color0Str);
-				Spectrum color1 = parseSpectrum(color1Str);
-				tex.reset(new CheckBoardTexture(color0, color1));
-			}
-			else
-				stringEmpty = true;
-		}
-		else if (type == "constant") {
-			std::string colorStr = param.getParam("color");
-			if (!colorStr.empty()) {
-				Spectrum color = parseSpectrum(colorStr);
-				tex.reset(new ConstantTexture(color));
-			}
-		}
-
-		std::shared_ptr<FloatTexture> sigma;
-		if (param.hasParam("sigma")) {
-			sigma.reset(new FloatTexture(parseFloat(param.getParam("sigma"))));
-		}
-		else {
+		if (sigma == nullptr)
 			sigma.reset(new FloatTexture(0));
-		}
-
-
-		if(stringEmpty)
-			tex.reset(new ConstantTexture(0.5f));
-		return std::shared_ptr<Material>(new MatteMaterial(tex, sigma));
+		return std::shared_ptr<Material>(new MatteMaterial(Kd, sigma));
 	}
 }

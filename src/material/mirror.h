@@ -21,7 +21,7 @@ namespace orion {
 		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const override;
 	};
 
-	std::shared_ptr<Mirror> createMirrorMaterial(const ParamSet & param);
+	std::shared_ptr<Mirror> createMirrorMaterial();
 
 }
 

@@ -14,7 +14,7 @@ namespace orion {
 		bsdf->addBxDF(std::shared_ptr<SpecularReflection>(new SpecularReflection(Spectrum(1.0f), fresnel))); // TODO : Add Ks in mirror
 		return bsdf;
 	}
-	std::shared_ptr<Mirror> createMirrorMaterial(const ParamSet & param)
+	std::shared_ptr<Mirror> createMirrorMaterial()
 	{
 		return std::shared_ptr<Mirror>(new Mirror());
 	}

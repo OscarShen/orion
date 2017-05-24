@@ -3,72 +3,85 @@
 
   <Model type ="disk">
     <Param radius="100"/>
-    <Param height="0"/>
     <Transform>
       <Param translate="0.0f,-3,0"/>
     </Transform>
     <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.58f,0.58f,0.46f"/>
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.58f,0.58f,0.46f"/>
+      </Kd>
     </Material>
   </Model>
 
   <Model type ="disk">
     <Param radius="50"/>
-    <Param height="0"/>
     <Transform>
       <Param rotate="1,0,0,90"/>
       <Param translate="0,0,-5"/>
     </Transform>
     <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.58f,0.58f,0.46f"/>
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.58f,0.58f,0.46f"/>
+      </Kd>
     </Material>
   </Model>
 
   <Model type ="disk">
-    <Param radius="4"/>
+    <Param radius="5"/>
     <Transform>
       <Param rotate="1,0,0,180"/>
       <Param translate="5,5,3"/>
     </Transform>
     <Material type="matte">
-      <Param type="constant"/>
-      <Param color="0.58f,0.58f,0.46f"/>
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
     </Material>
     <AreaLight>
-      <Param Le="10"/>
-      <Param nLightSamples="20"/>
+      <Param Le="6"/>
+      <Param nLightSamples="5"/>
     </AreaLight>
   </Model>
 
   <Model type="triangleMesh" filename = "bunny.obj">
     <Transform>
       <Param scale="0.5f,0.5f,0.5f"/>
-      <Param translate="5.0f,-3.0f,0.0f"/>
+      <Param translate="5,-3,3"/>
     </Transform>
-    <Material type="matte">
-      <Param type="constant"/>
-      <Param sigma="80"/>
-      <Param color="0.6f,0.6f,0.6f"/>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.3"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.15f"/>
+      </roughness>
     </Material>
   </Model>
 
 	<Camera type = "perspective">
-    <Param origin="-15,0,22.5f"/>
+    <Param origin="-10,0,18f"/>
     <Param lookat="7.5,-3,0"/>
     <Param up="0,1,0"/>
     <Param fov="45"/>
     <Param filmsize="800,600"/>
     <Param lensRadius="0.15f"/>
     <Param focalDistance="10"/>
-    <Param nSamples="1"/>
+    <Param nSamples="5"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>
 
   <Integrator type="directLighting">
-    <Param maxDepth ="5"/>
+    <Param maxDepth ="3"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

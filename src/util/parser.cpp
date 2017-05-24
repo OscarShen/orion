@@ -6,10 +6,16 @@
 #include <light/light.h>
 #include <light/arealight.h>
 #include <camera/thinlens.h>
+#include <texture/checkboard.h>
+#include <texture/constant.h>
+#include <texture/floattexture.h>
+#include <texture/gridtexture.h>
+#include <texture/imagetexture.h>
 #include <material/matte.h>
 #include <material/merlmaterial.h>
 #include <material/mirror.h>
 #include <material/glass.h>
+#include <material/plastic.h>
 #include <sampler/sampler.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
@@ -64,25 +70,8 @@ namespace orion {
 			}
 
 			// Material
-			std::shared_ptr<Material> material;
-			auto mat = model->FirstChildElement("Material");
-			if (mat) {
-				std::string mattype = mat->Attribute("type");
-				ParamSet matParam;
-				GET_PARAMSET(mat, matParam);
-				if (mattype == "matte") {
-					material = createMatteMaterial(matParam);
-				}
-				else if (mattype == "merl") {
-					material = createMerlMaterial(matParam);
-				}
-				else if (mattype == "mirror") {
-					material = createMirrorMaterial(matParam);
-				}
-				else if (mattype == "glass") {
-					material = createGlassMaterial(matParam);
-				}
-			}
+			TiXmlElement *mat = model->FirstChildElement("Material");
+			std::shared_ptr<Material> material = _makeMaterial(mat);
 
 			// area light
 			TiXmlElement *areaLightNode = model->FirstChildElement("AreaLight");
@@ -210,11 +199,118 @@ namespace orion {
 		renderOption->lights.erase(renderOption->lights.begin(), renderOption->lights.end());
 	}
 
+	std::shared_ptr<Material> Parser::_makeMaterial(TiXmlElement * matNode)
+	{
+		std::shared_ptr<Material> material;
+		if (matNode) {
+			std::string mattype = matNode->Attribute("type");
+			ParamSet matParam;
+			GET_PARAMSET(matNode, matParam);
+
+			// matte
+			if (mattype == "matte") {
+				TiXmlElement *kdNode = matNode->FirstChildElement("Kd");
+				ParamSet kdParam;
+				std::shared_ptr<Texture> kd;
+				if (kdNode) {
+					GET_PARAMSET(kdNode, kdParam);
+					kd = _makeTexture(kdParam);
+				}
+
+				TiXmlElement *sigmaNode = matNode->FirstChildElement("sigma");
+				std::shared_ptr<Texture> sigma;
+				if (sigmaNode) {
+					ParamSet sigmaParam;
+					GET_PARAMSET(sigmaNode, sigmaParam);
+					sigma = _makeTexture(sigmaParam);
+				}
+
+				material = createMatteMaterial(kd, sigma);
+			}
+			else if (mattype == "plastic") {
+				TiXmlElement *kdNode = matNode->FirstChildElement("Kd");
+				ParamSet kdParam;
+				std::shared_ptr<Texture> kd;
+				if (kdNode) {
+					GET_PARAMSET(kdNode, kdParam);
+					kd = _makeTexture(kdParam);
+				}
+
+				TiXmlElement *ksNode = matNode->FirstChildElement("Ks");
+				ParamSet ksParam;
+				std::shared_ptr<Texture> ks;
+				if (ksNode) {
+					GET_PARAMSET(ksNode, ksParam);
+					ks = _makeTexture(ksParam);
+				}
+
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				ParamSet roughnessParam;
+				std::shared_ptr<Texture> roughness;
+				if (roughnessNode) {
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = _makeTexture(roughnessParam);
+				}
+				
+				material = createPlasticMaterial(kd, ks, roughness);
+			}
+			else if (mattype == "merl") {
+				material = createMerlMaterial(matParam);
+			}
+			else if (mattype == "mirror") {
+				material = createMirrorMaterial();
+			}
+			else if (mattype == "glass") {
+				material = createGlassMaterial(matParam);
+			}
+		}
+		CHECK_INFO(material != nullptr, "null material!");
+		return material;
+	}
+
+	std::shared_ptr<Texture> Parser::_makeTexture(const ParamSet & param)
+	{
+		std::string type = param.getParam("type");
+		std::shared_ptr<Texture> tex;
+		if (type == "image") {
+			std::string filename = param.getParam("filename");
+			if (!filename.empty())
+				tex = TexManager::inst()->read(filename);
+		}
+		else if (type == "checkbox") {
+			std::string color0Str = param.getParam("color0");
+			std::string color1Str = param.getParam("color1");
+			if (!color0Str.empty() && !color1Str.empty()) {
+				Spectrum color0 = parseSpectrum(color0Str);
+				Spectrum color1 = parseSpectrum(color1Str);
+				tex.reset(new CheckBoardTexture(color0, color1));
+			}
+		}
+		else if (type == "constant") {
+			std::string colorStr = param.getParam("color");
+			if (!colorStr.empty()) {
+				Spectrum color = parseSpectrum(colorStr);
+				tex.reset(new ConstantTexture(color));
+			}
+		}
+		else if (type == "float") {
+			std::string valueStr = param.getParam("value"); // only constant float now !!
+			if (!valueStr.empty()) {
+				Float value = parseFloat(valueStr);
+				tex.reset(new FloatTexture(value));
+			}
+		}
+
+		CHECK_INFO(tex != nullptr, "can't make texture because lack of parameters!");
+		return tex;
+	}
+
 	Parser::Parser(const std::string &scenepath) {
 		doc = std::shared_ptr<TiXmlDocument>(new TiXmlDocument(scenepath.c_str()));
 		doc->LoadFile();
 		CHECK_INFO(!doc->Error(), doc->ErrorDesc());
 		root = doc->RootElement();
+		CHECK_INFO(root != nullptr, "xml root node is null pointer!");
 		renderOption.reset(new RenderOption());
 	}
 
