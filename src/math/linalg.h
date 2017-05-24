@@ -41,6 +41,10 @@ namespace orion {
 	}
 	// absdot
 	template <typename T>
+	inline T absDot(const Vector3<T> &n1, const Vector3<T> &v2) {
+		return std::abs(n1.x * v2.x + n1.y * v2.y + n1.z * v2.z);
+	}
+	template <typename T>
 	inline T absDot(const Normal3<T> &n1, const Vector3<T> &v2) {
 		return std::abs(n1.x * v2.x + n1.y * v2.y + n1.z * v2.z);
 	}
@@ -138,19 +142,26 @@ namespace orion {
 
 	// solid angle algorithm
 	inline Float cosTheta(const Vector3f &w) { return w.y; }
+	inline Float cos2Theta(const Vector3f &w) { return w.y * w.y; }
 	inline Float absCosTheta(const Vector3f &w) { return std::abs(w.y); }
-	inline Float sinTheta2(const Vector3f &w) { return std::max(0.0f, 1.0f - cosTheta(w) * cosTheta(w)); }
-	inline Float sinTheta(const Vector3f &w) { return std::sqrt(sinTheta2(w)); }
+	inline Float sin2Theta(const Vector3f &w) { return std::max(0.0f, 1.0f - cosTheta(w) * cosTheta(w)); }
+	inline Float sinTheta(const Vector3f &w) { return std::sqrt(sin2Theta(w)); }
 	inline Float cosPhi(const Vector3f &w) {
 		Float sinTh = sinTheta(w);
 		if (sinTh == 0) return 1.0f;
 		return clamp(w.x / sinTh, -1.0f, 1.0f);
 	}
+	inline Float cos2Phi(const Vector3f &w) { return cosPhi(w) * cosPhi(w); }
 	inline Float sinPhi(const Vector3f &w) {
 		Float sinTh = sinTheta(w);
 		if (sinTh == 0) return 0.0f;
 		return clamp(-w.z / sinTh, -1.0f, 1.0f);
 	}
+	inline Float sin2Phi(const Vector3f &w) { return sinPhi(w) * sinPhi(w); }
+
+	inline Float tanTheta(const Vector3f &w) { return sinTheta(w) / cosTheta(w); }
+	inline Float tan2Theta(const Vector3f &w) { return sin2Theta(w) / cos2Theta(w); }
+
 	inline bool sameHemisphere(const Vector3f &wi, const Vector3f &wo) { return wi.y * wo.y > 0; }
 	inline Float sphericalTheta(const Vector3f &v) { return std::acos(clamp(v.y, -1.0f, 1.0f)); }
 	inline Float sphericalPhi(const Vector3f &v) {

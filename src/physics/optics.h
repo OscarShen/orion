@@ -54,20 +54,6 @@ namespace orion {
 		Spectrum evaluate(Float) const { return Spectrum(1.0f); }
 	};
 
-	inline bool refract(const Vector3f &wi, const Normal3f &n, Float eta, Vector3f *wt) {
-		// default normal vectors
-		// Snell's law : sinThetaI * etaI = sinThetaT * etaT
-		// note : y of wi is positive!
-		Float cosThetaI = dot(wi, n);
-		Float sin2ThetaI = std::max(Float(0), Float(1 - cosThetaI * cosThetaI));
-		Float sin2ThetaT = eta * eta * sin2ThetaI;
-
-		// Is this total internal reflection
-		if (sin2ThetaT >= 1) return false;
-		Float cosThetaT = std::sqrt(1 - sin2ThetaT);
-		*wt = eta * -wi + (eta * cosThetaI - cosThetaT) * Vector3f(n);
-		return true;
-	}
 }
 
 #endif // !ORION_PHYSICS_OPTICS_H_

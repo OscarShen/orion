@@ -9,6 +9,7 @@
 #ifndef ORION_SPECTRUM_H_
 #define ORION_SPECTRUM_H_
 #include <orion.h>
+#include <math/linalg.h>
 namespace orion {
 
 	class RGBSpectrum
@@ -31,6 +32,12 @@ namespace orion {
 			if (r != 0.0f || g != 0.0f || b != 0.0f)
 				return false;
 			return true;
+		}
+
+		RGBSpectrum clamp(Float low = 0, Float high = fInfinity) const {
+			return RGBSpectrum(orion::clamp(r, low, fInfinity),
+							   orion::clamp(g, low, fInfinity),
+							   orion::clamp(b, low, fInfinity));
 		}
 
 		RGBSpectrum operator+(Float f) const {
