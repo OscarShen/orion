@@ -33,17 +33,14 @@ namespace orion {
 
 		return after;
 	}
-	std::shared_ptr<ThinLensCamera> createThinLensCamera(const ParamSet & param)
+	std::shared_ptr<ThinLensCamera> createThinLensCamera(const Transform &camera2world, const ParamSet & param)
 	{
-		Point3f origin = parsePoint3f(param.getParam("origin"));
-		Point3f lookat = parsePoint3f(param.getParam("lookat"));
-		Vector3f up = parseVector3f(param.getParam("up"));
 		Vector2i filmSize = parseVector2i(param.getParam("filmsize"));
 		Float fov = parseFloat(param.getParam("fov"));
 
 		auto film = std::make_shared<RenderTarget>(filmSize.x, filmSize.y);
 		Float lensRadius = parseFloat(param.getParam("lensRadius"));
 		Float focalDistance = parseFloat(param.getParam("focalDistance"));
-		return std::shared_ptr<ThinLensCamera>(new ThinLensCamera(origin, lookat, up, fov, film, focalDistance, lensRadius));
+		return std::shared_ptr<ThinLensCamera>(new ThinLensCamera(camera2world, fov, film, focalDistance, lensRadius));
 	}
 }

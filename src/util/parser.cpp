@@ -137,11 +137,21 @@ namespace orion {
 			ParamSet camParam;
 			GET_PARAMSET(cameraNode, camParam);
 			renderOption->nSamples = parseInt(camParam.getParam("nSamples"));
+
+			// Transform
+			TiXmlElement *transNode = cameraNode->FirstChildElement("Transform");
+			Transform transform;
+			if (transNode) {
+				ParamVec transParam;
+				GET_PARAMVEC(transNode, transParam);
+				transform = createTransform(transParam);
+			}
+
 			if (cam == "perspective") {
-				renderOption->camera = createPerspectiveCamera(camParam);
+				renderOption->camera = createPerspectiveCamera(transform, camParam);
 			}
 			else if (cam == "thinlens") {
-				renderOption->camera = createThinLensCamera(camParam);
+				renderOption->camera = createThinLensCamera(transform, camParam);
 			}
 			else {
 				CHECK_INFO(false, "Not support now!");

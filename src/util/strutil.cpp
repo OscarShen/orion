@@ -81,5 +81,22 @@ namespace orion {
 			static_cast<Float>(atof(v[1].c_str())),
 			static_cast<Float>(atof(v[2].c_str())));
 	}
+	Transform parseLookAt(const std::string & s)
+	{
+		auto v = split(s, ",");
+		if (v.size() < 9)
+			CHECK_INFO(false, "do not have enough parameters for lookat!");
+
+		Point3f origin(static_cast<Float>(atof(v[0].c_str())),
+					   static_cast<Float>(atof(v[1].c_str())),
+					   static_cast<Float>(atof(v[2].c_str())));
+		Point3f lookat(static_cast<Float>(atof(v[3].c_str())),
+					   static_cast<Float>(atof(v[4].c_str())),
+					   static_cast<Float>(atof(v[5].c_str())));
+		Vector3f up(   static_cast<Float>(atof(v[6].c_str())),
+					   static_cast<Float>(atof(v[7].c_str())),
+					   static_cast<Float>(atof(v[8].c_str())));
+		return lookAt(origin, lookat, up);
+	}
 }
 

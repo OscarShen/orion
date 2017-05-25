@@ -18,32 +18,19 @@ namespace orion {
 	class PerspectiveCamera : public Camera
 	{
 	protected:
-		Point3f lookat; // Point which camera look at.
-		Vector3f up;	// Up vector of camera
 		Float vfov, tan_half_fov;		// Vertical fov of camera, and a good value for calculation
 		Transform t;
 
 	public:
 		PerspectiveCamera() {}
-		PerspectiveCamera(const Point3f &orig, const Point3f &lookat, const Vector3f &up, Float vfov, const std::shared_ptr<RenderTarget> &film)
-			: Camera(orig, film), lookat(lookat), up(up)
-		{
-			setFov(vfov);
-			t = lookAt(orig, lookat, up);
-		}
+		PerspectiveCamera(const Transform &camera2world, Float vfov, const std::shared_ptr<RenderTarget> &film)
+			: Camera(film), t(camera2world), vfov(vfov), tan_half_fov(std::tan(radians(vfov * 0.5f))) {}
 		~PerspectiveCamera() {}
 		
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
-		void setLookat(const Point3f &lookat) { this->lookat = lookat; }
-		void setUp(const Vector3f &up) { this->up = up; }
-		void setFov(Float vfov) {
-			this->vfov = vfov;
-			tan_half_fov = std::tan(radians(vfov * 0.5f));
-		}
-		Float getFov() const { return vfov; }
 	};
 
-	std::shared_ptr<Camera> createPerspectiveCamera(const ParamSet &param);
+	std::shared_ptr<Camera> createPerspectiveCamera(const Transform &camera2world, const ParamSet &param);
 }
 
 #endif // !ORION_PERSPECTIVE_CAMEREA_H_

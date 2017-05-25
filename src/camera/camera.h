@@ -16,20 +16,17 @@ namespace orion {
 	class Camera
 	{
 	protected:
-		Point3f orig;
 		std::shared_ptr<RenderTarget> film;
 
 	public:
 		Camera() {}
-		Camera(const Point3f &orig, const std::shared_ptr<RenderTarget> &film)
-			:orig(orig), film(film) {}
+		Camera(const std::shared_ptr<RenderTarget> &film)
+			: film(film) {}
 		virtual ~Camera() {}
 
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const = 0;
 
 		void setRenderTarget(const std::shared_ptr<RenderTarget> &film) { this->film = film; }
-		void setOrig(const Point3f &o) { orig = o; }
-		Point3f getOrig() const { return orig; }
 		std::shared_ptr<RenderTarget> getFilm() const { 
 			CHECK_INFO(film.get() != nullptr, "Note : no render target in camera!");
 			return film;

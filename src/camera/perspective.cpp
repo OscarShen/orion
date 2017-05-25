@@ -24,16 +24,13 @@ namespace orion {
 		return after;
 	}
 
-	std::shared_ptr<Camera> createPerspectiveCamera(const ParamSet & param)
+	std::shared_ptr<Camera> createPerspectiveCamera(const Transform &camera2world, const ParamSet & param)
 	{
-		Point3f origin = parsePoint3f(param.getParam("origin"));
-		Point3f lookat = parsePoint3f(param.getParam("lookat"));
-		Vector3f up = parseVector3f(param.getParam("up"));
 		Vector2i filmSize = parseVector2i(param.getParam("filmsize"));
 		Float fov = parseFloat(param.getParam("fov"));
 
 		auto film = std::make_shared<RenderTarget>(filmSize.x, filmSize.y);
-		return std::shared_ptr<Camera>(new PerspectiveCamera(origin, lookat, up, fov, film));
+		return std::shared_ptr<Camera>(new PerspectiveCamera(camera2world, fov, film));
 	}
 
 }

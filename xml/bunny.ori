@@ -42,7 +42,7 @@
     </Material>
     <AreaLight>
       <Param Le="6"/>
-      <Param nLightSamples="5"/>
+      <Param nLightSamples="1"/>
     </AreaLight>
   </Model>
 
@@ -68,14 +68,15 @@
   </Model>
 
 	<Camera type = "perspective">
-    <Param origin="-10,0,18f"/>
-    <Param lookat="7.5,-3,0"/>
-    <Param up="0,1,0"/>
+    <Transform>
+      <Param lookat="5,4,25,  5,-3,0,  0,1,0"/>
+    </Transform>
+    
     <Param fov="45"/>
-    <Param filmsize="800,600"/>
+    <Param filmsize="1960,1080"/>
     <Param lensRadius="0.15f"/>
     <Param focalDistance="10"/>
-    <Param nSamples="5"/>
+    <Param nSamples="1"/>
 	</Camera>
   
 	<Accelerator type ="kdtree"/>

@@ -232,6 +232,9 @@ namespace orion {
 				Vector3f translateVec = parseVector3f(pair->second);
 				t = translate(translateVec) * t;
 			}
+			else if (pair->first == "lookat") {
+				t = parseLookAt(pair->second);
+			}
 		}
 		return t;
 	}

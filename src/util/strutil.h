@@ -30,6 +30,8 @@ namespace orion {
 	Point3f parsePoint3f(const std::string &s);
 
 	Spectrum parseSpectrum(const std::string &s);
+
+	Transform parseLookAt(const std::string &s);
 }
 
 #endif // !ORION_UTIL_STRING_H_
