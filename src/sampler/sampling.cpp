@@ -36,4 +36,12 @@ namespace orion {
 		return Point2f(1 - su0, u[1] * su0);
 	}
 
+	Vector3f uniformSampleSphere(const Point2f & rand)
+	{
+		Float y = 1 - 2 * rand[0];
+		Float r = std::sqrt(std::max(0.0f, 1.0f - y * y));
+		Float phi = 2 * pi * rand[1];
+		return Vector3f(r * std::cos(phi), y, -r * std::sin(phi));
+	}
+
 }

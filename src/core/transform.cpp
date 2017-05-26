@@ -215,11 +215,21 @@ namespace orion {
 	}
 	Transform createTransform(const ParamVec & param)
 	{
+		static std::vector<Transform> reuse(8); // for reuse transform
+
 		Transform t;
 		param.reset();
 		const std::pair<std::string, std::string> *pair = nullptr;
 		while (pair = param.getPair()) {
-			if (pair->first == "scale") {
+			if (pair->first == "store") {
+				int pos = parseInt(pair->second);
+				reuse[pos] = t;
+			}
+			else if (pair->first == "reuse") {
+				int pos = parseInt(pair->second);
+				t = reuse[pos] * t;
+			}
+			else if (pair->first == "scale") {
 				Vector3f scaleVec = parseVector3f(pair->second);
 				t = scale(scaleVec) * t;
 			}
@@ -233,7 +243,7 @@ namespace orion {
 				t = translate(translateVec) * t;
 			}
 			else if (pair->first == "lookat") {
-				t = parseLookAt(pair->second);
+				t = parseLookAt(pair->second) * t;
 			}
 		}
 		return t;

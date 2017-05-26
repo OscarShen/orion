@@ -32,6 +32,13 @@ namespace orion {
 		MeshData() :vertices(new std::vector<Point3f>()), normals(new std::vector<Normal3f>()),
 			uvs(new std::vector<Point2f>()), indices(new std::vector<int>()),
 			num_triangles(0), num_vertices(0) {}
+		MeshData(std::shared_ptr<std::vector<Point3f>> vertices,
+			std::shared_ptr<std::vector<Normal3f>> normals,
+			std::shared_ptr<std::vector<Point2f>> uvs,
+			std::shared_ptr<std::vector<int>> indices,
+			int num_triangles,
+			int num_vertices) : vertices(vertices), normals(normals), uvs(uvs), indices(indices),
+			num_triangles(num_triangles), num_vertices(num_vertices) {}
 	};
 
 	class ModelLoader

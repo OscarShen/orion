@@ -134,6 +134,11 @@ namespace orion {
 			if (ns.lengthSquared() > 0)
 				isec->n = faceforward(normalize(ns), -ray.d);
 		}
+		else {
+			Normal3f n(normalize(cross(dp02, dp12)));
+			if (n.lengthSquared() > 0)
+				isec->n = faceforward(normalize(n), -ray.d);
+		}
 		return true;
 	}
 

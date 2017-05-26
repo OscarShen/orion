@@ -17,6 +17,8 @@ namespace orion {
 
 	Point2f uniformSampleTriangle(const Point2f &rand);
 
+	Vector3f uniformSampleSphere(const Point2f &rand);
+
 	inline Vector3f cosineSampleHemisphere(const Point2f &rand) {
 		Point2f sample = concentricSampleDisk(rand);
 		Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));

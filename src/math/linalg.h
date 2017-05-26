@@ -179,13 +179,32 @@ namespace orion {
 	}
 
 	template <typename T>
-	inline void coordinateSystem(const Vector3<T> &v1, Vector3<T> *v2,
-		Vector3<T> *v3) {
-		if (std::abs(v1.x) > std::abs(v1.y))
-			*v2 = Vector3<T>(-v1.z, 0, v1.x) / std::sqrt(v1.x * v1.x + v1.z * v1.z);
+	inline void coordinateSystem(const Vector3<T> &y, Vector3<T> *z,
+		Vector3<T> *x) {
+		if (std::abs(y.x) > std::abs(y.y))
+			*z = Vector3<T>(-y.z, 0, y.x) / std::sqrt(y.x * y.x + y.z * y.z);
 		else
-			*v2 = Vector3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y * v1.y + v1.z * v1.z);
-		*v3 = cross(v1, *v2);
+			*z = Vector3<T>(0, y.z, -y.y) / std::sqrt(y.y * y.y + y.z * y.z);
+		*x = cross(y, *z);
+	}
+
+	// solve quadratic equation
+	inline bool quadratic(Float A, Float B, Float C, Float *t0, Float *t1) {
+		// Find quadratic discriminant
+		double discrim = (double)B * (double)B - 4. * (double)A * (double)C;
+		if (discrim < 0.) return false;
+		double rootDiscrim = std::sqrt(discrim);
+
+		// Compute quadratic _t_ values
+		double q;
+		if (B < 0)
+			q = -.5 * (B - rootDiscrim);
+		else
+			q = -.5 * (B + rootDiscrim);
+		*t0 = static_cast<Float>(q / A);
+		*t1 = static_cast<Float>(C / q);
+		if (*t0 > *t1) std::swap(*t0, *t1);
+		return true;
 	}
 }
 
