@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <core/primitive.h>
 #include <shape/disk.h>
+#include <shape/sphere.h>
 #include <integrator/whitted.h>
 #include <integrator/directlighting.h>
 #include <light/light.h>
@@ -45,7 +46,6 @@ namespace orion {
 		TiXmlElement *model = root->FirstChildElement("Model");
 		while (model) {
 			std::vector<std::shared_ptr<Shape>> shapes;
-			ParamSet ps;
 			// Transform
 			TiXmlElement *transNode = model->FirstChildElement("Transform");
 			Transform transform;
@@ -59,19 +59,36 @@ namespace orion {
 
 			// shape
 			std::string modeltype = model->Attribute("type");
-			if (modeltype == "triangleMesh") {
+			if (modeltype == "triMesh") {
 				std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
 				// Shapes
 				shapes = createTriangleMesh(t, invt, meshdata);
 			}
 			else if (modeltype == "disk") {
+				ParamSet ps;
 				GET_PARAMSET(model, ps);
 				shapes.push_back(createDisk(t, invt, ps));
+			}
+			else if (modeltype == "sphere") {
+				ParamSet ps;
+				GET_PARAMSET(model, ps);
+				shapes.push_back(createSphere(t, invt, ps));
+			}
+			else if (modeltype == "triMeshHandy") {
+				ParamSet ps;
+				GET_PARAMSET(model, ps);
+				std::string pStr = ps.getParam("p"), indicesStr = ps.getParam("indices");
+				std::string uvStr, nStr;
+				if (ps.hasParam("uv")) { uvStr = ps.getParam("uv"); }
+				if (ps.hasParam("n")) { nStr = ps.getParam("n"); }
+				auto meshdata = parseMeshData(pStr, uvStr, nStr, indicesStr);
+				shapes = createTriangleMesh(t, invt, meshdata);
 			}
 
 			// Material
 			TiXmlElement *mat = model->FirstChildElement("Material");
 			std::shared_ptr<Material> material = _makeMaterial(mat);
+
 
 			// area light
 			TiXmlElement *areaLightNode = model->FirstChildElement("AreaLight");
@@ -211,14 +228,21 @@ namespace orion {
 
 	std::shared_ptr<Material> Parser::_makeMaterial(TiXmlElement * matNode)
 	{
+		static std::vector<std::shared_ptr<Material>> reuseMaterial(8);
 		std::shared_ptr<Material> material;
 		if (matNode) {
-			std::string mattype = matNode->Attribute("type");
+			const char *matC = matNode->Attribute("type");
+			std::string mattype = matC ? matC : std::string();
 			ParamSet matParam;
 			GET_PARAMSET(matNode, matParam);
 
 			// matte
-			if (mattype == "matte") {
+			const char *reuse = matNode->Attribute("reuse");
+			if (reuse) { // reuse
+				int pos = parseInt(reuse);
+				material = reuseMaterial[pos];
+			}
+			else if (mattype == "matte") {
 				TiXmlElement *kdNode = matNode->FirstChildElement("Kd");
 				ParamSet kdParam;
 				std::shared_ptr<Texture> kd;
@@ -275,6 +299,13 @@ namespace orion {
 			}
 		}
 		CHECK_INFO(material != nullptr, "null material!");
+
+		const char * posStr = matNode->Attribute("store");
+		if (posStr) {
+			int pos = parseInt(posStr);
+			CHECK_INFO(pos >= 0 && pos < 8, "invalid position!");
+			reuseMaterial[pos] = material;
+		}
 		return material;
 	}
 

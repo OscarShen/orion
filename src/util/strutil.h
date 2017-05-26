@@ -11,6 +11,7 @@
 #include <orion.h>
 #include <core/transform.h>
 #include <core/spectrum.h>
+#include <shape/triangle.h>
 namespace orion {
 
 	void trim(std::string &s);
@@ -32,6 +33,8 @@ namespace orion {
 	Spectrum parseSpectrum(const std::string &s);
 
 	Transform parseLookAt(const std::string &s);
+
+	std::shared_ptr<MeshData> parseMeshData(const std::string &p, const std::string &uv, const std::string &n, const std::string &indices);
 }
 
 #endif // !ORION_UTIL_STRING_H_

@@ -53,7 +53,7 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 		MeshManager::init();
-		Parser::init("D:/cpp/orion/xml/bunny.ori");
+		Parser::init("D:/cpp/orion/xml/killeroo.ori"); // TODO : parse in xml
 		TransformCache::init();
 	}
 

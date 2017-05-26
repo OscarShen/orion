@@ -1,0 +1,70 @@
+<Scene>
+  <Resource filename ="../../res/"/>
+
+  <Camera type = "perspective"><!--Camera-->
+    <Transform>
+      <Param lookat="400,20,30,  0,63,-110,  0,0,1"/>
+      <Param rotate="0,0,1,5"/>
+    </Transform>
+    <Param fov="39"/>
+    <Param filmsize="700,700"/>
+    <Param nSamples="1"/>
+  </Camera>
+
+  <Model type ="sphere"><!--AreaLight-->
+    <Param radius="3"/>
+    <Transform>
+      <Param translate="150,0,20"/>
+      <Param translate="0,120,0"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <AreaLight>
+      <Param Le="10000"/>
+      <Param nLightSamples="10"/>
+    </AreaLight>
+  </Model>
+
+  <Model type ="triMeshHandy">
+    <Param p="-1000,-1000,0, 1000,-1000,0, 1000,1000,0, -1000,1000,0"/>
+    <Param uv="0,0, 5,0, 5,5, 0,5"/>
+    <Param indices="0,1,2,2,3,0"/>
+    <Transform>
+      <Param translate="0,0,-140"/>
+      <Param store="0"/>
+    </Transform>
+    <Material type="matte" store="0">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.5,0.5,0.8"/>
+      </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="45"/>
+      </sigma>
+    </Material>
+  </Model>
+
+  <Model type ="triMeshHandy">
+    <Param p="-400,-1000, -1000,   -400, 1000, -1000,   -400, 1000, 1000, -400, -1000, 1000"/>
+    <Param uv="0,0, 5,0, 5,5, 0,5"/>
+    <Param indices="0,1,2,2,3,0"/>
+    <Transform>
+      <Param reuse="0"/>
+    </Transform>
+    <Material reuse="0"/>
+  </Model>
+
+  <Accelerator type ="kdtree"/>
+
+  <Integrator type="directLighting">
+    <Param maxDepth ="3"/>
+  </Integrator>
+
+  <Sampler type="pseudo"/>
+
+</Scene>

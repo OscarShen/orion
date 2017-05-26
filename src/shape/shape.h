@@ -34,7 +34,6 @@ namespace orion {
 		virtual Float pdf(const Intersection &isec) const { return 1 / area(); }
 		virtual Float pdf(const Intersection &isec, const Vector3f &wi) const;
 	};
-
 }
 
 #endif // !ORION_SHAPE_H_

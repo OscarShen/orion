@@ -46,7 +46,7 @@
     </AreaLight>
   </Model>
 
-  <Model type="triangleMesh" filename = "bunny.obj">
+  <Model type="triMesh" filename = "bunny.obj">
     <Transform>
       <Param scale="0.5f,0.5f,0.5f"/>
       <Param translate="5,-3,3"/>

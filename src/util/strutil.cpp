@@ -98,5 +98,66 @@ namespace orion {
 					   static_cast<Float>(atof(v[8].c_str())));
 		return lookAt(origin, lookat, up);
 	}
+	std::shared_ptr<MeshData> parseMeshData(const std::string & pStr, const std::string & uvStr, const std::string & nStr, const std::string & indicesStr)
+	{
+		auto pStrs = split(pStr, ",");
+		auto indicesStrs = split(indicesStr, ",");
+		CHECK_INFO(pStrs.size() % 3 == 0, "number of figures can't make complete point!");
+		CHECK_INFO(indicesStrs.size() % 3 == 0, "number of points can't make complete triangle!");
+		int verticesNum = (int)pStrs.size() / 3;
+		int triNum = (int)indicesStrs.size() / 3;
+		int indicesNum = (int)indicesStrs.size();
+
+		// p
+		std::shared_ptr<std::vector<Point3f>> p(new std::vector<Point3f>());
+		p->reserve(verticesNum);
+		for (int i = 0; i < verticesNum; ++i) {
+			p->push_back(Point3f(
+				static_cast<Float>(atof(pStrs[3 * i    ].c_str())),
+				static_cast<Float>(atof(pStrs[3 * i + 1].c_str())),
+				static_cast<Float>(atof(pStrs[3 * i + 2].c_str())))
+			);
+		}
+
+		// indices
+		std::shared_ptr<std::vector<int>> indices(new std::vector<int>());
+		indices->reserve(indicesNum);
+		for (int i = 0; i < indicesNum; ++i) {
+			indices->push_back(
+				atoi(indicesStrs[i].c_str())
+			);
+		}
+
+		// uv
+		std::shared_ptr<std::vector<Point2f>> uv;
+		if (!uvStr.empty()) {
+			auto uvStrs = split(uvStr, ",");
+			uv.reset(new std::vector<Point2f>());
+			uv->reserve(verticesNum);
+			for (int i = 0; i < verticesNum; ++i) {
+				uv->push_back(Point2f(
+					static_cast<Float>(atof(uvStrs[2 * i    ].c_str())),
+					static_cast<Float>(atof(uvStrs[2 * i + 1].c_str())))
+				);
+			}
+		}
+
+		// n
+		std::shared_ptr<std::vector<Normal3f>> n;
+		if (!nStr.empty()) {
+			auto nStrs = split(nStr, ",");
+			n.reset(new std::vector<Normal3f>());
+			n->reserve(verticesNum);
+			for (int i = 0; i < verticesNum; ++i) {
+				n->push_back(Normal3f(
+					static_cast<Float>(atof(nStrs[3 * i    ].c_str())),
+					static_cast<Float>(atof(nStrs[3 * i + 1].c_str())),
+					static_cast<Float>(atof(nStrs[3 * i + 2].c_str())))
+				);
+			}
+		}
+
+		return std::shared_ptr<MeshData>(new MeshData(p, n, uv, indices, triNum, verticesNum));
+	}
 }
 
