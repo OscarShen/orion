@@ -24,7 +24,7 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="10000"/>
+      <Param Le="6000"/>
       <Param nLightSamples="10"/>
     </AreaLight>
   </Model>

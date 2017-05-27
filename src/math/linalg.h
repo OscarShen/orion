@@ -188,6 +188,11 @@ namespace orion {
 		*x = cross(y, *z);
 	}
 
+	inline Vector3f sphericalDirection(Float sinTheta, Float cosTheta, Float phi,
+		const Vector3f &x, const Vector3f &y, const Vector3f &z) {
+		return sinTheta * std::cos(phi) * x + cosTheta * y - sinTheta * std::sin(phi) * z;
+	}
+
 	// solve quadratic equation
 	inline bool quadratic(Float A, Float B, Float C, Float *t0, Float *t1) {
 		// Find quadratic discriminant

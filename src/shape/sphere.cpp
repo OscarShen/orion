@@ -66,18 +66,51 @@ namespace orion {
 		*pdf = 1 / area();
 		return isec;
 	}
-	Intersection Sphere::sample(const Intersection & isec, const Point2f & rnd, Float * pdf) const
+	Intersection Sphere::sample(const Intersection & isec, const Point2f & rand, Float * pdf) const
 	{
-		Intersection in = sample(rnd, pdf);
-		Vector3f wi = in.pHit - isec.pHit;
-		if (wi.lengthSquared() == 0) {
-			*pdf = 0;
+		Point3f pCenter = (*local2world)(Point3f(0));
+		Point3f pOrigin = isec.pHit + epsilon * (pCenter - isec.pHit);
+
+		if ((pOrigin - pCenter).lengthSquared() <= radius * radius) {
+			Intersection in = sample(rand, pdf);
+			Vector3f wi = in.pHit - isec.pHit;
+			if (wi.lengthSquared() == 0) {
+				*pdf = 0;
+			}
+			else {
+				wi = normalize(wi);
+				*pdf *= (isec.pHit - in.pHit).lengthSquared() / absDot(in.n, -wi);
+			}
+			if (std::isinf(*pdf)) *pdf = 0;
+			return in;
 		}
-		else {
-			wi = normalize(wi);
-			*pdf *= (isec.pHit - in.pHit).lengthSquared() / absDot(in.n, -wi);
-		}
-		if (std::isinf(*pdf)) *pdf = 0;
+
+		Vector3f wcY = normalize(pCenter - isec.pHit);
+		Vector3f wcX, wcZ;
+		coordinateSystem(wcY, &wcZ, &wcX);
+		
+		Float sinThetaMax2 = radius * radius / (isec.pHit - pCenter).lengthSquared();
+		Float cosThetaMax = std::sqrt(std::max((Float)0, 1 - sinThetaMax2));
+		Float cosTheta = (1 - rand[0]) + rand[0] * cosThetaMax;
+		Float sinTheta = std::sqrt(std::max((Float)0, 1 - cosTheta * cosTheta));
+		Float phi = rand[1] * 2 * pi;
+
+		// Compute angle $\alpha$ from center of sphere to sampled point on surface
+		Float dc = (isec.pHit - pCenter).length();
+		Float ds = dc * cosTheta -
+			std::sqrt(std::max(
+			(Float)0, radius * radius - dc * dc * sinTheta * sinTheta));
+		Float cosAlpha = (dc * dc + radius * radius - ds * ds) / (2 * dc * radius);
+		Float sinAlpha = std::sqrt(std::max((Float)0, 1 - cosAlpha * cosAlpha));
+
+		Vector3f nWorld = sphericalDirection(sinAlpha, cosAlpha, phi, -wcX, -wcY, -wcZ);
+		Point3f pWorld = pCenter + radius * Point3f(nWorld.x, nWorld.y, nWorld.z);
+
+		Intersection in;
+		in.pHit = pWorld;
+		in.n = Normal3f(nWorld);
+
+		*pdf = 1 / (2 * pi *(1 - cosThetaMax));
 		return in;
 	}
 	std::shared_ptr<Sphere> createSphere(const Transform * local2world, const Transform * world2local, const ParamSet & param)
