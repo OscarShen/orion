@@ -64,7 +64,9 @@ namespace orion {
 			bsdfPdf = bsdf->pdf(wi, wo, type);
 			if (!f.isBlack()) {
 				if (!sdt.unoccluded(scene))
+				{
 					Li = 0;
+				}
 				if (!Li.isBlack()) {
 					if (isDeltaLight(light.type))
 						Ld += f * Li / lightPdf;

@@ -17,6 +17,7 @@ namespace orion{
 			Float rough = roughness->evaluate(isec).r;
 			std::shared_ptr<MicrofacetDistribution> distrib(new GGX(rough));
 			std::shared_ptr<MicrofacetReflection> refl(new MicrofacetReflection(ks, distrib, fresnel));
+			bsdf->addBxDF(refl);
 		}
 		return bsdf;
 	}

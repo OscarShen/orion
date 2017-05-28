@@ -73,6 +73,7 @@ namespace orion {
 
 		if ((pOrigin - pCenter).lengthSquared() <= radius * radius) {
 			Intersection in = sample(rand, pdf);
+			in.n = -in.n;
 			Vector3f wi = in.pHit - isec.pHit;
 			if (wi.lengthSquared() == 0) {
 				*pdf = 0;
@@ -112,6 +113,20 @@ namespace orion {
 
 		*pdf = 1 / (2 * pi *(1 - cosThetaMax));
 		return in;
+	}
+	Float Sphere::pdf(const Intersection & isec, const Vector3f & wi) const
+	{
+		Point3f pCenter = (*local2world)(Point3f(0, 0, 0));
+		// Return uniform PDF if point is inside sphere
+		Point3f pOrigin = isec.pHit + epsilon * (pCenter - isec.pHit);
+
+		if ((pOrigin - pCenter).lengthSquared() <= radius * radius)
+			return Shape::pdf(isec, wi);
+
+		// Compute general sphere PDF
+		Float sinThetaMax2 = radius * radius / (isec.pHit - pCenter).lengthSquared();
+		Float cosThetaMax = std::sqrt(std::max((Float)0, 1 - sinThetaMax2));
+		return uniformConePdf(cosThetaMax);
 	}
 	std::shared_ptr<Sphere> createSphere(const Transform * local2world, const Transform * world2local, const ParamSet & param)
 	{

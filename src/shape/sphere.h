@@ -29,6 +29,7 @@ namespace orion {
 		virtual Intersection sample(const Intersection &isec, const Point2f &rnd, Float *pdf) const override;
 
 		virtual Float pdf(const Intersection &isec) const { return 1 / area(); }
+		virtual Float pdf(const Intersection &isec, const Vector3f &wi) const;
 	};
 
 	std::shared_ptr<Sphere> createSphere(const Transform *local2world, const Transform *world2local, const ParamSet &param);

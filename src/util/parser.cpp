@@ -313,6 +313,7 @@ namespace orion {
 	{
 		std::string type = param.getParam("type");
 		std::shared_ptr<Texture> tex;
+		trim(type);
 		if (type == "image") {
 			std::string filename = param.getParam("filename");
 			if (!filename.empty())

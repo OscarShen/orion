@@ -180,7 +180,7 @@ namespace orion {
 		isec.n = normalize(Normal3f(cross(p2 - p0, p1 - p0))); // right hand
 		if (mesh->n) {
 			Normal3f ns(mesh->n[v[0]] * b[0] + mesh->n[v[1]] * b[1] + mesh->n[v[2]] * (1 - b[0] - b[1]));
-			isec.n = faceforward(isec.n, ns);
+			isec.n = faceforward(ns, isec.n);
 		}
 		*pdf = 1 / area();
 		return isec;

@@ -24,8 +24,8 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="6000"/>
-      <Param nLightSamples="10"/>
+      <Param Le="3000"/>
+      <Param nLightSamples="1"/>
     </AreaLight>
   </Model>
 
@@ -59,10 +59,57 @@
     <Material reuse="0"/>
   </Model>
 
+  <Model type="triMesh" filename="killeroo.obj">
+    <Transform>
+      <Param rotate="1,0,0,90"/>
+      <Param rotate="0,0,1,-90"/>
+      <Param rotate="0,0,1,30"/>
+      <Param scale="4,4,4"/>
+      <Param translate="0,0,-86"/>
+      <Param store="1"/>
+      <Param translate="120,30,0"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.2,0.2"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.5,0.5,0.5"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.025"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type="triMesh" filename="killeroo.obj">
+    <Transform>
+      <Param reuse="1"/>
+      <Param translate="60,100,0"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.5,0.4"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.3"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.15"/>
+      </roughness>
+    </Material>
+  </Model>
+
   <Accelerator type ="kdtree"/>
 
   <Integrator type="directLighting">
-    <Param maxDepth ="3"/>
+    <Param maxDepth ="0"/>
   </Integrator>
 
   <Sampler type="pseudo"/>
