@@ -55,6 +55,7 @@ namespace orion {
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const = 0;
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const = 0;
 		virtual void preprocess(const Scene &scene) {}
+		virtual Spectrum power() const = 0;
 	};
 
 	class PointLight : public Light
@@ -69,6 +70,7 @@ namespace orion {
 
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &, const Vector3f &) const override { return 0; }
+		virtual Spectrum power() const override { return 4 * pi * I; }
 	};
 
 
@@ -84,6 +86,9 @@ namespace orion {
 
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const override { return 0; }
+		virtual Spectrum power() const override {
+			return I * 2 * pi * (1 - 0.5f * (cosFalloffStart + cosTotalWidth));
+		}
 
 		Float falloff(const Vector3f &w) const;
 	};
@@ -93,13 +98,17 @@ namespace orion {
 	private:
 		const Spectrum L;
 		const Vector3f dir;
+		Point3f worldCenter;
+		Float worldRadius;
 
 	public:
 		DistantLight(const Transform &light2world, const Spectrum &L, const Vector3f &dir)
 			: Light((int)LightType::DeltaDirection, light2world), L(L), dir(dir) {}
 
+		virtual void preprocess(const Scene &scene);
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const override { return 0; }
+		virtual Spectrum power() const override;
 	};
 
 	std::shared_ptr<PointLight> createPointLight(const ParamSet &param);

@@ -7,8 +7,8 @@
       <Param rotate="0,0,1,5"/>
     </Transform>
     <Param fov="39"/>
-    <Param filmsize="700,700"/>
-    <Param nSamples="1"/>
+    <Param filmsize="1600,1600"/>
+    <Param nSamples="10"/>
   </Camera>
 
   <Model type ="sphere"><!--AreaLight-->
@@ -24,8 +24,8 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="3000"/>
-      <Param nLightSamples="1"/>
+      <Param Le="2000"/>
+      <Param nLightSamples="32"/>
     </AreaLight>
   </Model>
 
@@ -101,15 +101,15 @@
       </Ks>
       <roughness>
         <Param type="float"/>
-        <Param value="0.15"/>
+        <Param value="0.45"/>
       </roughness>
     </Material>
   </Model>
 
   <Accelerator type ="kdtree"/>
 
-  <Integrator type="directLighting">
-    <Param maxDepth ="0"/>
+  <Integrator type="pathtracing">
+    <Param maxDepth ="5"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

@@ -34,6 +34,15 @@ namespace orion {
 			return true;
 		}
 
+		Float maxComponentValue() const {
+			return std::max(r, std::max(g, b));
+		}
+
+		Float intensity() const {
+			const Float yWeight[3] = { 0.212671f, 0.715160f, 0.072169f };
+			return yWeight[0] * r + yWeight[1] * g + yWeight[2] * b;
+		}
+
 		RGBSpectrum clamp(Float low = 0, Float high = fInfinity) const {
 			return RGBSpectrum(orion::clamp(r, low, fInfinity),
 							   orion::clamp(g, low, fInfinity),

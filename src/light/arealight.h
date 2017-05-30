@@ -25,6 +25,9 @@ namespace orion {
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const override;
 		Spectrum L(const Intersection &isec, const Vector3f &w) const;
+		virtual Spectrum power() const override {
+			return Lemit * area * pi;
+		}
 	};
 
 	std::shared_ptr<AreaLight> createAreaLight(const Transform &light2world, const std::shared_ptr<Shape> &shape, const ParamSet &param);

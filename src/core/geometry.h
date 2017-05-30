@@ -502,6 +502,18 @@ namespace orion {
 	typedef Normal3<Float> Normal3f;
 
 	template <typename T>
+	bool inside(const Point3<T> &p, const Bounds3<T> &b) {
+		return (p.x >= b.pMin.x && p.x <= b.pMax.x && p.y >= b.pMin.y &&
+			p.y <= b.pMax.y && p.z >= b.pMin.z && p.z <= b.pMax.z);
+	}
+
+	template <typename T>
+	bool insideExclusive(const Point3<T> &p, const Bounds3<T> &b) {
+		return (p.x >= b.pMin.x && p.x < b.pMax.x && p.y >= b.pMin.y &&
+			p.y < b.pMax.y && p.z >= b.pMin.z && p.z < b.pMax.z);
+	}
+
+	template <typename T>
 	class Bounds3 {
 	public:
 		Point3<T> pMin, pMax;
@@ -536,6 +548,10 @@ namespace orion {
 				(*this)[(corner & 4) ? 1 : 0].z);
 		}
 		Vector3<T> diagonal() const { return pMax - pMin; }
+		void boundingSphere(Point3<T> *center, Float *radius) const {
+			*center = (pMin + pMax) / 2;
+			*radius = inside(*center, *this) ? (*center - pMax).length() : 0;
+		}
 		T area() const {
 			Vector3<T> d = diagonal();
 			return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
@@ -556,17 +572,6 @@ namespace orion {
 		template <typename U>
 		explicit operator Bounds3<U>() const {
 			return Bounds3<U>((Point3<U>)pMin, (Point3<U>)pMax);
-		}
-		// delta : some loosen to avoid float error
-		bool inside(const Point3<T> &p, Float delta) {
-			if (p.x > pMax.x + delta || p.x < pMin.x - delta)
-				return false;
-			if (p.y > pMax.y + delta || p.y < pMin.y - delta)
-				return false;
-			if (p.z > pMax.z + delta || p.z < pMin.z - delta)
-				return false;
-
-			return true;
 		}
 
 		bool intersect(const Ray &ray, Float *hitt0 = nullptr, Float *hitt1 = nullptr) const;

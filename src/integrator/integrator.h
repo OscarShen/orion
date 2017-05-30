@@ -17,6 +17,7 @@ namespace orion {
 	{
 	protected:
 		std::shared_ptr<const Camera> camera;
+		Spectrum envSpectrum = Spectrum(0.34f, 0.55f, 0.85f);
 
 	private:
 		std::shared_ptr<Sampler> sampler;
@@ -37,6 +38,8 @@ namespace orion {
 
 	Spectrum uniformSampleAllLights(const Ray &ray, const Intersection &isec, const Scene &scene,
 		Sampler &sampler, const std::vector<int> &nLightSamples);
+	Spectrum uniformSampleOneLight(const Ray &ray, const Intersection &isec, const Scene &scene,
+		Sampler &sampler, const std::shared_ptr<Distribution1D> &lightDistrib = nullptr);
 
 	Spectrum estimateDirect(const Ray &ray, const Intersection &isec, const Point2f &BSDFSample, const Light &light,
 		const Point2f &lightSample, const Scene &scene, Sampler &sampler, BxDF_TYPE type = BxDF_ALL);

@@ -49,6 +49,26 @@ namespace orion {
 		}
 		return L;
 	}
+	Spectrum uniformSampleOneLight(const Ray & ray, const Intersection & isec, const Scene & scene, Sampler & sampler, const std::shared_ptr<Distribution1D>& lightDistrib)
+	{
+		int nLights = (int)scene.lights.size();
+		if (nLights == 0) return 0;
+		int lightNum;
+		Float lightPdf;
+		if (lightDistrib) {
+			lightNum = lightDistrib->SampleDiscrete(sampler.next(), &lightPdf);
+			if (lightPdf == 0) return 0;
+		}
+		else {
+			lightNum = std::min((int)(sampler.next() * nLights), nLights - 1);
+			lightPdf = 1.0f / nLights;
+		}
+		const std::shared_ptr<Light> &light = scene.lights[lightNum];
+		Point2f lightSample = sampler.next2();
+		Point2f bsdfSample = sampler.next2();
+		return estimateDirect(ray, isec, bsdfSample, *light, lightSample, scene, sampler,
+			BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR)) / lightPdf;
+	}
 	Spectrum estimateDirect(const Ray &ray, const Intersection & isec, const Point2f & BSDFSample, const Light & light, const Point2f & lightSample, const Scene & scene, Sampler & sampler, BxDF_TYPE type)
 	{
 		auto bsdf = isec.primitive->getMaterial()->getBSDF(&isec);

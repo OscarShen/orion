@@ -24,8 +24,8 @@ namespace orion {
 
 
 	public:
-		Scene(std::shared_ptr<Accelerator> accel, const std::vector<std::shared_ptr<Light>> &lights)
-			: accel(accel), lights(lights), bound(accel->worldBound()) { }
+		Scene(std::shared_ptr<Accelerator> accel, const std::vector<std::shared_ptr<Light>> &lights);
+
 		~Scene() {}
 
 		bool intersect(const Ray &ray, Intersection *isec) const;

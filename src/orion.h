@@ -77,6 +77,7 @@ namespace orion {
 	class AreaLight;
 	class FloatTexture;
 	class Fresnel;
+	struct Distribution1D;
 }
 
 #endif // !ENG_H_

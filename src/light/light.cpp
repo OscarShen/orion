@@ -64,12 +64,20 @@ namespace orion {
 		Float delta = (cosTh - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 		return delta * delta * delta * delta;
 	}
+	void DistantLight::preprocess(const Scene & scene)
+	{
+		scene.worldBound().boundingSphere(&worldCenter, &worldRadius);
+	}
 	Spectrum DistantLight::sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const
 	{
 		*wi = -dir;
 		*pdf = 1;
 		*sdt = ShadowTester(isec, Intersection(isec.pHit + 1e5f * -dir));
 		return L;
+	}
+	Spectrum DistantLight::power() const
+	{
+		return L * pi * worldRadius * worldRadius;
 	}
 	bool ShadowTester::unoccluded(const std::shared_ptr<Scene> & scene) const
 	{

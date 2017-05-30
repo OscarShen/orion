@@ -8,7 +8,6 @@
 #pragma once
 #ifndef ORION_MATH_UTIL_H_
 #define ORION_MATH_UTIL_H_
-
 namespace orion {
 	
 	inline float rand() {
@@ -19,7 +18,6 @@ namespace orion {
 		z = w;
 		return (w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))) * (1.0f / 4294967296.0f);
 	}
-
 }
 
 #endif // !ORION_MATH_UTIL_H_

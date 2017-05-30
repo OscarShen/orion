@@ -211,6 +211,21 @@ namespace orion {
 		if (*t0 > *t1) std::swap(*t0, *t1);
 		return true;
 	}
+
+	template <typename Predicate>
+	int findInterval(int size, const Predicate &pred) {
+		int first = 0, length = size;
+		while (length > 0) {
+			int half = length >> 1, middle = first + half;
+			if (pred(middle)) {
+				first = middle + 1;
+				length -= half + 1;
+			}
+			else
+				length = half;
+		}
+		return clamp(first - 1, 0, size - 2);
+	}
 }
 
 #endif // !ORT_LINALG_H_
