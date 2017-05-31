@@ -23,6 +23,7 @@ namespace orion {
 
 	struct MeshData
 	{
+		std::string matName;
 		std::shared_ptr<std::vector<Point3f>> vertices;
 		std::shared_ptr<std::vector<Normal3f>> normals;
 		std::shared_ptr<std::vector<Point2f>> uvs;
@@ -41,15 +42,17 @@ namespace orion {
 			num_triangles(num_triangles), num_vertices(num_vertices) {}
 	};
 
+	typedef std::vector<MeshData> ModelData;
+
 	class ModelLoader
 	{
 	public:
 		// Loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
-		static void loadModel(const std::string &path, MeshData &mesh);
+		static void loadModel(const std::string &path, ModelData &modeldata);
 
 	private:
 		// Processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
-		static void processNode(MeshData &mesh, aiNode *node, const aiScene *scene);
+		static void processNode(ModelData &mesh, aiNode *node, const aiScene *scene);
 
 		static void procesMesh(MeshData &mesh, aiMesh *assimp_mesh, const aiScene *scene);
 	};

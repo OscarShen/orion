@@ -26,7 +26,7 @@ namespace orion {
 		std::unique_ptr<Normal3f[]> n;		// normal
 		std::unique_ptr<Point2f[]> uv;		// uv
 
-		TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata);
+		TriangleMesh(const Transform &local2world, const MeshData &meshdata);
 	};
 
 	class Triangle : public Shape
@@ -54,7 +54,7 @@ namespace orion {
 	};
 	
 	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const Transform *local2world, const Transform *world2local, 
-		const std::shared_ptr<MeshData> &meshdata);
+		const MeshData &meshdata);
 
 }
 

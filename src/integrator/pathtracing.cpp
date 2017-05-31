@@ -30,7 +30,7 @@ namespace orion {
 					L += pathWeight * isec.Le(-ray.d);
 				}
 				else {
-					//L += envSpectrum;
+					L += envSpectrum;
 				}
 			}
 			if (!foundInterseection || bounces >= maxDepth) break;

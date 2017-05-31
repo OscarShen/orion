@@ -2,24 +2,24 @@
 #include <sampler/sampling.h>
 namespace orion {
 
-	TriangleMesh::TriangleMesh(const Transform &local2world, const std::shared_ptr<MeshData> &meshdata)
-		: numTri(meshdata->num_triangles), numVer(meshdata->num_vertices),
-		vertexIndices(meshdata->indices->data(), meshdata->indices->data() + 3 * numTri)
+	TriangleMesh::TriangleMesh(const Transform &local2world, const MeshData &meshdata)
+		: numTri(meshdata.num_triangles), numVer(meshdata.num_vertices),
+		vertexIndices(meshdata.indices->data(), meshdata.indices->data() + 3 * numTri)
 	{
 		// vertices
-		Point3f *P = meshdata->vertices->data();
+		Point3f *P = meshdata.vertices->data();
 		p.reset(new Point3f[numVer]);
 		for (int i = 0; i < numVer; ++i) p[i] = local2world(P[i]);
 
 		// uv
-		Point2f *UV = meshdata->uvs == nullptr ? nullptr : meshdata->uvs->data();
+		Point2f *UV = meshdata.uvs == nullptr ? nullptr : meshdata.uvs->data();
 		if (UV) {
 			uv.reset(new Point2f[numVer]);
 			memcpy(uv.get(), UV, numVer * sizeof(Point2f));
 		}
 
 		// normal
-		Normal3f *N = meshdata->normals == nullptr ? nullptr : meshdata->normals->data();
+		Normal3f *N = meshdata.normals == nullptr ? nullptr : meshdata.normals->data();
 		if (N) {
 			n.reset(new Normal3f[numVer]);
 			for (int i = 0; i < numVer; ++i) n[i] = local2world(N[i]);
@@ -212,7 +212,7 @@ namespace orion {
 
 
 	std::vector<std::shared_ptr<Shape>> createTriangleMesh(const Transform *local2world,
-		const Transform *world2local, const std::shared_ptr<MeshData> &meshdata)
+		const Transform *world2local, const MeshData &meshdata)
 	{
 		std::shared_ptr<TriangleMesh> mesh(new TriangleMesh(*local2world, meshdata));
 		std::vector<std::shared_ptr<Shape>> tris;

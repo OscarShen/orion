@@ -17,18 +17,16 @@ namespace orion {
 	class MeshManager : public Singleton<MeshManager>
 	{
 	private:
-		std::map<std::string, std::shared_ptr<MeshData>> meshes;
+		std::map<std::string, std::shared_ptr<ModelData>> models;
 
 	public:
 		static void init() { new MeshManager(); }
 		void clear();
-		std::shared_ptr<MeshData> loadMeshData(const std::string &name);
+		std::shared_ptr<ModelData> loadMeshData(const std::string &name);
 
 	private:
 		MeshManager() {}
 	};
-
-
 }
 
 #endif // !ORION_MESH_MANAGER_H_

@@ -7,8 +7,8 @@
       <Param rotate="0,0,1,5"/>
     </Transform>
     <Param fov="39"/>
-    <Param filmsize="1600,1600"/>
-    <Param nSamples="10"/>
+    <Param filmsize="700,700"/>
+    <Param nSamples="1"/>
   </Camera>
 
   <Model type ="sphere"><!--AreaLight-->
@@ -25,7 +25,7 @@
     </Material>
     <AreaLight>
       <Param Le="2000"/>
-      <Param nLightSamples="32"/>
+      <Param nLightSamples="1"/>
     </AreaLight>
   </Model>
 
@@ -37,7 +37,7 @@
       <Param translate="0,0,-140"/>
       <Param store="0"/>
     </Transform>
-    <Material type="matte" store="0">
+    <Material type="matte" name="wall">
       <Kd>
         <Param type="constant"/>
         <Param color="0.5,0.5,0.8"/>
@@ -56,7 +56,7 @@
     <Transform>
       <Param reuse="0"/>
     </Transform>
-    <Material reuse="0"/>
+    <Material named="wall"/>
   </Model>
 
   <Model type="triMesh" filename="killeroo.obj">
@@ -108,7 +108,7 @@
 
   <Accelerator type ="kdtree"/>
 
-  <Integrator type="pathtracing">
+  <Integrator type="directLighting">
     <Param maxDepth ="5"/>
   </Integrator>
 

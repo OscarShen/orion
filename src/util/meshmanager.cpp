@@ -6,21 +6,20 @@ namespace orion {
 
 	void MeshManager::clear()
 	{
-		for (auto it = meshes.begin(); it != meshes.end();) {
-			it = meshes.erase(it);
+		for (auto it = models.begin(); it != models.end();) {
+			it = models.erase(it);
 		}
 	}
-	std::shared_ptr<MeshData> MeshManager::loadMeshData(const std::string & name)
+	std::shared_ptr<ModelData> MeshManager::loadMeshData(const std::string & name)
 	{
-		auto it = meshes.find(name);
-		if (it != meshes.end()) {
+		auto it = models.find(name);
+		if (it != models.end()) {
 			return it->second;
 		}
-		std::shared_ptr<MeshData> mesh = std::make_shared<MeshData>();
-		ModelLoader::loadModel(name, *mesh.get());
-		CHECK_INFO(mesh->num_triangles > 0, "No triangle in mesh!");
-		meshes.insert(std::pair<std::string, std::shared_ptr<MeshData>>(name, mesh));
-		return mesh;
+		std::shared_ptr<ModelData> modeldata = std::make_shared<ModelData>();
+		ModelLoader::loadModel(name, *modeldata);
+		CHECK_INFO((*modeldata)[0].num_triangles > 0, "No triangle in mesh!");
+		models.insert(std::pair<std::string, std::shared_ptr<ModelData>>(name, modeldata));
+		return modeldata;
 	}
-
 }

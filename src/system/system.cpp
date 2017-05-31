@@ -1,6 +1,7 @@
 #include "system.h"
 #include <util/parser.h>
 #include <util/transformcache.h>
+#include <util/materialmanager.h>
 namespace orion {
 
 	void System::render()
@@ -55,6 +56,7 @@ namespace orion {
 		MeshManager::init();
 		Parser::init("D:/cpp/orion/xml/killeroo.ori"); // TODO : parse in xml
 		TransformCache::init();
+		MaterialManager::init();
 	}
 
 	void System::_pre()

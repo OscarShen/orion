@@ -23,6 +23,7 @@
 #include <util/envvariable.h>
 #include <util/texmanager.h>
 #include <util/meshmanager.h>
+#include <util/materialmanager.h>
 
 namespace orion {
 
@@ -44,6 +45,8 @@ namespace orion {
 	void orion::Parser::_makeModel()
 	{
 		std::vector<std::shared_ptr<Primitive>> prims;
+		std::shared_ptr<Material> material;
+
 		TiXmlElement *model = root->FirstChildElement("Model");
 		while (model) {
 			std::vector<std::shared_ptr<Shape>> shapes;
@@ -60,10 +63,23 @@ namespace orion {
 
 			// shape
 			std::string modeltype = model->Attribute("type");
+			bool hasObjMaterial = false;
 			if (modeltype == "triMesh") {
-				std::shared_ptr<MeshData> meshdata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
+				std::shared_ptr<ModelData> modeldata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
+				auto &data = *modeldata;
+				if (data[0].matName != "DefaultMaterial")
+					hasObjMaterial = true;
+
 				// Shapes
-				shapes = createTriangleMesh(t, invt, meshdata);
+				for (size_t i = 0; i < modeldata->size(); ++i) {
+					shapes = createTriangleMesh(t, invt, data[i]);
+					if (hasObjMaterial) {
+						material = MaterialManager::inst()->getMaterial(data[i].matName);
+						for (auto &shape : shapes) {
+							prims.push_back(std::shared_ptr<Primitive>(new Primitive(shape, material)));
+						}
+					}
+				}
 			}
 			else if (modeltype == "disk") {
 				ParamSet ps;
@@ -83,15 +99,17 @@ namespace orion {
 				if (ps.hasParam("uv")) { uvStr = ps.getParam("uv"); }
 				if (ps.hasParam("n")) { nStr = ps.getParam("n"); }
 				auto meshdata = parseMeshData(pStr, uvStr, nStr, indicesStr);
-				shapes = createTriangleMesh(t, invt, meshdata);
+				shapes = createTriangleMesh(t, invt, *meshdata);
 			}
 
 			// Material
-			TiXmlElement *mat = model->FirstChildElement("Material");
-			std::shared_ptr<Material> material = _makeMaterial(mat);
-
+			if (!hasObjMaterial) {
+				TiXmlElement *mat = model->FirstChildElement("Material");
+				material = _makeMaterial(mat);
+			}
 
 			// area light
+			// obj file does not have lightsource
 			TiXmlElement *areaLightNode = model->FirstChildElement("AreaLight");
 			if (areaLightNode) {
 				ParamSet areaParam;
@@ -100,15 +118,13 @@ namespace orion {
 					std::shared_ptr<AreaLight> areaLight = createAreaLight(transform, item, areaParam);
 					renderOption->lights.push_back(areaLight);
 					prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material, areaLight)));
-					std::cout << "产生一个区域光源！" << std::endl;
 				}
 			}
 			else {
-				for (auto &item : shapes)
-					prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material)));
+				if(!hasObjMaterial)
+					for (auto &item : shapes)
+						prims.push_back(std::shared_ptr<Primitive>(new Primitive(item, material)));
 			}
-
-
 			renderOption->prims.insert(renderOption->prims.end(), prims.begin(), prims.end());
 			// Next
 			model = model->NextSiblingElement("Model");
@@ -230,21 +246,33 @@ namespace orion {
 		renderOption->lights.erase(renderOption->lights.begin(), renderOption->lights.end());
 	}
 
+	void Parser::_loadMaterial(const std::string & filename)
+	{
+		std::ifstream matIstream(filename.c_str());
+		std::vector<material_t> mtls;
+		LoadMtl(mtls, matIstream);
+
+		for (auto &mtl_t : mtls) {
+			// uber material
+		}
+	}
+
 	std::shared_ptr<Material> Parser::_makeMaterial(TiXmlElement * matNode)
 	{
-		static std::vector<std::shared_ptr<Material>> reuseMaterial(8);
 		std::shared_ptr<Material> material;
 		if (matNode) {
 			const char *matC = matNode->Attribute("type");
 			std::string mattype = matC ? matC : std::string();
+			const char *matN = matNode->Attribute("name");
+			std::string matName = matN ? matN : std::string();
 			ParamSet matParam;
 			GET_PARAMSET(matNode, matParam);
 
 			// matte
-			const char *reuse = matNode->Attribute("reuse");
-			if (reuse) { // reuse
-				int pos = parseInt(reuse);
-				material = reuseMaterial[pos];
+			const char *namedC = matNode->Attribute("named");
+			std::string named = namedC ? namedC : std::string();
+			if (!named.empty()) {
+				material = MaterialManager::inst()->getMaterial(named);
 			}
 			else if (mattype == "matte") {
 				TiXmlElement *kdNode = matNode->FirstChildElement("Kd");
@@ -301,15 +329,11 @@ namespace orion {
 			else if (mattype == "glass") {
 				material = createGlassMaterial(matParam);
 			}
+
+			if (!matName.empty())
+				MaterialManager::inst()->addMaterial(matName, material);
 		}
 		CHECK_INFO(material != nullptr, "null material!");
-
-		const char * posStr = matNode->Attribute("store");
-		if (posStr) {
-			int pos = parseInt(posStr);
-			CHECK_INFO(pos >= 0 && pos < 8, "invalid position!");
-			reuseMaterial[pos] = material;
-		}
 		return material;
 	}
 

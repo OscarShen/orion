@@ -1,0 +1,69 @@
+<Scene>
+  <Resource filename ="../../res/"/>
+  <Output filename="../../res/cornell.bmp"/>
+
+  <Camera type = "perspective"><!--Camera-->
+    <Transform>
+      <Param lookat="0,0.4,5,  0,0.3,0,  0,1,0"/>
+      <Param rotate="0,0,1,5"/>
+    </Transform>
+    <Param fov="39"/>
+    <Param filmsize="1600,1600"/>
+    <Param nSamples="256"/>
+  </Camera>
+
+  <Model type="triMesh" filename="cornell.obj">
+    <Transform>
+      <Param scale="40,40,40"/>
+      <Param translate="0,-500,0"/>
+      <Param scale="0.001,0.001,0.001"/>
+      <Param translate="0,0,-86"/>
+      <Param store="1"/>
+      <Param translate="120,30,0"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.2,0.2"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.5,0.5,0.5"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.025"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type="triMesh" filename="killeroo.obj">
+    <Transform>
+      <Param reuse="1"/>
+      <Param translate="60,100,0"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.5,0.4"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.3"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.45"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Accelerator type ="kdtree"/>
+
+  <Integrator type="pathtracing">
+    <Param maxDepth ="3"/>
+  </Integrator>
+
+  <Sampler type="pseudo"/>
+
+</Scene>
