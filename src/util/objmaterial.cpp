@@ -2,7 +2,7 @@
 #define TINY_OBJ_LOADER_H_
 
 #include <orion.h>
-#include <parser.h>
+#include "parser.h"
 
 namespace orion {
 

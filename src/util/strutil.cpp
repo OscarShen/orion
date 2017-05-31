@@ -146,14 +146,23 @@ namespace orion {
 		std::shared_ptr<std::vector<Normal3f>> n;
 		if (!nStr.empty()) {
 			auto nStrs = split(nStr, ",");
-			n.reset(new std::vector<Normal3f>());
-			n->reserve(verticesNum);
-			for (int i = 0; i < verticesNum; ++i) {
-				n->push_back(Normal3f(
-					static_cast<Float>(atof(nStrs[3 * i    ].c_str())),
-					static_cast<Float>(atof(nStrs[3 * i + 1].c_str())),
-					static_cast<Float>(atof(nStrs[3 * i + 2].c_str())))
-				);
+			if (nStrs.size() == 3) {
+				Normal3f normal(
+					static_cast<Float>(atof(nStrs[0].c_str())),
+					static_cast<Float>(atof(nStrs[1].c_str())),
+					static_cast<Float>(atof(nStrs[2].c_str())));
+				n.reset(new std::vector<Normal3f>(verticesNum, normal));
+			}
+			else {
+				n.reset(new std::vector<Normal3f>());
+				n->reserve(verticesNum);
+				for (int i = 0; i < verticesNum; ++i) {
+					n->push_back(Normal3f(
+						static_cast<Float>(atof(nStrs[3 * i].c_str())),
+						static_cast<Float>(atof(nStrs[3 * i + 1].c_str())),
+						static_cast<Float>(atof(nStrs[3 * i + 2].c_str())))
+					);
+				}
 			}
 		}
 

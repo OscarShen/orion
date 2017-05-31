@@ -4,58 +4,119 @@
 
   <Camera type = "perspective"><!--Camera-->
     <Transform>
-      <Param lookat="0,0.4,5,  0,0.3,0,  0,1,0"/>
-      <Param rotate="0,0,1,5"/>
+      <Param lookat="0,0.4,4,  0,0.3,0,  0,1,0"/>
     </Transform>
-    <Param fov="39"/>
-    <Param filmsize="1600,1600"/>
-    <Param nSamples="256"/>
+    <Param fov="35"/>
+    <Param filmsize="1600,1200"/>
+    <Param nSamples="1"/>
   </Camera>
 
-  <Model type="triMesh" filename="cornell.obj">
+  <Model type ="triMeshHandy"><!--floor-->
+    <Param p="28,0,20, 28,0,-20, -28, 0, -20, -28, 0, 20"/>
+    <Param n="0,1,0"/>
+    <Param uv="1,0, 1,1, 0,1, 0,0"/>
+    <Param indices="0,1,2,2,3,0"/>
     <Transform>
       <Param scale="40,40,40"/>
       <Param translate="0,-500,0"/>
       <Param scale="0.001,0.001,0.001"/>
-      <Param translate="0,0,-86"/>
-      <Param store="1"/>
-      <Param translate="120,30,0"/>
+      <Param store="0"/>
     </Transform>
-    <Material type="plastic">
+    <Material type="matte" name="OtherWalls">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.4,0.2,0.2"/>
+        <Param color="0.2,0.2,0.2"/>
       </Kd>
-      <Ks>
-        <Param type="constant"/>
-        <Param color="0.5,0.5,0.5"/>
-      </Ks>
-      <roughness>
-        <Param type="float"/>
-        <Param value="0.025"/>
-      </roughness>
     </Material>
   </Model>
-
-  <Model type="triMesh" filename="killeroo.obj">
+  <Model type ="triMeshHandy"><!--BackWall-->
+    <Param p="-28,0,-20, 28,0,-20, 28, 40, -20, -28, 40, -20"/>
+    <Param n="0,0,1"/>
+    <Param uv="0,0, 1,0, 1,1, 0,1"/>
+    <Param indices="0,1,2,2,3,0"/>
+    <Transform><Param reuse="0"/></Transform>
+    <Material named="OtherWalls"/>
+  </Model>
+  <Model type ="triMeshHandy"><!--RightWall-->
+    <Param p="-28,0,20, -28,0,-20, -28, 40, -20, -28, 40, 20"/>
+    <Param n="1,0,0"/>
+    <Param uv="0,0, 1,0, 1,1, 0,1"/>
+    <Param indices="0,1,2,2,3,0"/>
     <Transform>
-      <Param reuse="1"/>
-      <Param translate="60,100,0"/>
+      <Param reuse="0"/>
     </Transform>
-    <Material type="plastic">
+    <Material type="matte" name="RightWall">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.4,0.5,0.4"/>
+        <Param color="0,0.2,0"/>
       </Kd>
-      <Ks>
-        <Param type="constant"/>
-        <Param color="0.3"/>
-      </Ks>
-      <roughness>
-        <Param type="float"/>
-        <Param value="0.45"/>
-      </roughness>
     </Material>
+  </Model>
+  <Model type ="triMeshHandy"><!--LeftWall-->
+    <Param p="28,0,-20, 28,0,20, 28, 40, 20, 28, 40, -20"/>
+    <Param n="-1,0,0"/>
+    <Param uv="0,0, 1,0, 1,1, 0,1"/>
+    <Param indices="0,1,2,2,3,0"/>
+    <Transform>
+      <Param reuse="0"/>
+    </Transform>
+    <Material type="matte" name="LeftWall">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.2,0,0"/>
+      </Kd>
+    </Material>
+  </Model>
+  <Model type ="triMeshHandy"><!--Ceiling-->
+    <Param p="28,40,20, 28,40,-20, -28, 40, -20, -28,40, 20"/>
+    <Param n="0,-1,0"/>
+    <Param uv="1,0, 1,1, 0,1, 0,0"/>
+    <Param indices="0,1,2,2,3,0"/>
+    <Transform>
+      <Param reuse="0"/>
+    </Transform>
+    <Material named="OtherWalls"/>
+  </Model>
+  <Model type ="triMesh" filename="box1.obj"><!--Box1-->
+    <Transform>
+      <Param scale="0.8,0.8,0.8"/>
+      <Param reuse="0"/>
+      <Param translate="-0.1,0,0"/>
+    </Transform>
+    <Material type="glass">
+      <Param eta="1.05"/>
+    </Material>
+  </Model>
+  <Model type ="triMesh" filename="box2.obj"><!--Box2-->
+    <Transform>
+      <Param scale="0.8,0.8,0.8"/>
+      <Param reuse="0"/>
+      <Param translate="0.1,0,0"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Kd>
+    </Material>
+  </Model>
+  
+  <Model type ="disk"><!--AreaLight-->
+    <Param radius="0.2"/>
+    <Transform>
+      <Param rotate="1,0,0,180"/>
+      <Param translate="0,1,0"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <AreaLight>
+      <Param Le="300"/>
+      <Param nLightSamples="1"/>
+    </AreaLight>
   </Model>
 
   <Accelerator type ="kdtree"/>

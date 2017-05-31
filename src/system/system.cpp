@@ -54,7 +54,7 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 		MeshManager::init();
-		Parser::init("D:/cpp/orion/xml/killeroo.ori"); // TODO : parse in xml
+		Parser::init("xml/cornell.ori"); // TODO : parse in xml
 		TransformCache::init();
 		MaterialManager::init();
 	}
