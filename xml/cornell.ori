@@ -7,7 +7,7 @@
       <Param lookat="0,0.4,4,  0,0.3,0,  0,1,0"/>
     </Transform>
     <Param fov="35"/>
-    <Param filmsize="1600,1200"/>
+    <Param filmsize="700,700"/>
     <Param nSamples="1"/>
   </Camera>
 
@@ -25,7 +25,7 @@
     <Material type="matte" name="OtherWalls">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.2,0.2,0.2"/>
+        <Param color="0.4,0.4,0.4"/>
       </Kd>
     </Material>
   </Model>
@@ -48,7 +48,7 @@
     <Material type="matte" name="RightWall">
       <Kd>
         <Param type="constant"/>
-        <Param color="0,0.2,0"/>
+        <Param color="0,0.4,0"/>
       </Kd>
     </Material>
   </Model>
@@ -63,7 +63,7 @@
     <Material type="matte" name="LeftWall">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.2,0,0"/>
+        <Param color="0.4,0,0"/>
       </Kd>
     </Material>
   </Model>
@@ -79,19 +79,19 @@
   </Model>
   <Model type ="triMesh" filename="box1.obj"><!--Box1-->
     <Transform>
-      <Param scale="0.8,0.8,0.8"/>
       <Param reuse="0"/>
-      <Param translate="-0.1,0,0"/>
     </Transform>
-    <Material type="glass">
-      <Param eta="1.05"/>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Kd>
     </Material>
   </Model>
   <Model type ="triMesh" filename="box2.obj"><!--Box2-->
     <Transform>
-      <Param scale="0.8,0.8,0.8"/>
       <Param reuse="0"/>
-      <Param translate="0.1,0,0"/>
+      <Param translate="0.0,-0.01,0"/>
     </Transform>
     <Material type="matte">
       <Kd>
@@ -105,7 +105,7 @@
     <Param radius="0.2"/>
     <Transform>
       <Param rotate="1,0,0,180"/>
-      <Param translate="0,1,0"/>
+      <Param translate="0,1.099,0"/>
     </Transform>
     <Material type="matte">
       <Kd>
@@ -114,7 +114,7 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="300"/>
+      <Param Le="150"/>
       <Param nLightSamples="1"/>
     </AreaLight>
   </Model>

@@ -17,7 +17,7 @@ namespace orion {
 	{
 		Spectrum L(0);
 
-		bool specularBounce = true;
+		bool specularBounce = false;
 		Spectrum pathWeight(1.0f);
 		int bounces = 0;
 		Ray r = ray;
