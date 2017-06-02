@@ -60,10 +60,15 @@ namespace orion {
 			// TODO : Add bssrdf
 
 			if (bounces > 3) {
-				Float q = std::max(0.05f, 1 - pathWeight.maxComponentValue());
-				if (sampler->next() < q)
-					break;
-				pathWeight /= 1 - q;
+				Float p = pathWeight.intensity();
+				if (p <= 1) {
+					if (rand() < p) {
+						pathWeight *= 1.0f / p;
+					}
+					else {
+						break;
+					}
+				}
 			}
 			++bounces;
 		}
