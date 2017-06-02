@@ -6,18 +6,18 @@
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
 #pragma once
-#ifndef ORION_MATH_UTIL_H_
-#define ORION_MATH_UTIL_H_
+#ifndef ORION_COMMON_PARALLEL_H_
+#define ORION_COMMON_PARALLEL_H_
+#include <orion.h>
 namespace orion {
-	
-	inline float rand() {
-		static unsigned int x = 123456789, y = 362436069, z = 521288629, w = 88675123;
-		unsigned int t = x ^ (x << 11);
-		x = y;
-		y = z;
-		z = w;
-		return (w = (w ^ (w >> 19)) ^ (t ^ (t >> 7))) * (1.0f / 4294967296.0f);
-	}
+
+	bool multiThreadEnabled();
+
+	void setMultiThread(bool enable);
+
+	int numSystemCores();
+
+	int threadID();
 }
 
-#endif // !ORION_MATH_UTIL_H_
+#endif // !ORION_COMMON_PARALLEL_H_

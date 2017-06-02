@@ -37,10 +37,9 @@ namespace orion {
 
 			// direct light
 			auto bsdf = isec.primitive->getMaterial()->getBSDF(&isec);
-			Float lightPdf = 0;
-			Point2f lightSample = sampler->next2(), bsdfSample = sampler->next2();
 			// L += Ld
-			L += pathWeight * uniformSampleOneLight(ray, isec, *scene, *sampler, lightDistrib);
+			if(bsdf->numComponents(BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR)))
+				L += pathWeight * uniformSampleOneLight(ray, isec, *scene, *sampler, lightDistrib);
 
 			Vector3f wo = -ray.d, wi;
 			Float pdf;
@@ -60,7 +59,7 @@ namespace orion {
 
 			// TODO : Add bssrdf
 
-			if (bounces > 3 && !specularBounce) {
+			if (bounces > 3) {
 				Float q = std::max(0.05f, 1 - pathWeight.maxComponentValue());
 				if (sampler->next() < q)
 					break;

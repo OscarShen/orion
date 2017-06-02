@@ -25,10 +25,19 @@ namespace orion {
 		Sampler() : instance(74207281LL) {}
 		Sampler(long long instance) : instance(instance) {}
 		virtual Float sample(int d, long long i) = 0;
+		virtual ~Sampler() {}
 
-		Float next() { return sample(cursor++, instance); }
+		Float next() { 
+			Float s;
+#pragma omp critical
+			{
+				s = sample(cursor++, instance);
+			}
+			return s;
+		}
 		Point2f next2() { return Point2f(next(), next()); }
 		Point3f next3() { return Point3f(next(), next(), next()); }
+		virtual std::shared_ptr<Sampler> clone(int seed) = 0;
 	};
 
 	class PseudoRandomSampler : public Sampler
@@ -36,6 +45,10 @@ namespace orion {
 	public:
 		virtual Float sample(int d, long long i) override {
 			return orion::rand();
+		}
+
+		virtual std::shared_ptr<Sampler> clone(int seed) override {
+			return std::make_shared<PseudoRandomSampler>();
 		}
 	};
 

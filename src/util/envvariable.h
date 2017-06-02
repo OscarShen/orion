@@ -10,9 +10,6 @@
 #define ORION_ENVIRONMENT_VARIBLE_H_
 #include <orion.h>
 
-#ifdef ERROR
-#undef ERROR
-
 #ifdef ORION_IN_WINDOWS
 #include <Windows.h>
 #endif // ORION_IN_WINDOWS
@@ -27,5 +24,4 @@ namespace orion {
 
 	std::string getResPath();
 }
-#endif // ERROR
 #endif // !ORION_ENVIRONMENT_VARIBLE_H_

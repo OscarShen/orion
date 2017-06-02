@@ -4,7 +4,7 @@ namespace orion {
 
 	Spectrum NormalTexture::sample(int x, int y) const
 	{
-		ERROR("Normal texture does not support output.");
+		CHECK_INFO(false, "Normal texture does not support output.");
 		abort();
 		return Spectrum();
 	}

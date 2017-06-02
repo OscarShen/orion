@@ -123,7 +123,7 @@ namespace orion {
 					}
 				}
 				else {
-					Li = Spectrum(0.34f, 0.55f, 0.85f);
+					//Li = Spectrum(0.34f, 0.55f, 0.85f);
 				}
 				if (!Li.isBlack())
 					Ld += f * Li * weight / bsdfPdf;

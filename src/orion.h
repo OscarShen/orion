@@ -30,7 +30,6 @@ namespace orion {
 #define CHECK(x) CHECK_INFO(x, "check equal failed!")
 #define CHECK_EQ(x, y) if((x)!=(y)) { std::cout << "check equal failed!" << "\n\t|file: "<< __FILE__<<",line: " << __LINE__<<std::endl; }
 #define CHECK_NE(x, y) if((x)==(y)) { std::cout << "check not equal failed!" << "\n\t|file: "<< __FILE__<<",line: " << __LINE__<<std::endl; }
-#define ERROR(info) CHECK_INFO(false, info)
 
 	typedef float Float;
 

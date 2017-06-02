@@ -23,7 +23,8 @@ void main()
 
 	Timer::inst()->reset();
 	oSystem.render();
-	std::cout << "render time : " << Timer::inst()->getElaspedTime() << "ms" << std::endl;
 
 	oSystem.outputFilm("res/bunny.bmp");
+	char *a = "1";
+	scanf(a);
 }

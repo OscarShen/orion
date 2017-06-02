@@ -8,7 +8,7 @@
     </Transform>
     <Param fov="35"/>
     <Param filmsize="700,700"/>
-    <Param nSamples="1"/>
+    <Param nSamples="32"/>
   </Camera>
 
   <Model type ="triMeshHandy"><!--floor-->
@@ -115,7 +115,7 @@
     </Material>
     <AreaLight>
       <Param Le="150"/>
-      <Param nLightSamples="1"/>
+      <Param nLightSamples="2"/>
     </AreaLight>
   </Model>
 

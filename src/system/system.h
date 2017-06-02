@@ -28,6 +28,9 @@ namespace orion {
 		std::shared_ptr<Integrator> integrator;
 		std::shared_ptr<Sampler> sampler;
 		int nSamples;
+		// for render
+		int filmWidth, filmHeight;
+		int pixelFinished;
 
 	public:
 		System() { _init(); }
@@ -44,7 +47,9 @@ namespace orion {
 		void _init();
 		void _pre();
 		void _post();
-		
+		void _trace();
+		void _traceMT();
+		void _outputProgress();
 	};
 
 }

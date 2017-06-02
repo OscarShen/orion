@@ -62,7 +62,7 @@ namespace orion {
 							}
 						}
 						else if (ipiv[k] > 1)
-							ERROR("Singular matrix in MatrixInvert");
+							CHECK_INFO(false, "Singular matrix in MatrixInvert");
 					}
 				}
 			}
@@ -73,7 +73,7 @@ namespace orion {
 			}
 			indxr[i] = irow;
 			indxc[i] = icol;
-			if (minv[icol][icol] == 0.f) ERROR("Singular matrix in MatrixInvert");
+			if (minv[icol][icol] == 0.f) CHECK_INFO(false, "Singular matrix in MatrixInvert");
 
 			// Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
 			Float pivinv = 1.f / minv[icol][icol];
