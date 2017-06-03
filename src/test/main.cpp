@@ -25,6 +25,4 @@ void main()
 	oSystem.render();
 
 	oSystem.outputFilm("res/bunny.bmp");
-	char *a = "1";
-	scanf(a);
 }

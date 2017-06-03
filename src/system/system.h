@@ -29,8 +29,8 @@ namespace orion {
 		std::shared_ptr<Sampler> sampler;
 		int nSamples;
 		// for render
-		int filmWidth, filmHeight;
-		int pixelFinished;
+		int filmWidth, filmHeight, filmSamples;
+		uint64_t pixelFinished;
 
 	public:
 		System() { _init(); }
@@ -38,7 +38,7 @@ namespace orion {
 
 		void render();
 		void outputFilm(const std::string &name) {
-			TexManager::inst()->write(camera->getFilm(), name);
+			TexManager::inst()->write(camera->getFilm()->getAveraged(), name);
 		}
 
 		void setUp();
@@ -47,9 +47,9 @@ namespace orion {
 		void _init();
 		void _pre();
 		void _post();
-		void _trace();
 		void _traceMT();
 		void _outputProgress();
+		void _renderStage();
 	};
 
 }

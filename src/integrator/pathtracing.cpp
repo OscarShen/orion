@@ -16,7 +16,6 @@ namespace orion {
 	Spectrum PathTracing::Li(const Ray & ray, const std::shared_ptr<Scene>& scene, const std::shared_ptr<Sampler>& sampler, int depth) const
 	{
 		Spectrum L(0);
-
 		bool specularBounce = false;
 		Spectrum pathWeight(1.0f);
 		int bounces = 0;
@@ -38,7 +37,7 @@ namespace orion {
 			// direct light
 			auto bsdf = isec.primitive->getMaterial()->getBSDF(&isec);
 			// L += Ld
-			if(bsdf->numComponents(BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR)))
+			if (bsdf->numComponents(BxDF_TYPE(BxDF_ALL & ~BxDF_SPECULAR)))
 				L += pathWeight * uniformSampleOneLight(ray, isec, *scene, *sampler, lightDistrib);
 
 			Vector3f wo = -ray.d, wi;
@@ -51,7 +50,6 @@ namespace orion {
 
 			if (pathWeight.intensity() == 0)
 				break;
-			if(bounces > 3)
 
 			specularBounce = (flags & BxDF_SPECULAR) != 0;
 
@@ -60,15 +58,10 @@ namespace orion {
 			// TODO : Add bssrdf
 
 			if (bounces > 3) {
-				Float p = pathWeight.intensity();
-				if (p <= 1) {
-					if (rand() < p) {
-						pathWeight *= 1.0f / p;
-					}
-					else {
-						break;
-					}
-				}
+				Float q = std::max(0.05f, 1 - pathWeight.maxComponentValue());
+				if (sampler->next() < q)
+					break;
+				pathWeight /= 1 - q;
 			}
 			++bounces;
 		}

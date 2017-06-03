@@ -33,7 +33,7 @@ namespace orion {
 
 		Ray spawnRay(const Intersection &isec) const {
 			Vector3f dir = isec.pHit - pHit;		// This is not normal vector!!
-			Point3f origin = pHit + dir * epsilon;
+			Point3f origin = pHit + Vector3f(n * epsilon);
 			return Ray(origin, dir, 0, t, 1 - shadowEpsilon);
 		}
 

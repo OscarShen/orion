@@ -16,6 +16,7 @@ namespace orion {
 	{
 	private:
 		std::unique_ptr<Spectrum[]> data;
+		std::unique_ptr<int[]> counter;
 
 	public:
 		RenderTarget() {}
@@ -27,8 +28,8 @@ namespace orion {
 		// param width,height : width & height of _RenderTarget_
 		virtual void setSize(int width, int height);
 
-		// Set the Spectrum value at the specified location
-		void setSpectrum(int x, int y, const Spectrum &s);
+		void acumulate(int x, int y, const Spectrum &s);
+		std::shared_ptr<RenderTarget> getAveraged();
 	};
 
 }

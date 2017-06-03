@@ -11,12 +11,12 @@
 namespace orion {
 	
 	inline float rand() {
-		static unsigned int x = 123456789, y = 362436069, z = 521288629, w = 88675123;
-		unsigned int t = x ^ (x << 11);
-		x = y;
-		y = z;
-		z = w;
-		return (w = (w ^ (w >> 19)) ^ (t ^ (t >> 7))) * (1.0f / 4294967296.0f);
+			static uint64_t state = 0x853c49e6748fea9bULL, inc = 0xda3e39cb94b95bdbULL;
+			uint64_t oldstate = state;
+			state = oldstate * 0x5851f42d4c957f2dULL + inc;
+			uint32_t xorshifted = (uint32_t)(((oldstate >> 18u) ^ oldstate) >> 27u);
+			uint32_t rot = (uint32_t)(oldstate >> 59u);
+			return ((xorshifted >> rot) | (xorshifted << ((~rot + 1u) & 31))) * 2.3283064365386963e-10f;
 	}
 }
 

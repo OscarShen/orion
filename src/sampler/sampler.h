@@ -17,38 +17,39 @@ namespace orion {
 
 	class Sampler
 	{
-	private:
-		int cursor = 0;
-		long long instance;
+	protected:
+		int64_t index;
+		int dimention;
 
 	public:
-		Sampler() : instance(74207281LL) {}
-		Sampler(long long instance) : instance(instance) {}
-		virtual Float sample(int d, long long i) = 0;
+		Sampler() {}
+		Sampler(int64_t index) : index(index), dimention(5) {}
+		Sampler(const Sampler &sampler) : index(sampler.index + 1), dimention(5) {}
+		virtual Float sample() = 0;
 		virtual ~Sampler() {}
 
-		Float next() { 
-			Float s;
+		Float next() {
+			Float f;
 #pragma omp critical
 			{
-				s = sample(cursor++, instance);
+				f = sample();
 			}
-			return s;
+			return f;
 		}
 		Point2f next2() { return Point2f(next(), next()); }
 		Point3f next3() { return Point3f(next(), next(), next()); }
-		virtual std::shared_ptr<Sampler> clone(int seed) = 0;
+		virtual std::unique_ptr<Sampler> clone(int64_t seed) = 0;
 	};
 
 	class PseudoRandomSampler : public Sampler
 	{
 	public:
-		virtual Float sample(int d, long long i) override {
+		virtual Float sample() override {
 			return orion::rand();
 		}
 
-		virtual std::shared_ptr<Sampler> clone(int seed) override {
-			return std::make_shared<PseudoRandomSampler>();
+		virtual std::unique_ptr<Sampler> clone(int64_t seed) override {
+			return std::make_unique<PseudoRandomSampler>();
 		}
 	};
 

@@ -137,7 +137,7 @@ namespace orion {
 		else {
 			Normal3f n(normalize(cross(dp02, dp12)));
 			if (n.lengthSquared() > 0)
-				isec->n = faceforward(normalize(n), -ray.d);
+				isec->n = faceforward(n, -ray.d);
 		}
 		return true;
 	}
@@ -177,11 +177,11 @@ namespace orion {
 		const Point3f &p2 = mesh->p[v[2]];
 		Intersection isec;
 		isec.pHit = p0 * b[0] + p1 * b[1] + p2 * (1 - b[0] - b[1]);
-		isec.n = normalize(Normal3f(cross(p2 - p0, p1 - p0))); // right hand
 		if (mesh->n) {
 			Normal3f ns(mesh->n[v[0]] * b[0] + mesh->n[v[1]] * b[1] + mesh->n[v[2]] * (1 - b[0] - b[1]));
-			isec.n = faceforward(ns, isec.n);
-		}
+			isec.n = ns;
+		}else
+			isec.n = normalize(Normal3f(cross(p2 - p0, p1 - p0)));
 		*pdf = 1 / area();
 		return isec;
 	}

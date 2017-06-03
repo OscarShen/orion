@@ -1,27 +1,23 @@
 <Scene>
-  <Resource filename ="../../res/"/>
+  <Resource filename ="res/"/>
   <Output filename="../../res/cornell.bmp"/>
 
-  <Camera type = "perspective"><!--Camera-->
+  <Camera type = "perspective">
+    <!--Camera-->
     <Transform>
-      <Param lookat="0,0.4,4,  0,0.3,0,  0,1,0"/>
+      <Param lookat="278,273,-800,  278,273,0,  0,1,0"/>
     </Transform>
     <Param fov="35"/>
-    <Param filmsize="700,700"/>
-    <Param nSamples="32"/>
+    <Param filmsize="1000,1000"/>
+    <Param nSamples="3"/>
   </Camera>
 
-  <Model type ="triMeshHandy"><!--floor-->
-    <Param p="28,0,20, 28,0,-20, -28, 0, -20, -28, 0, 20"/>
+  <Model type ="triMeshHandy">
+    <!--floor-->
+    <Param p="552.8,0,0, 0,0,0, 0,0,559.2, 549.6,0,559.2"/>
     <Param n="0,1,0"/>
     <Param uv="1,0, 1,1, 0,1, 0,0"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Transform>
-      <Param scale="40,40,40"/>
-      <Param translate="0,-500,0"/>
-      <Param scale="0.001,0.001,0.001"/>
-      <Param store="0"/>
-    </Transform>
     <Material type="matte" name="OtherWalls">
       <Kd>
         <Param type="constant"/>
@@ -29,22 +25,28 @@
       </Kd>
     </Material>
   </Model>
-  <Model type ="triMeshHandy"><!--BackWall-->
-    <Param p="-28,0,-20, 28,0,-20, 28, 40, -20, -28, 40, -20"/>
-    <Param n="0,0,1"/>
-    <Param uv="0,0, 1,0, 1,1, 0,1"/>
+  <Model type ="triMeshHandy">
+    <!--Ceiling-->
+    <Param p="556.0,548.8,0.0, 556.0,548.8,559.2, 0.0,548.8,559.2, 0.0,548.8,0.0"/>
+    <Param n="0,-1,0"/>
+    <Param uv="1,0, 1,1, 0,1, 0,0"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Transform><Param reuse="0"/></Transform>
     <Material named="OtherWalls"/>
   </Model>
-  <Model type ="triMeshHandy"><!--RightWall-->
-    <Param p="-28,0,20, -28,0,-20, -28, 40, -20, -28, 40, 20"/>
-    <Param n="1,0,0"/>
+  <Model type ="triMeshHandy">
+    <!--BackWall-->
+    <Param p="549.6,0.0,559.2, 0.0,0.0,559.2, 0.0,548.8,559.2, 556.0,548.8,559.2"/>
+    <Param n="0,0,-1"/>
     <Param uv="0,0, 1,0, 1,1, 0,1"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Transform>
-      <Param reuse="0"/>
-    </Transform>
+    <Material named="OtherWalls"/>
+  </Model>
+  <Model type ="triMeshHandy">
+    <!--RightWall-->
+    <Param p="0.0,0.0,559.2, 0.0,0.0,0.0, 0.0,548.8,0.0, 0.0,548.8,559.2"/>
+    <Param n="-1,0,0"/>
+    <Param uv="0,0, 1,0, 1,1, 0,1"/>
+    <Param indices="0,1,2,2,3,0"/>
     <Material type="matte" name="RightWall">
       <Kd>
         <Param type="constant"/>
@@ -52,14 +54,12 @@
       </Kd>
     </Material>
   </Model>
-  <Model type ="triMeshHandy"><!--LeftWall-->
-    <Param p="28,0,-20, 28,0,20, 28, 40, 20, 28, 40, -20"/>
-    <Param n="-1,0,0"/>
+  <Model type ="triMeshHandy">
+    <!--LeftWall-->
+    <Param p="552.8,0.0,0.0, 549.6,0.0,559.2, 556.0,548.8,559.2, 556.0,548.8,0.0"/>
+    <Param n="1,0,0"/>
     <Param uv="0,0, 1,0, 1,1, 0,1"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Transform>
-      <Param reuse="0"/>
-    </Transform>
     <Material type="matte" name="LeftWall">
       <Kd>
         <Param type="constant"/>
@@ -67,46 +67,13 @@
       </Kd>
     </Material>
   </Model>
-  <Model type ="triMeshHandy"><!--Ceiling-->
-    <Param p="28,40,20, 28,40,-20, -28, 40, -20, -28,40, 20"/>
+
+  <Model type ="triMeshHandy">
+    <!--AreaLight-->
+    <Param p="343.0,548.7,227.0, 343.0,548.7,332.0, 213.0,548.7,332.0, 213.0,548.7,227.0"/>
     <Param n="0,-1,0"/>
     <Param uv="1,0, 1,1, 0,1, 0,0"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Transform>
-      <Param reuse="0"/>
-    </Transform>
-    <Material named="OtherWalls"/>
-  </Model>
-  <Model type ="triMesh" filename="box1.obj"><!--Box1-->
-    <Transform>
-      <Param reuse="0"/>
-    </Transform>
-    <Material type="matte">
-      <Kd>
-        <Param type="constant"/>
-        <Param color="0.4,0.4,0.4"/>
-      </Kd>
-    </Material>
-  </Model>
-  <Model type ="triMesh" filename="box2.obj"><!--Box2-->
-    <Transform>
-      <Param reuse="0"/>
-      <Param translate="0.0,-0.01,0"/>
-    </Transform>
-    <Material type="matte">
-      <Kd>
-        <Param type="constant"/>
-        <Param color="0.4,0.4,0.4"/>
-      </Kd>
-    </Material>
-  </Model>
-  
-  <Model type ="disk"><!--AreaLight-->
-    <Param radius="0.2"/>
-    <Transform>
-      <Param rotate="1,0,0,180"/>
-      <Param translate="0,1.099,0"/>
-    </Transform>
     <Material type="matte">
       <Kd>
         <Param type="constant"/>
@@ -114,17 +81,82 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="150"/>
-      <Param nLightSamples="2"/>
+      <Param Le="120,110,80"/>
+      <Param nLightSamples="3"/>
     </AreaLight>
   </Model>
+
+  <Model type ="triMeshHandy">
+    <!--Ceiling-->
+    <Param p="
+130.0, 165.0,  65.0, 
+ 82.0, 165.0, 225.0,
+240.0, 165.0, 272.0,
+290.0, 165.0, 114.0,
+                  
+290.0,   0.0, 114.0,
+290.0, 165.0, 114.0,
+240.0, 165.0, 272.0,
+240.0,   0.0, 272.0,
+                  
+130.0,   0.0,  65.0,
+130.0, 165.0,  65.0,
+290.0, 165.0, 114.0,
+290.0,   0.0, 114.0,
+                  
+ 82.0,   0.0, 225.0,
+ 82.0, 165.0, 225.0,
+130.0, 165.0,  65.0,
+130.0,   0.0,  65.0,
+                  
+240.0,   0.0, 272.0,
+240.0, 165.0, 272.0,
+ 82.0, 165.0, 225.0,
+ 82.0,   0.0, 225.0
+"/>
+    <Param indices="0,1,2,2,3,0, 4,5,6,6,7,4, 8,9,10,10,11,8, 12,13,14,14,15,12, 16,17,18,18,19,16"/>
+    <Material named="OtherWalls"/>
+  </Model>
+
+  <Model type ="triMeshHandy">
+    <!--Ceiling-->
+    <Param p="
+423.0, 330.0, 247.0,
+265.0, 330.0, 296.0,
+314.0, 330.0, 456.0,
+472.0, 330.0, 406.0,
+                   
+423.0,   0.0, 247.0,
+423.0, 330.0, 247.0,
+472.0, 330.0, 406.0,
+472.0,   0.0, 406.0,
+                   
+472.0,   0.0, 406.0,
+472.0, 330.0, 406.0,
+314.0, 330.0, 456.0,
+314.0,   0.0, 456.0,
+                   
+314.0,   0.0, 456.0,
+314.0, 330.0, 456.0,
+265.0, 330.0, 296.0,
+265.0,   0.0, 296.0,
+                   
+265.0,   0.0, 296.0,
+265.0, 330.0, 296.0,
+423.0, 330.0, 247.0,
+423.0,   0.0, 247.0
+"/>
+    <Param indices="0,1,2,2,3,0, 4,5,6,6,7,4, 8,9,10,10,11,8, 12,13,14,14,15,12, 16,17,18,18,19,16"/>
+    <Material named="OtherWalls"/>
+  </Model>
+
 
   <Accelerator type ="kdtree"/>
 
   <Integrator type="pathtracing">
-    <Param maxDepth ="3"/>
+    <Param maxDepth ="5"/>
   </Integrator>
 
-  <Sampler type="pseudo"/>
+  <Sampler type="sobol"/>
 
 </Scene>

@@ -19,6 +19,7 @@
 #include <material/glass.h>
 #include <material/plastic.h>
 #include <sampler/sampler.h>
+#include <sampler/sobol.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 #include <util/texmanager.h>
@@ -229,8 +230,10 @@ namespace orion {
 			ParamSet ps;
 			GET_PARAMSET(samplerNode, ps);
 			if (type == "pseudo") {
-				renderOption->sampler = createPseudoSampler(); // pseudo sampler does not need instance.
+				renderOption->sampler = createPseudoSampler();
 			}
+			else if (type == "sobol")
+				renderOption->sampler = createSobolSampler();
 			else {
 				CHECK_INFO(false, "Not support now!");
 			}
