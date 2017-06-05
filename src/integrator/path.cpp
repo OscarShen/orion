@@ -1,4 +1,4 @@
-#include "pathtracing.h"
+#include "path.h"
 #include <sampler/sampler.h>
 #include <light/light.h>
 #include <util/strutil.h>

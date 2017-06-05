@@ -44,4 +44,19 @@ namespace orion {
 		return Vector3f(r * std::cos(phi), y, -r * std::sin(phi));
 	}
 
+	Vector3f uniformSampleCone(const Point2f & rand, Float cosThetaMax)
+	{
+		Float cosTheta = (1 - rand[0]) + rand[0] * cosThetaMax;
+		Float sinTheta = std::sqrt(1 - cosTheta * cosTheta);
+		Float phi = rand[1] * 2 * pi;
+		return Vector3f(sinTheta * std::cos(phi), cosTheta, -sinTheta * std::sin(phi));
+	}
+
+	Vector3f cosineSampleHemisphere(const Point2f & rand)
+	{
+		Point2f sample = concentricSampleDisk(rand);
+		Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
+		return Vector3f(sample[0], y, sample[1]);
+	}
+
 }

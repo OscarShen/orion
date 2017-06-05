@@ -28,6 +28,10 @@ namespace orion {
 		virtual Spectrum power() const override {
 			return Lemit * area * pi;
 		}
+		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+		virtual void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
+			Float *pdfDir) const override;
 	};
 
 	std::shared_ptr<AreaLight> createAreaLight(const Transform &light2world, const std::shared_ptr<Shape> &shape, const ParamSet &param);

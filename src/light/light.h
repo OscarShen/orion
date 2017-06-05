@@ -56,6 +56,12 @@ namespace orion {
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const = 0;
 		virtual void preprocess(const Scene &scene) {}
 		virtual Spectrum power() const = 0;
+
+		// Get a sampled ray with its pdfs
+		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) = 0;
+		virtual void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
+			Float *pdfDir) const = 0;
 	};
 
 	class PointLight : public Light
@@ -71,6 +77,11 @@ namespace orion {
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &, const Vector3f &) const override { return 0; }
 		virtual Spectrum power() const override { return 4 * pi * I; }
+
+		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+		virtual void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
+			Float *pdfDir) const override;
 	};
 
 
@@ -91,6 +102,11 @@ namespace orion {
 		}
 
 		Float falloff(const Vector3f &w) const;
+
+		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+		virtual void pdf_Le(const Ray &, const Normal3f &, Float *pdfPos,
+			Float *pdfDir) const override;
 	};
 
 	class DistantLight : public Light
@@ -109,6 +125,10 @@ namespace orion {
 		virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi, Float *pdf, ShadowTester *sdt) const override;
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const override { return 0; }
 		virtual Spectrum power() const override;
+		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+		virtual void pdf_Le(const Ray &, const Normal3f &, Float *pdfPos,
+			Float *pdfDir) const override;
 	};
 
 	std::shared_ptr<PointLight> createPointLight(const ParamSet &param);

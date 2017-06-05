@@ -49,19 +49,24 @@ namespace orion {
 							   orion::clamp(b, low, fInfinity));
 		}
 
-		RGBSpectrum operator+(Float f) const {
+		template <typename T>
+		RGBSpectrum operator+(T f) const {
 			return RGBSpectrum(r + f, g + f, b + f);
 		}
-		RGBSpectrum operator-(Float f) const {
+		template <typename T>
+		RGBSpectrum operator-(T f) const {
 			return RGBSpectrum(r - f, g - f, b - f);
 		}
-		RGBSpectrum operator*(Float f) const {
+		template <typename T>
+		RGBSpectrum operator*(T f) const {
 			return RGBSpectrum(r * f, g * f, b * f);
 		}
-		RGBSpectrum operator/(Float f) const {
+		template <typename T>
+		RGBSpectrum operator/(T f) const {
 			return RGBSpectrum(r / f, g / f, b / f);
 		}
-		RGBSpectrum &operator/=(Float f) {
+		template <typename T>
+		RGBSpectrum &operator/=(T f) {
 			r /= f;
 			g /= f;
 			b /= f;
@@ -100,7 +105,8 @@ namespace orion {
 		friend RGBSpectrum sqrt(const RGBSpectrum &s);
 	};
 
-	inline RGBSpectrum operator*(Float f, const RGBSpectrum &s) {
+	template <typename T>
+	inline RGBSpectrum operator*(T f, const RGBSpectrum &s) {
 		return s * f;
 	}
 

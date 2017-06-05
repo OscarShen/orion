@@ -49,7 +49,7 @@ namespace orion {
 		void _post();
 		void _traceMT();
 		void _outputProgress();
-		void _renderStage();
+		void _renderStage(int stage);
 	};
 
 }

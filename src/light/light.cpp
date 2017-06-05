@@ -2,6 +2,7 @@
 #include <core/scene.h>
 #include <math/linalg.h>
 #include <common/paramset.h>
+#include <sampler/sampling.h>
 #include <util/strutil.h>
 namespace orion {
 
@@ -12,6 +13,19 @@ namespace orion {
 		*pdf = 1.0f;
 		*sdt = ShadowTester(isec, Intersection(p));
 		return I / v.lengthSquared();
+	}
+	Spectrum PointLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	{
+		*ray = Ray(p, uniformSampleSphere(rand1));
+		*nLight = (Normal3f)ray->d;
+		*pdfPos = 1;
+		*pdfDir = inv4pi;
+		return I;
+	}
+	void PointLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Float * pdfDir) const
+	{
+		*pdfPos = 0;
+		*pdfDir = inv4pi;
 	}
 	std::shared_ptr<PointLight> createPointLight(const ParamSet & param)
 	{
@@ -64,6 +78,21 @@ namespace orion {
 		Float delta = (cosTh - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 		return delta * delta * delta * delta;
 	}
+	Spectrum SpotLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	{
+		Vector3f w = uniformSampleCone(rand1, cosTotalWidth);
+		*ray = Ray(p, local2world(w));
+		*nLight = (Normal3f)ray->d;
+		*pdfPos = 1;
+		*pdfDir = uniformConePdf(cosTotalWidth);
+		return I * falloff(ray->d);
+	}
+	void SpotLight::pdf_Le(const Ray &ray, const Normal3f &n, Float * pdfPos, Float * pdfDir) const
+	{
+		*pdfPos = 0;
+		*pdfDir = (cosTheta(world2local(ray.d)) >= cosTotalWidth) ?
+			uniformConePdf(cosTotalWidth) : 0;
+	}
 	void DistantLight::preprocess(const Scene & scene)
 	{
 		scene.worldBound().boundingSphere(&worldCenter, &worldRadius);
@@ -78,6 +107,24 @@ namespace orion {
 	Spectrum DistantLight::power() const
 	{
 		return L * pi * worldRadius * worldRadius;
+	}
+	Spectrum DistantLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	{
+		Vector3f x, z;
+		coordinateSystem(dir, &z, &x);
+		Point2f cd = concentricSampleDisk(rand1);
+		Point3f p = worldCenter + worldRadius * (cd[0] * x + cd[1] * z);
+
+		*ray = Ray(p + worldRadius * -dir, dir);
+		*nLight = (Normal3f)ray->d;
+		*pdfDir = 1;
+		*pdfPos = 1 / (pi * worldRadius * worldRadius);
+		return L;
+	}
+	void DistantLight::pdf_Le(const Ray &, const Normal3f &, Float * pdfPos, Float * pdfDir) const
+	{
+		*pdfPos = 1 / (pi * worldRadius * worldRadius);
+		*pdfDir = 0;
 	}
 	bool ShadowTester::unoccluded(const std::shared_ptr<Scene> & scene) const
 	{

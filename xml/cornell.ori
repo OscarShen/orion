@@ -9,7 +9,7 @@
     </Transform>
     <Param fov="35"/>
     <Param filmsize="1000,1000"/>
-    <Param nSamples="3"/>
+    <Param nSamples="1"/>
   </Camera>
 
   <Model type ="triMeshHandy">
@@ -153,7 +153,7 @@
 
   <Accelerator type ="kdtree"/>
 
-  <Integrator type="pathtracing">
+  <Integrator type="path">
     <Param maxDepth ="5"/>
   </Integrator>
 

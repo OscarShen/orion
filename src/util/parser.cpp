@@ -4,7 +4,7 @@
 #include <shape/sphere.h>
 #include <integrator/whitted.h>
 #include <integrator/directlighting.h>
-#include <integrator/pathtracing.h>
+#include <integrator/path.h>
 #include <light/light.h>
 #include <light/arealight.h>
 #include <camera/thinlens.h>
@@ -157,7 +157,7 @@ namespace orion {
 		else if (inte == "directLighting") {
 			renderOption->integrator = createDirectLightingIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
-		else if (inte == "pathtracing") {
+		else if (inte == "path") {
 			renderOption->integrator = createPathTracingIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
 		else {

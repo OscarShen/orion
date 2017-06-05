@@ -54,7 +54,7 @@ namespace orion {
 		filmWidth = film->getWidth(), filmHeight = film->getHeight();
 		pixelFinished = 0;
 		for (int i = 0; i < nSamples; ++i)
-			_renderStage();
+			_renderStage(i);
 	}
 	void System::_outputProgress()
 	{
@@ -101,13 +101,13 @@ namespace orion {
 			fflush(stdout);
 		}
 	}
-	void System::_renderStage()
+	void System::_renderStage(int stage)
 	{
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
 
-				std::shared_ptr<Sampler> sc = sampler->clone(i * 7 + j * 13 + 11);
+				std::shared_ptr<Sampler> sc = sampler->clone(i * 7 + j * 13 + 11 * stage);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sc);
 
 				Spectrum s = integrator->Li(ray, scene, sc, 0);
