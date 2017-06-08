@@ -10,6 +10,7 @@
 #define ORION_INTERSECTION_H_
 #include <orion.h>
 #include "geometry.h"
+#include <math/linalg.h>
 namespace orion {
 
 	class Intersection
@@ -38,7 +39,7 @@ namespace orion {
 		}
 
 		Ray spawnRay(const Vector3f &d) const {
-			Point3f o = pHit + d * epsilon;
+			Point3f o = pHit + Vector3f(n * epsilon);
 			return Ray(o, d, 0, t);
 		}
 

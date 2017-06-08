@@ -14,7 +14,7 @@ namespace orion {
 		*sdt = ShadowTester(isec, Intersection(p));
 		return I / v.lengthSquared();
 	}
-	Spectrum PointLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	Spectrum PointLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)const
 	{
 		*ray = Ray(p, uniformSampleSphere(rand1));
 		*nLight = (Normal3f)ray->d;
@@ -78,7 +78,7 @@ namespace orion {
 		Float delta = (cosTh - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 		return delta * delta * delta * delta;
 	}
-	Spectrum SpotLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	Spectrum SpotLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)const
 	{
 		Vector3f w = uniformSampleCone(rand1, cosTotalWidth);
 		*ray = Ray(p, local2world(w));
@@ -108,7 +108,7 @@ namespace orion {
 	{
 		return L * pi * worldRadius * worldRadius;
 	}
-	Spectrum DistantLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	Spectrum DistantLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)const
 	{
 		Vector3f x, z;
 		coordinateSystem(dir, &z, &x);

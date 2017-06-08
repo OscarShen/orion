@@ -5,6 +5,7 @@
 #include <integrator/whitted.h>
 #include <integrator/directlighting.h>
 #include <integrator/path.h>
+#include <integrator/bdpt.h>
 #include <light/light.h>
 #include <light/arealight.h>
 #include <camera/thinlens.h>
@@ -38,8 +39,8 @@ namespace orion {
 		_makeModel();
 		_makeAccel();
 		_makeLight();
-		_makeIntegrator();
 		_makeSampler();
+		_makeIntegrator();
 		_makeScene();
 	}
 
@@ -159,6 +160,9 @@ namespace orion {
 		}
 		else if (inte == "path") {
 			renderOption->integrator = createPathTracingIntegrator(renderOption->camera, renderOption->sampler, ps);
+		}
+		else if (inte == "bdpt") {
+			renderOption->integrator = createBDPathTracingIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
 		else {
 			CHECK_INFO(false, "Not support now!");

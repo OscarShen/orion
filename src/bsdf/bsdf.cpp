@@ -77,7 +77,7 @@ namespace orion {
 		}
 		return f;
 	}
-	Float BSDF::pdf(const Vector3f & wi, const Vector3f & wo, BxDF_TYPE type)
+	Float BSDF::pdf(const Vector3f & wi, const Vector3f & wo, BxDF_TYPE type) const
 	{
 		if (bxdfs.size() == 0) return 0;
 		Vector3f swi = world2local(wi), swo = world2local(wo); // only rotation, do not need normalization.

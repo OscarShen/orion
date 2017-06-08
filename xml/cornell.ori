@@ -153,10 +153,10 @@
 
   <Accelerator type ="kdtree"/>
 
-  <Integrator type="path">
+  <Integrator type="bdpt">
     <Param maxDepth ="5"/>
   </Integrator>
 
-  <Sampler type="sobol"/>
+  <Sampler type="pseudo"/>
 
 </Scene>

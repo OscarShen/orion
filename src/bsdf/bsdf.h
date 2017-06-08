@@ -43,7 +43,7 @@ namespace orion {
 				sn.z * v.x + nn.z * v.y + tn.z * v.z);
 		}
 
-		Float pdf(const Vector3f &wi, const Vector3f &wo, BxDF_TYPE type = BxDF_ALL);
+		Float pdf(const Vector3f &wi, const Vector3f &wo, BxDF_TYPE type = BxDF_ALL) const;
 
 		int numComponents(BxDF_TYPE type = BxDF_ALL) const;
 	};

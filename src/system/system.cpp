@@ -106,7 +106,7 @@ namespace orion {
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
-
+				//i = 268, j = 512;
 				std::shared_ptr<Sampler> sc = sampler->clone(i * 7 + j * 13 + 11 * stage);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sc);
 

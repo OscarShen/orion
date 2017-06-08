@@ -27,7 +27,7 @@ namespace orion {
 	{
 		return dot(isec.n, w) > 0 ? Lemit : 0;
 	}
-	Spectrum AreaLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)
+	Spectrum AreaLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir)const
 	{
 		Intersection isec = shape->sample(rand1, pdfPos);
 		*nLight = isec.n;

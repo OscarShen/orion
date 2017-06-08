@@ -59,7 +59,7 @@ namespace orion {
 
 		// Get a sampled ray with its pdfs
 		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
-			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) = 0;
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) const = 0;
 		virtual void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
 			Float *pdfDir) const = 0;
 	};
@@ -79,7 +79,7 @@ namespace orion {
 		virtual Spectrum power() const override { return 4 * pi * I; }
 
 		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
-			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) const override;
 		virtual void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
 			Float *pdfDir) const override;
 	};
@@ -104,7 +104,7 @@ namespace orion {
 		Float falloff(const Vector3f &w) const;
 
 		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
-			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) const override;
 		virtual void pdf_Le(const Ray &, const Normal3f &, Float *pdfPos,
 			Float *pdfDir) const override;
 	};
@@ -126,7 +126,7 @@ namespace orion {
 		virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi) const override { return 0; }
 		virtual Spectrum power() const override;
 		virtual Spectrum sample_Le(const Point2f &rand1, const Point2f &rand2,
-			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) override;
+			Ray *ray, Normal3f *nLight, Float *pdfPos, Float *pdfDir) const override;
 		virtual void pdf_Le(const Ray &, const Normal3f &, Float *pdfPos,
 			Float *pdfDir) const override;
 	};
