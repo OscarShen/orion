@@ -20,11 +20,15 @@ namespace orion {
 	protected:
 		Float vfov, tan_half_fov;		// Vertical fov of camera, and a good value for calculation
 		Transform t;
+		Float focalDistance = 0, lensRadius = 0;
 
 	public:
 		PerspectiveCamera() {}
-		PerspectiveCamera(const Transform &camera2world, Float vfov, const std::shared_ptr<RenderTarget> &film)
-			: Camera(film), t(camera2world), vfov(vfov), tan_half_fov(std::tan(radians(vfov * 0.5f))) {}
+		PerspectiveCamera(const Transform &camera2world, Float vfov,
+			const std::shared_ptr<RenderTarget> &film, Float focalDistance, Float lensRadius)
+			: Camera(film), t(camera2world), vfov(vfov), tan_half_fov(std::tan(radians(vfov * 0.5f))), focalDistance(focalDistance),
+			lensRadius(lensRadius) {}
+
 		~PerspectiveCamera() {}
 		
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;

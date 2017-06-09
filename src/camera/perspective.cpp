@@ -1,6 +1,7 @@
 #include "perspective.h"
 #include <util/strutil.h>
 #include <sampler/sampler.h>
+#include <sampler/sampling.h>
 namespace orion {
 
 	Ray PerspectiveCamera::generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const
@@ -18,9 +19,16 @@ namespace orion {
 
 		Vector3f dir = normalize(Vector3f(xx, yy, zz));
 		Ray before(Point3f(0), dir);
-		Ray after = t(before);
-		after.d = normalize(after.d);
 
+		if (lensRadius > 0) { // if has aperture
+			Point3f target = before(focalDistance);
+
+			Point2f uv = uniformSampleDisk(sampler->next2());
+			before.o = Point3f(uv.x * lensRadius, uv.y * lensRadius, 0);
+			before.d = normalize(target - before.o);
+		}
+
+		Ray after = t(before);
 		return after;
 	}
 
@@ -30,7 +38,8 @@ namespace orion {
 		Float fov = parseFloat(param.getParam("fov"));
 
 		auto film = std::make_shared<RenderTarget>(filmSize.x, filmSize.y);
-		return std::shared_ptr<Camera>(new PerspectiveCamera(camera2world, fov, film));
+		Float lensRadius = parseFloat(param.getParam("lensRadius"));
+		Float focalDistance = parseFloat(param.getParam("focalDistance"));
+		return std::shared_ptr<Camera>(new PerspectiveCamera(camera2world, fov, film,focalDistance, lensRadius));
 	}
-
 }
