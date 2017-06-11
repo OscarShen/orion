@@ -17,16 +17,32 @@ namespace orion {
 	{
 	protected:
 		std::shared_ptr<RenderTarget> film;
+		Float aspectRatio;
 
 	public:
 		Camera() {}
 		Camera(const std::shared_ptr<RenderTarget> &film)
-			: film(film) {}
+			: film(film), aspectRatio(film->getWidth() / film->getHeight()) {}
 		virtual ~Camera() {}
 
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const = 0;
 
 		void setRenderTarget(const std::shared_ptr<RenderTarget> &film) { this->film = film; }
+
+		virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const {
+			CHECK_INFO(false, "no impl!");
+			return 0;
+		}
+		virtual void Pdf_We(const Ray &ray, Float *pdfPos, Float *pdfDir) const {
+			CHECK_INFO(false, "no impl!");
+		}
+
+		virtual Spectrum Sample_Wi(const Intersection &ref, const Point2f &u,
+			Vector3f *wi, Float *pdf, Point2f *pRaster, ShadowTester *vis) const {
+			CHECK_INFO(false, "no impl!");
+			return 0;
+		}
+
 		std::shared_ptr<RenderTarget> getFilm() const { 
 			CHECK_INFO(film.get() != nullptr, "Note : no render target in camera!");
 			return film;

@@ -8,7 +8,6 @@
 #include <integrator/bdpt.h>
 #include <light/light.h>
 #include <light/arealight.h>
-#include <camera/thinlens.h>
 #include <texture/checkboard.h>
 #include <texture/constant.h>
 #include <texture/floattexture.h>
@@ -191,9 +190,6 @@ namespace orion {
 
 			if (cam == "perspective") {
 				renderOption->camera = createPerspectiveCamera(transform, camParam);
-			}
-			else if (cam == "thinlens") {
-				renderOption->camera = createThinLensCamera(transform, camParam);
 			}
 			else {
 				CHECK_INFO(false, "Not support now!");

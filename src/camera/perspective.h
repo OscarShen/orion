@@ -32,6 +32,11 @@ namespace orion {
 		~PerspectiveCamera() {}
 		
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
+
+		virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const override;
+		virtual void Pdf_We(const Ray &ray, Float *pdfPos, Float *pdfDir) const override;
+		virtual Spectrum Sample_Wi(const Intersection &ref, const Point2f &u,
+			Vector3f *wi, Float *pdf, Point2f *pRaster, ShadowTester *vis) const override;
 	};
 
 	std::shared_ptr<Camera> createPerspectiveCamera(const Transform &camera2world, const ParamSet &param);
