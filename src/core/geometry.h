@@ -576,6 +576,14 @@ namespace orion {
 
 		bool intersect(const Ray &ray, Float *hitt0 = nullptr, Float *hitt1 = nullptr) const;
 
+		Vector3<T> offset(const Point3<T> &p) const {
+			Vector3<T> o = p - pMin;
+			if (pMax.x > pMin.x) o.x /= pMax.x - pMin.x;
+			if (pMax.y > pMin.y) o.y /= pMax.y - pMin.y;
+			if (pMax.z > pMin.z) o.z /= pMax.z - pMin.z;
+			return o;
+		}
+
 		friend std::ostream &operator<<(std::ostream &os, const Bounds3<T> &b) {
 			os << "[ " << b.pMin << " - " << b.pMax << " ]";
 			return os;
@@ -641,9 +649,22 @@ namespace orion {
 		return true;
 	}
 
+	// expand with radius of _delta_ and center of _b_
+	template <typename T, typename U>
+	inline Bounds3<T> expand(const Bounds3<T> &b, U delta) {
+		return Bounds3<T>(b.pMin - Vector3<T>(delta, delta, delta),
+			b.pMax + Vector3<T>(delta, delta, delta));
+	}
+
 	template <typename T, typename U>
 	inline Vector3<T> operator*(U s, const Vector3<T> &v) {
 		return v * s;
+	}
+
+	// return component of vector
+	template <typename T>
+	T maxComponent(const Vector3<T> &v) {
+		return std::max(v.x, std::max(v.y, v.z));
 	}
 
 	// return dimension of vector, x=0, y=1, z=2

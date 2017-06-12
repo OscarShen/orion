@@ -153,10 +153,13 @@
 
   <Accelerator type ="kdtree"/>
 
-  <Integrator type="bdpt">
+  <Integrator type="sppm">
     <Param maxDepth ="5"/>
+    <Param numIterations="10"/>
+    <Param photonsPerIteration="-1"/>
+    <Param radius="15"/>
   </Integrator>
 
-  <Sampler type="pseudo"/>
+  <Sampler type="sobol"/>
 
 </Scene>

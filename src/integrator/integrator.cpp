@@ -3,7 +3,9 @@
 #include <sampler/sampling.h>
 #include <light/light.h>
 namespace orion {
-
+	void Integrator::render(const Scene & scene) {
+		CHECK_INFO(false, "no impl!");
+	}
 	Spectrum Integrator::specularReflect(const Ray &ray, const Intersection *isec, const std::shared_ptr<Sampler> &sampler, const std::shared_ptr<BSDF> &bsdf, const std::shared_ptr<Scene> &scene, int depth) const
 	{
 		Vector3f wo = -ray.d, wi;

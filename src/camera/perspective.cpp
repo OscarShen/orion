@@ -110,8 +110,12 @@ namespace orion {
 		Float fov = parseFloat(param.getParam("fov"));
 
 		auto film = std::make_shared<RenderTarget>(filmSize.x, filmSize.y);
-		Float lensRadius = parseFloat(param.getParam("lensRadius"));
-		Float focalDistance = parseFloat(param.getParam("focalDistance"));
+
+		Float lensRadius = 0, focalDistance = 0;
+		if (param.hasParam("lensRadius")) {
+			lensRadius = parseFloat(param.getParam("lensRadius"));
+			focalDistance = parseFloat(param.getParam("focalDistance"));
+		}
 		return std::shared_ptr<Camera>(new PerspectiveCamera(camera2world, fov, film,focalDistance, lensRadius));
 	}
 }

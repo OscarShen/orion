@@ -6,6 +6,7 @@
 #include <integrator/directlighting.h>
 #include <integrator/path.h>
 #include <integrator/bdpt.h>
+#include <integrator/sppm.h>
 #include <light/light.h>
 #include <light/arealight.h>
 #include <texture/checkboard.h>
@@ -162,6 +163,9 @@ namespace orion {
 		}
 		else if (inte == "bdpt") {
 			renderOption->integrator = createBDPathTracingIntegrator(renderOption->camera, renderOption->sampler, ps);
+		}
+		else if (inte == "sppm") {
+			renderOption->integrator = createSPPMIntegrator(renderOption->camera, renderOption->sampler, ps);
 		}
 		else {
 			CHECK_INFO(false, "Not support now!");

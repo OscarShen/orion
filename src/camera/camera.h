@@ -22,7 +22,7 @@ namespace orion {
 	public:
 		Camera() {}
 		Camera(const std::shared_ptr<RenderTarget> &film)
-			: film(film), aspectRatio(film->getWidth() / film->getHeight()) {}
+			: film(film), aspectRatio((Float)film->getWidth() / film->getHeight()) {}
 		virtual ~Camera() {}
 
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const = 0;

@@ -18,8 +18,6 @@ namespace orion {
 	protected:
 		std::shared_ptr<const Camera> camera;
 		Spectrum envSpectrum = Spectrum(0.34f, 0.55f, 0.85f);
-
-	private:
 		std::shared_ptr<Sampler> sampler;
 
 	public:
@@ -29,7 +27,8 @@ namespace orion {
 		virtual ~Integrator() {}
 		virtual void preprocess(const Scene &scene, Sampler &sampler) {}
 		virtual Spectrum Li(const Ray &ray, const std::shared_ptr<Scene> &scene,
-			const std::shared_ptr<Sampler> &sampler, int depth) const = 0;
+			const std::shared_ptr<Sampler> &sampler, int depth) const { CHECK_INFO(false, "no impl!"); return 0; };
+		virtual void render(const Scene &scene);
 		Spectrum specularReflect(const Ray &ray, const Intersection *isec, const std::shared_ptr<Sampler> &sampler,
 			const std::shared_ptr<BSDF> &bsdf, const std::shared_ptr<Scene> &scene, int depth) const;
 		Spectrum specularTransmit(const Ray &ray, const Intersection *isec, const std::shared_ptr<Sampler> &sampler,

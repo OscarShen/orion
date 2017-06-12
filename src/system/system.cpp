@@ -12,7 +12,8 @@ namespace orion {
 		_pre();
 		integrator->preprocess(*scene, *sampler);
 		std::cout << " [Detected " << numSystemCores() << " cores]" << std::endl;
-		_traceMT();
+		//_traceMT();
+		integrator->render(*scene);
 	}
 
 	void System::setUp()
@@ -107,7 +108,7 @@ namespace orion {
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
 				//i = 268, j = 512;
-				std::shared_ptr<Sampler> sc = sampler->clone(i * 7 + j * 13 + 11 * stage);
+				std::shared_ptr<Sampler> sc = sampler->clone(stage * filmSamples + j * filmWidth + i);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sc);
 
 				Spectrum s = integrator->Li(ray, scene, sc, 0);

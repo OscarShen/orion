@@ -18,6 +18,7 @@
 #include <map>
 #include <sstream>
 #include <fstream>
+#include <atomic>
 namespace orion {
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -30,8 +31,12 @@ namespace orion {
 #define CHECK(x) CHECK_INFO(x, "check equal failed!")
 #define CHECK_EQ(x, y) if((x)!=(y)) { std::cout << "check equal failed!" << "\n\t|file: "<< __FILE__<<",line: " << __LINE__<<std::endl; }
 #define CHECK_NE(x, y) if((x)==(y)) { std::cout << "check not equal failed!" << "\n\t|file: "<< __FILE__<<",line: " << __LINE__<<std::endl; }
-
+#ifdef ORION_FLOAT_AS_DOUBLE
+	typedef double Float;
+#else
 	typedef float Float;
+#endif // ORION_FLOAT_AS_DOUBLE
+
 
 	constexpr Float epsilon = 1e-4f;
 	constexpr Float shadowEpsilon = 0.01f;
@@ -77,6 +82,7 @@ namespace orion {
 	class FloatTexture;
 	class Fresnel;
 	struct Distribution1D;
+	class ShadowTester;
 }
 
 #endif // !ENG_H_
