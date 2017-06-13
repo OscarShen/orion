@@ -1,0 +1,55 @@
+<Scene>
+  <Resource filename ="../../res/"/>
+  <Output filename="../../res/cornell.bmp"/>
+
+  <Camera type = "perspective"><!--Camera-->
+    <Transform>
+      <Param lookat="-5.5,7,-5.5,  -4.75,2.25,0,  0,1,0"/>
+    </Transform>
+    <Param fov="30"/>
+    <Param filmsize="700,1000"/>
+    <Param nSamples="1"/>
+  </Camera>
+
+  <Accelerator type ="kdtree"/>
+
+  <Integrator type="sppm">
+    <Param maxDepth ="5"/>
+    <Param numIterations="10"/>
+    <Param photonsPerIteration="-1"/>
+    <Param radius="0.025"/>
+  </Integrator>
+
+  <Sampler type="sobol"/>
+
+  <Light type = "spot">
+    <Param from="0,5,9"/>
+    <Param to="-5,2.75,0"/>
+    <Param intensity="5500"/>
+    <Param angle="30"/>
+    <Param delta="5"/>
+  </Light>
+
+  <Model type ="triMesh" filename="mesh_00001.ply">
+    <Material type="glass">
+      <Param eta="1.25"/>
+    </Material>
+  </Model>
+
+  <Model type ="triMesh" filename="mesh_00002.ply">
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.64"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.1"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.0104"/>
+      </roughness>
+    </Material>
+  </Model>
+</Scene>

@@ -60,7 +60,7 @@
     <Param n="1,0,0"/>
     <Param uv="0,0, 1,0, 1,1, 0,1"/>
     <Param indices="0,1,2,2,3,0"/>
-    <Material type="matte" name="LeftWall">
+    <Material type="mirror" name="LeftWall">
       <Kd>
         <Param type="constant"/>
         <Param color="0.4,0,0"/>
@@ -157,7 +157,7 @@
     <Param maxDepth ="5"/>
     <Param numIterations="10"/>
     <Param photonsPerIteration="-1"/>
-    <Param radius="15"/>
+    <Param radius="50"/>
   </Integrator>
 
   <Sampler type="sobol"/>

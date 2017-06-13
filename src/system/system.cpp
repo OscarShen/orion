@@ -34,7 +34,7 @@ namespace orion {
 		//LogManager::init();
 		Timer::init();
 		MeshManager::init();
-		Parser::init("xml/cornell.ori"); // TODO : parse in xml
+		Parser::init("xml/caustic_glass.ori"); // TODO : parse in xml
 		TransformCache::init();
 		MaterialManager::init();
 	}
@@ -107,7 +107,7 @@ namespace orion {
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
-				//i = 268, j = 512;
+				//i = 555, j = 233;
 				std::shared_ptr<Sampler> sc = sampler->clone(stage * filmSamples + j * filmWidth + i);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sc);
 

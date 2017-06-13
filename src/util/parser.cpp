@@ -69,7 +69,7 @@ namespace orion {
 			if (modeltype == "triMesh") {
 				std::shared_ptr<ModelData> modeldata = MeshManager::inst()->loadMeshData(getResPath() + model->Attribute("filename"));
 				auto &data = *modeldata;
-				if (data[0].matName != "DefaultMaterial")
+				if (data[0].matName != "DefaultMaterial" && data[0].matName != "")
 					hasObjMaterial = true;
 
 				// Shapes

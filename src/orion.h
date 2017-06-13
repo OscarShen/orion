@@ -38,7 +38,7 @@ namespace orion {
 #endif // ORION_FLOAT_AS_DOUBLE
 
 
-	constexpr Float epsilon = 1e-4f;
+	constexpr Float epsilon = 1e-5f;
 	constexpr Float shadowEpsilon = 0.01f;
 
 	constexpr Float fInfinity = std::numeric_limits<Float>::max();

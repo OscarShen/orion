@@ -690,6 +690,11 @@ namespace orion {
 	Vector3<T> abs(const Vector3<T> &v) {
 		return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
 	}
+	// Abs of whole vector
+	template <typename T>
+	Normal3<T> abs(const Normal3<T> &v) {
+		return Normal3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+	}
 	template<typename T>
 	inline Vector3<T>::Vector3(const Normal3<T>& n)
 		:x(n.x), y(n.y), z(n.z) {}

@@ -226,6 +226,14 @@ namespace orion {
 		}
 		return clamp(first - 1, 0, size - 2);
 	}
+
+	inline Point3f offsetRayOrigin(const Point3f &p, const Normal3f &n, const Vector3f &w) {
+		Float d = dot(abs(n), Vector3f(absDot(Vector3f(p), Vector3f(epsilon))));
+		Vector3f offset = d * Vector3f(n);
+		if (dot(w, n) < 0) offset = -offset;
+		Point3f po = p + offset;
+		return po;
+	}
 }
 
 #endif // !ORT_LINALG_H_

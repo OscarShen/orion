@@ -35,7 +35,9 @@ namespace orion {
 		BxDF(BxDF_TYPE type) : type(type) {}
 		virtual ~BxDF() {}
 
-		bool matchesFlags(BxDF_TYPE t) const { return (type & t) == type; }
+		bool matchesFlags(BxDF_TYPE t) const {
+			return (type & t) == type;
+		}
 
 		// evaluate bxdf
 		// param wi : in vector, normalized
