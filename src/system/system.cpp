@@ -104,10 +104,11 @@ namespace orion {
 	}
 	void System::_renderStage(int stage)
 	{
+		
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
-				//i = 555, j = 233;
+				//static int ii = 221; // 424,505
 				std::shared_ptr<Sampler> sc = sampler->clone(stage * filmSamples + j * filmWidth + i);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sc);
 
@@ -115,6 +116,7 @@ namespace orion {
 
 #pragma omp critical
 				{
+					//ii++;
 					camera->getFilm()->acumulate(i, j, s);
 					++pixelFinished;
 					_outputProgress();

@@ -23,11 +23,7 @@ namespace orion {
 		Vector3f sn, tn;// tangent vector, bitangent vector
 
 	public:
-		BSDF(const Intersection *isec) {
-			nn = isec->n;
-			sn = normalize(isec->dpdu);
-			tn = cross(sn, nn);
-		}
+		BSDF(const Intersection *isec);
 		~BSDF() {}
 		int numBxDF(BxDF_TYPE type = BxDF_ALL) const;
 		void addBxDF(const std::shared_ptr<BxDF> &bxdf) { this->bxdfs.push_back(bxdf); }

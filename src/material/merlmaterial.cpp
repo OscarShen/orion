@@ -1,7 +1,7 @@
 #include "merlmaterial.h"
 
 namespace orion {
-	std::shared_ptr<BSDF> MerlMaterial::getBSDF(const Intersection * isec) const
+	std::shared_ptr<BSDF> MerlMaterial::getBSDF(const Intersection * isec, bool hasEtaAtenuation) const
 	{
 		BSDF *bsdf = new BSDF(isec);
 		bsdf->addBxDF(bxdf);

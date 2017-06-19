@@ -19,7 +19,7 @@ namespace orion {
 		Material() {}
 		virtual ~Material() {}
 
-		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const = 0;
+		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec, bool hasEtaAtenuation = true) const = 0;
 	};
 
 }

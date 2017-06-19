@@ -2,6 +2,13 @@
 #include <math/linalg.h>
 #include <sampler/sampler.h>
 namespace orion {
+	BSDF::BSDF(const Intersection * isec)
+	{
+		Vector3f sign = cross(isec->dpdv, isec->dpdu);
+		nn = dot(sign, isec->n) > 0 ? isec->n : -isec->n;
+		sn = normalize(isec->dpdu);
+		tn = cross(sn, nn);
+	}
 	int BSDF::numBxDF(BxDF_TYPE type) const
 	{
 		int count = 0;

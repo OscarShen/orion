@@ -5,7 +5,7 @@
 #include <bsdf/microfacet.h>
 #include <physics/optics.h>
 namespace orion{
-	std::shared_ptr<BSDF> PlasticMaterial::getBSDF(const Intersection * isec) const
+	std::shared_ptr<BSDF> PlasticMaterial::getBSDF(const Intersection * isec, bool hasEtaAtenuation) const
 	{
 		std::shared_ptr<BSDF> bsdf(new BSDF(isec));
 		Spectrum kd = Kd->evaluate(isec).clamp();

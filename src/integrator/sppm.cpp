@@ -78,7 +78,7 @@ namespace orion {
 
 		Float invSqrtSPP(1.f / std::sqrt((Float)numIter));
 		for (int iter = 0; iter < numIter; ++iter) {
-			std::cout << iter << std::endl;
+			//std::cout << iter << std::endl;
 			// Accumulating visible points
 			{
 				#pragma omp parallel for
@@ -86,7 +86,6 @@ namespace orion {
 					for (int i = 0; i < filmWidth; ++i) {
 						std::shared_ptr<Sampler> sampler = this->sampler->clone(iter * nPixels + j * filmWidth + i);
 						Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), sampler);
-
 						Spectrum beta(1.0f);
 						SPPMPixel &pixel = pixels[j * filmWidth + i];
 						bool specularBounce = false;
@@ -167,7 +166,7 @@ namespace orion {
 					toGrid(pixel.vp.p + Vector3f(radius), gridBounds, gridRes, &pMax);
 					for (int z = pMin.z; z <= pMax.z; ++z)
 						for (int y = pMin.y; y <= pMax.y; ++y)
-							for (int x = pMin.x; x <= pMin.x; ++x) {
+							for (int x = pMin.x; x <= pMax.x; ++x) {
 								int h = hash(Point3i(x, y, z), hashSize);
 								SPPMPixelListNode *node = new SPPMPixelListNode();
 								#pragma omp critical
@@ -193,11 +192,13 @@ namespace orion {
 					const std::shared_ptr<Light> &light = scene.lights[lightNum];
 
 					Point2f lightSample0 = s->next2(), lightSample1 = s->next2();
+					//lightSample0 = Point2f(0);
 
 					Ray photonRay;
 					Normal3f nLight;
 					Float pdfPos, pdfDir;
 					Spectrum Le = light->sample_Le(lightSample0, lightSample1, &photonRay, &nLight, &pdfPos, &pdfDir);
+
 					if (pdfPos == 0 || pdfDir == 0 || Le.isBlack())
 						continue;
 					Spectrum beta = absDot(nLight, photonRay.d) * Le / (lightPdf * pdfPos * pdfDir);
@@ -212,6 +213,10 @@ namespace orion {
 							Point3i photonGridIndex;
 							if (toGrid(isec.pHit, gridBounds, gridRes, &photonGridIndex)) {
 								int h = hash(photonGridIndex, hashSize);
+//#pragma omp critical
+//								{
+//									std::cout << photonGridIndex << std::endl;
+//								}
 								for (SPPMPixelListNode *node = grid[h].load(std::memory_order_relaxed);
 									node != nullptr; node = node->next) {
 									SPPMPixel &pixel = *node->pixel;
@@ -220,16 +225,15 @@ namespace orion {
 										continue;
 									Vector3f wi = -photonRay.d;
 									Spectrum phi = beta * pixel.vp.bsdf->f(wi, pixel.vp.wo);
-									pixel.phi[0] = phi.r;
-									pixel.phi[1] = phi.g;
-									pixel.phi[2] = phi.b;
+									pixel.phi[0].add(phi.r);
+									pixel.phi[1].add(phi.g);
+									pixel.phi[2].add(phi.b);
 									++pixel.M;
 								}
 							}
 						}
 
-						// remove atenuation of photon
-						std::shared_ptr<BSDF> photonBsdf = isec.primitive->getMaterial()->getBSDF(&isec);
+						std::shared_ptr<BSDF> photonBsdf = isec.primitive->getMaterial()->getBSDF(&isec, false);
 						Vector3f wi, wo = -photonRay.d;
 						Float pdf;
 						BxDF_TYPE flags;
@@ -277,7 +281,6 @@ namespace orion {
 				}
 			} // Update pixel values
 		}
-
 		uint64_t Np = (uint64_t)numIter * (uint64_t)numPhotonsIter;
 		for (int j = 0; j < filmHeight; ++j)
 			for (int i = 0; i < filmWidth; ++i) {

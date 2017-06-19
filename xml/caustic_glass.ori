@@ -6,7 +6,7 @@
     <Transform>
       <Param lookat="-5.5,7,-5.5,  -4.75,2.25,0,  0,1,0"/>
     </Transform>
-    <Param fov="30"/>
+    <Param fov="60"/>
     <Param filmsize="700,1000"/>
     <Param nSamples="1"/>
   </Camera>
@@ -15,29 +15,44 @@
 
   <Integrator type="sppm">
     <Param maxDepth ="5"/>
-    <Param numIterations="10"/>
+    <Param numIterations="3"/>
     <Param photonsPerIteration="-1"/>
-    <Param radius="0.025"/>
+    <Param radius="0.1"/>
   </Integrator>
 
   <Sampler type="sobol"/>
 
   <Light type = "spot">
-    <Param from="0,5,9"/>
-    <Param to="-5,2.75,0"/>
-    <Param intensity="5500"/>
-    <Param angle="30"/>
+    <Param from="3,5,10"/>
+    <Param to="-3.5,3.5,2.5"/>
+    <Param intensity="1800, 1500, 1200"/>
+    <Param angle="45"/>
     <Param delta="5"/>
   </Light>
 
   <Model type ="triMesh" filename="mesh_00001.ply">
     <Material type="glass">
-      <Param eta="1.25"/>
+      <Kr>
+        <Param type="constant"/>
+        <Param color="1"/>
+      </Kr>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="1"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1.25"/>
+      </eta>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0"/>
+      </roughness>
     </Material>
   </Model>
 
   <Model type ="triMesh" filename="mesh_00002.ply">
-    <Material type="plastic">
+    <Material type="uber">
       <Kd>
         <Param type="constant"/>
         <Param color="0.64"/>
@@ -46,10 +61,22 @@
         <Param type="constant"/>
         <Param color="0.1"/>
       </Ks>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="0"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1"/>
+      </eta>
       <roughness>
         <Param type="float"/>
-        <Param value="0.0104"/>
+        <Param value="0.01"/>
       </roughness>
+      <opacity>
+        <Param type="float"/>
+        <Param value="1"/>
+      </opacity>
     </Material>
   </Model>
 </Scene>

@@ -24,7 +24,7 @@ namespace orion {
 						const std::shared_ptr<Texture> &roughness)
 			:Kd(Kd), Ks(Ks), roughness(roughness) {}
 
-		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const override;
+		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec, bool hasEtaAtenuation = true) const override;
 	};
 
 	std::shared_ptr<PlasticMaterial> createPlasticMaterial(std::shared_ptr<Texture> &Kd,

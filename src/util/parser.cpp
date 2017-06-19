@@ -19,6 +19,7 @@
 #include <material/mirror.h>
 #include <material/glass.h>
 #include <material/plastic.h>
+#include <material/uber.h>
 #include <sampler/sampler.h>
 #include <sampler/sobol.h>
 #include <util/strutil.h>
@@ -270,8 +271,6 @@ namespace orion {
 		if (matNode) {
 			const char *matC = matNode->Attribute("type");
 			std::string mattype = matC ? matC : std::string();
-			const char *matN = matNode->Attribute("name");
-			std::string matName = matN ? matN : std::string();
 			ParamSet matParam;
 			GET_PARAMSET(matNode, matParam);
 
@@ -334,9 +333,108 @@ namespace orion {
 				material = createMirrorMaterial();
 			}
 			else if (mattype == "glass") {
-				material = createGlassMaterial(matParam);
+				TiXmlElement *krNode = matNode->FirstChildElement("Kr");
+				CHECK_INFO(krNode, "glass material need Kr!");
+				ParamSet KrParam;
+				std::shared_ptr<Texture> Kr;
+				if (krNode) {
+					GET_PARAMSET(krNode, KrParam);
+					Kr = _makeTexture(KrParam);
+				}
+
+				TiXmlElement *KtNode = matNode->FirstChildElement("Kt");
+				CHECK_INFO(KtNode, "glass material need Kt!");
+				ParamSet KtParam;
+				std::shared_ptr<Texture> Kt;
+				if (KtNode) {
+					GET_PARAMSET(KtNode, KtParam);
+					Kt = _makeTexture(KtParam);
+				}
+
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				CHECK_INFO(roughnessNode, "glass material need roughness!");
+				ParamSet roughnessParam;
+				std::shared_ptr<FloatTexture> roughness;
+				if (roughnessNode) {
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
+				}
+
+				TiXmlElement *etaNode = matNode->FirstChildElement("eta");
+				CHECK_INFO(etaNode, "glass material need eta!");
+				ParamSet etaParam;
+				std::shared_ptr<FloatTexture> eta;
+				if (etaNode) {
+					GET_PARAMSET(etaNode, etaParam);
+					eta = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(etaParam));
+				}
+
+				material = createGlassMaterial(Kr, Kt, roughness, eta);
+			}
+			else if (mattype == "uber") {
+
+				TiXmlElement *kdNode = matNode->FirstChildElement("Kd");
+				ParamSet KdParam;
+				std::shared_ptr<Texture> Kd;
+				if (kdNode) {
+					GET_PARAMSET(kdNode, KdParam);
+					Kd = _makeTexture(KdParam);
+				}
+
+				TiXmlElement *ksNode = matNode->FirstChildElement("Ks");
+				ParamSet KsParam;
+				std::shared_ptr<Texture> Ks;
+				if (ksNode) {
+					GET_PARAMSET(ksNode, KsParam);
+					Ks = _makeTexture(KsParam);
+				}
+
+				TiXmlElement *krNode = matNode->FirstChildElement("Kr");
+				ParamSet KrParam;
+				std::shared_ptr<Texture> Kr;
+				if (krNode) {
+					GET_PARAMSET(krNode, KrParam);
+					Kr = _makeTexture(KrParam);
+				}
+
+				TiXmlElement *KtNode = matNode->FirstChildElement("Kt");
+				ParamSet KtParam;
+				std::shared_ptr<Texture> Kt;
+				if (KtNode) {
+					GET_PARAMSET(KtNode, KtParam);
+					Kt = _makeTexture(KtParam);
+				}
+
+				TiXmlElement *opacityNode = matNode->FirstChildElement("opacity");
+				ParamSet opacityParam;
+				std::shared_ptr<FloatTexture> opacity;
+				if (opacityNode) {
+					GET_PARAMSET(opacityNode, opacityParam);
+					opacity = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(opacityParam));
+				}
+
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				ParamSet roughnessParam;
+				std::shared_ptr<FloatTexture> roughness;
+				if (roughnessNode) {
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
+				}
+
+				TiXmlElement *etaNode = matNode->FirstChildElement("eta");
+				ParamSet etaParam;
+				std::shared_ptr<FloatTexture> eta;
+				if (etaNode) {
+					GET_PARAMSET(etaNode, etaParam);
+					eta = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(etaParam));
+				}
+
+				material = createUberMaterial(Kd, Ks, Kr, Kt, opacity, roughness, eta);
 			}
 
+			// get material already defined
+			const char *matN = matNode->Attribute("name");
+			std::string matName = matN ? matN : std::string();
 			if (!matName.empty())
 				MaterialManager::inst()->addMaterial(matName, material);
 		}

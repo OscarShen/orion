@@ -8,7 +8,7 @@
 #include <util/strutil.h>
 namespace orion {
 
-	std::shared_ptr<BSDF> MatteMaterial::getBSDF(const Intersection * isec) const
+	std::shared_ptr<BSDF> MatteMaterial::getBSDF(const Intersection * isec, bool hasEtaAtenuation) const
 	{
 		Spectrum color = Kd->evaluate(isec);
 		Float sigma = this->sigma->evaluate(isec).r;

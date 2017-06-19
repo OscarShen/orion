@@ -10,6 +10,7 @@
 #define ORION_BSDF_MICROFACET_H_
 #include <orion.h>
 #include "bxdf.h"
+#include <physics/optics.h>
 
 // Disney "principled" BRDF
 // https://disney-animation.s3.amazonaws.com/library/s2012_pbs_disney_brdf_notes_v2.pdf
@@ -54,6 +55,27 @@ namespace orion {
 			const std::shared_ptr<Fresnel> &fresnel)
 			: BxDF(BxDF_TYPE(BxDF_REFLECTION | BxDF_GLOSSY)), R(R),
 			distribution(distribution), fresnel(fresnel) {}
+
+		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
+
+		virtual Spectrum sample_f(Vector3f *swi, const Vector3f &swo, const Point2f &rnd,
+			Float *pdf, BxDF_TYPE *sampledType = nullptr) const override;
+
+		virtual Float pdf(const Vector3f &swi, const Vector3f &swo) const;
+	};
+
+	class MicrofacetTransmission : public BxDF
+	{
+	private:
+		const Spectrum T;
+		const std::shared_ptr<MicrofacetDistribution> distribution;
+		const Float etaA, etaB;
+		bool hasAtenuation;
+		FresnelDielectric fresnel;
+
+	public:
+		MicrofacetTransmission(const Spectrum &T, const std::shared_ptr<MicrofacetDistribution> &distribution,
+			Float etaA, Float etaB, bool hasAtenuation = true);
 
 		virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
 

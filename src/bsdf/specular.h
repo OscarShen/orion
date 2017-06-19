@@ -41,11 +41,32 @@ namespace orion {
 		const Spectrum T;
 		const Float etaA, etaB;
 		const FresnelDielectric fresnel;
+		bool hasAtenuation;
 
 	public:
-		SpecularTransmission(const Spectrum &T, Float etaA, Float etaB)
+		SpecularTransmission(const Spectrum &T, Float etaA, Float etaB, bool hasAtenuation = true)
 			: BxDF(BxDF_TYPE(BxDF_TRANSMISSION | BxDF_SPECULAR)),
-			T(T), etaA(etaA), etaB(etaB), fresnel(etaA, etaB) {}
+			T(T), etaA(etaA), etaB(etaB), fresnel(etaA, etaB), hasAtenuation(hasAtenuation) {}
+
+		Spectrum f(const Vector3f &swi, const Vector3f &swo) const override { return Spectrum(0.0f); }
+
+		virtual Spectrum sample_f(Vector3f *swi, const Vector3f &swo, const Point2f &rnd,
+			Float *pdf, BxDF_TYPE *sampledType = nullptr) const;
+
+		virtual Float pdf(const Vector3f &swi, const Vector3f &swo) const override { return 0; }
+	};
+
+	class FresnelSpecular : public BxDF
+	{
+	private:
+		const Spectrum R, T;
+		const Float etaA, etaB;
+		bool hasAtenuation;
+
+	public:
+		FresnelSpecular(const Spectrum &R, const Spectrum &T, Float etaA, Float etaB, bool hasAtenuation = true)
+			: BxDF(BxDF_TYPE(BxDF_REFLECTION | BxDF_TRANSMISSION | BxDF_SPECULAR)),
+			R(R), T(T), etaA(etaA), etaB(etaB), hasAtenuation(hasAtenuation) {}
 
 		Spectrum f(const Vector3f &swi, const Vector3f &swo) const override { return Spectrum(0.0f); }
 

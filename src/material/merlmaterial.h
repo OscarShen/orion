@@ -23,7 +23,7 @@ namespace orion {
 		MerlMaterial(const std::shared_ptr<Merl> &bxdf) : bxdf(bxdf) {}
 		void setBxdf(const std::shared_ptr<Merl> &bxdf) { this->bxdf = bxdf; }
 
-		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec) const override;
+		virtual std::shared_ptr<BSDF> getBSDF(const Intersection *isec, bool hasEtaAtenuation = true) const override;
 	};
 
 	std::shared_ptr<MerlMaterial> createMerlMaterial(const ParamSet &param);
