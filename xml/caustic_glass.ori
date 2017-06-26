@@ -46,7 +46,7 @@
       </eta>
       <roughness>
         <Param type="float"/>
-        <Param value="0"/>
+        <Param value="0.01"/>
       </roughness>
     </Material>
   </Model>

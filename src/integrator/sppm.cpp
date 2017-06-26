@@ -213,10 +213,6 @@ namespace orion {
 							Point3i photonGridIndex;
 							if (toGrid(isec.pHit, gridBounds, gridRes, &photonGridIndex)) {
 								int h = hash(photonGridIndex, hashSize);
-//#pragma omp critical
-//								{
-//									std::cout << photonGridIndex << std::endl;
-//								}
 								for (SPPMPixelListNode *node = grid[h].load(std::memory_order_relaxed);
 									node != nullptr; node = node->next) {
 									SPPMPixel &pixel = *node->pixel;

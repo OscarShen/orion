@@ -4,7 +4,7 @@
 namespace orion {
 	BSDF::BSDF(const Intersection * isec)
 	{
-		Vector3f sign = cross(isec->dpdv, isec->dpdu);
+		Vector3f sign = cross(isec->dpdu, isec->dpdv);
 		nn = dot(sign, isec->n) > 0 ? isec->n : -isec->n;
 		sn = normalize(isec->dpdu);
 		tn = cross(sn, nn);

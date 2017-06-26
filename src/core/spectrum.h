@@ -104,9 +104,9 @@ namespace orion {
 		}
 		RGBSpectrum operator-() const {
 			RGBSpectrum ret;
-			ret.r = r;
-			ret.g = g;
-			ret.b = b;
+			ret.r = -r;
+			ret.g = -g;
+			ret.b = -b;
 			return ret;
 		}
 		friend RGBSpectrum sqrt(const RGBSpectrum &s);

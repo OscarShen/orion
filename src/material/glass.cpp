@@ -21,21 +21,14 @@ namespace orion {
 		if (isSpecular)
 			bsdf->addBxDF(std::make_shared<FresnelSpecular>(R, T, 1.0f, eta, hasEtaAtenuation));
 		else {
-			auto distrib = isSpecular ? nullptr : std::make_shared<GGX>(roughness);
-
+			auto distrib = std::make_shared<GGX>(roughness);
 			if (!R.isBlack()) {
 				auto fresnel = std::make_shared<FresnelDielectric>(1.0f, eta);
-				if (isSpecular)
-					bsdf->addBxDF(std::make_shared<SpecularReflection>(R, fresnel));
-				else
-					bsdf->addBxDF(std::make_shared<MicrofacetReflection>(R, distrib, fresnel));
+				bsdf->addBxDF(std::make_shared<MicrofacetReflection>(R, distrib, fresnel));
 			}
 
 			if (!T.isBlack()) {
-				if (isSpecular)
-					bsdf->addBxDF(std::make_shared<SpecularTransmission>(T, 1.0f, eta, hasEtaAtenuation));
-				else
-					bsdf->addBxDF(std::make_shared<MicrofacetTransmission>(T, distrib, 1.0f, eta, hasEtaAtenuation));
+				bsdf->addBxDF(std::make_shared<MicrofacetTransmission>(T, distrib, 1.0f, eta, hasEtaAtenuation));
 			}
 		}
 		return bsdf;

@@ -22,6 +22,7 @@ namespace orion {
 		Point2f uv;
 		Float t;
 		const Primitive *primitive = nullptr;
+		bool front;
 
 	public:
 		Intersection() : t(fInfinity) { }
