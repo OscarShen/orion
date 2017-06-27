@@ -39,8 +39,8 @@ namespace orion {
 
 typedef float Float;
 
-constexpr Float epsilon = 0.00001;
-constexpr Float shadowEpsilon = 0.01;
+constexpr Float epsilon = 0.00001f;
+constexpr Float shadowEpsilon = 0.01f;
 
 constexpr Float fInfinity = std::numeric_limits<Float>::max();
 constexpr Float pi = 3.14159265358979323846f;
@@ -51,10 +51,29 @@ constexpr Float piover2 = 1.57079632679489661923f;
 constexpr Float piover4 = 0.78539816339744830961f;
 constexpr Float sqrtsquare = 1.41421356237309504880f;
 
+template <typename T>
+class Vector2;
+template <typename T>
+class Vector3;
+template <typename T>
+class Point2;
+template <typename T>
+class Point3;
+template <typename T>
+class Normal3;
+template <typename T>
+class Bounds3;
+class Ray;
 class Triangle;
 class Primitive;
 class Sampler;
 class Camera;
+class Intersection;
+class Spectrum;
+class Material;
+class Light;
+class AreaLight;
+
 
 ORION_NAMESPACE_END
 

@@ -10,18 +10,31 @@
 #define ORION_CORE_TRIANGLE_H_
 #include <orion.h>
 #include "geometry.h"
-ORION_NAMESPACE_BEGIN
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
+ORION_NAMESPACE_BEGIN
 // triangle mesh
 struct Mesh
 {
 	// number of triangles, number of vertices
 	int numTri, numVer;
-	std::vector<int> vertexIndices;
 	std::unique_ptr<Point3f[]> p;		// position
 	std::unique_ptr<Normal3f[]> n;		// normal
 	std::unique_ptr<Point2f[]> uv;		// uv
+
+	void loadMesh(const std::string &filePath);
 };
+
+class Triangle
+{
+public:
+	std::shared_ptr<Mesh> mesh;
+	int id;
+
+};
+
+
 
 ORION_NAMESPACE_END
 

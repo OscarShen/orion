@@ -69,10 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\orion\orion\src;$(IncludePath)</IncludePath>
+    <IncludePath>D:\orion\orion\src;D:\orion\orion\external;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\orion\orion\external\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\orion\orion\src;$(IncludePath)</IncludePath>
+    <IncludePath>D:\orion\orion\src;D:\orion\orion\external;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\orion\orion\external\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,6 +89,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>embree.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -112,16 +117,47 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>embree.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="external\embree2\rtcore.h" />
+    <ClInclude Include="external\embree2\rtcore_builder.h" />
+    <ClInclude Include="external\embree2\rtcore_geometry.h" />
+    <ClInclude Include="external\embree2\rtcore_geometry_user.h" />
+    <ClInclude Include="external\embree2\rtcore_ray.h" />
+    <ClInclude Include="external\embree2\rtcore_scene.h" />
+    <ClInclude Include="external\embree2\rtcore_version.h" />
+    <ClInclude Include="external\stb_image_aug.h" />
+    <ClInclude Include="external\tiny_obj_loader.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\intersection.h" />
+    <ClInclude Include="src\core\kernel.h" />
     <ClInclude Include="src\core\primitive.h" />
     <ClInclude Include="src\core\scene.h" />
     <ClInclude Include="src\core\spectrum.h" />
+    <ClInclude Include="src\core\texture.h" />
+    <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\core\triangle.h" />
     <ClInclude Include="src\orion.h" />
+    <ClInclude Include="src\texture\constant.h" />
+    <ClInclude Include="src\texture\floattexture.h" />
+    <ClInclude Include="src\texture\imagetexture.h" />
+    <ClInclude Include="src\texture\rendertarget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="external\stb_image_aug.c" />
+    <ClCompile Include="src\core\kernel.cpp" />
+    <ClCompile Include="src\core\scene.cpp" />
+    <ClCompile Include="src\core\texture.cpp" />
+    <ClCompile Include="src\core\transform.cpp" />
+    <ClCompile Include="src\core\triangle.cpp" />
+    <ClCompile Include="src\texture\floattexture.cpp" />
+    <ClCompile Include="src\texture\imagetexture.cpp" />
+    <ClCompile Include="src\texture\rendertarget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="external\lib\embree.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -770,6 +770,13 @@ inline Vector3<T> cross(const Vector3<T> &v1, const Normal3<T> &v2) {
 	return Vector3<T>((v1y * v2z) - (v1z * v2y), (v1z * v2x) - (v1x * v2z),
 		(v1x * v2y) - (v1y * v2x));
 }
+template <typename T>
+inline Vector3<T> cross(const Normal3<T> &v1, const Normal3<T> &v2) {
+	Float v1x = v1.x, v1y = v1.y, v1z = v1.z;
+	Float v2x = v2.x, v2y = v2.y, v2z = v2.z;
+	return Normal3<T>((v1y * v2z) - (v1z * v2y), (v1z * v2x) - (v1x * v2z),
+		(v1x * v2y) - (v1y * v2x));
+}
 
 
 // length square
@@ -797,6 +804,16 @@ inline Point3f offsetRayOrigin(const Point3f &p, const Normal3f &n, const Vector
 	Point3f po = p + offset;
 	return po;
 }
+
+// degrees to radians
+constexpr Float radians(Float degrees) {
+	return degrees * static_cast<Float>(0.01745329251994329576923690768489);
+}
+// radians to degrees
+constexpr Float degrees(Float radians) {
+	return radians * static_cast<Float>(57.295779513082320876798154814105);
+}
+
 ORION_NAMESPACE_END
 
 #endif // !ORT_GEOMETRY_H_

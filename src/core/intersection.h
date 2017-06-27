@@ -18,6 +18,7 @@ class Intersection
 public:
 	Point3f p;
 	Normal3f ng, ns; // geometry normal, shading normal
+	//Vector3f dpdu, dpdv;
 	Vector3f u, v; // shading coordinate x axis and y axis
 	Point2f uv; // texture uv
 	Float t; // value of how far ray hit _p_
@@ -27,8 +28,8 @@ public:
 public:
 	Intersection() { primitive = nullptr; }
 	Intersection(const Point3f &p) : p(p) {} // for shadow ray
-	Intersection(const Point3f &pHit, const Normal3f &ng, const Normal3f &ns, const Point2f &uv, Float t)
-		:p(pHit), ng(ng), ns(ns), uv(uv), t(t) {}
+	Intersection(const Point3f &pHit, const Normal3f &ng, const Normal3f &ns, const Point2f &uv, Float t, bool front)
+		:p(pHit), ng(ng), ns(ns), uv(uv), t(t), front(front) {}
 	~Intersection() {}
 
 	Ray spawnRay(const Intersection &isec) const {

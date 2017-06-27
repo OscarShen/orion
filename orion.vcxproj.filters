@@ -36,5 +36,85 @@
     <ClInclude Include="src\core\triangle.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="external\tiny_obj_loader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\transform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_builder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_geometry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_geometry_user.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_ray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\embree2\rtcore_version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb_image_aug.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\kernel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\constant.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\floattexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\imagetexture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\texture\rendertarget.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\triangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\transform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="external\stb_image_aug.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\kernel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\floattexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\imagetexture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\rendertarget.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="external\lib\embree.lib" />
   </ItemGroup>
 </Project>
