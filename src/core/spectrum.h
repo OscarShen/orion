@@ -115,7 +115,7 @@ public:
 	}
 
 	friend Spectrum sqrt(const Spectrum &s) {
-		return RGBSpectrum(
+		return Spectrum(
 			std::sqrt(s.r),
 			std::sqrt(s.g),
 			std::sqrt(s.b));

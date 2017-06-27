@@ -1,13 +1,12 @@
 #include "kernel.h"
 #include "geometry.h"
-#include "triangle.h"
 #include "primitive.h"
 #include "intersection.h"
 #include <embree2/rtcore_ray.h>
 ORION_NAMESPACE_BEGIN
 
 /* error reporting function */
-void error_handler(const RTCError code, const char *str = nullptr) {
+void errorHandler(const RTCError code, const char *str = nullptr) {
 	if (code == RTC_NO_ERROR)
 		return;
 
@@ -62,13 +61,12 @@ void EmbreeKernel::build()
 {
 	_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
 	_MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
-	int numTri = (int)primitives.size(), int numVer = numTri * 3;
+	int numTri = (int)primitives.size(), numVer = numTri * 3;
 	RTCGeometryFlags geom_flags = RTC_GEOMETRY_STATIC;
 
 	rtcDevice = rtcNewDevice(NULL);
 
-	error_handler(rtcDeviceGetError(rtcDevice));
-	rtcDeviceSetErrorFunction(rtcDevice, error_handler);
+	errorHandler(rtcDeviceGetError(rtcDevice));
 
 	rtcScene = rtcDeviceNewScene(rtcDevice, RTC_SCENE_STATIC, RTC_INTERSECT1);
 	geomID = rtcNewTriangleMesh(rtcScene, geom_flags, numTri, numVer, 1);
@@ -93,7 +91,7 @@ void EmbreeKernel::build()
 	for (int i = 0; i < numTri; i++) {
 		const Triangle &tri = *primitives[i].triangle;
 		for (int k = 0; k < 3; k++) {
-			const Point3f &p = tri.mesh->p[tri.id + k];
+			const Point3f &p = tri.mesh->p[tri.triNumber * 3 + k];
 			*(Vector4 *)(&vertices[i * 3 + k]) = Vector4(p);
 		}
 	}
@@ -108,7 +106,7 @@ void EmbreeKernel::build()
 	rtcUnmapBuffer(rtcScene, geomID, RTC_INDEX_BUFFER);
 
 	rtcCommit(rtcScene);
-	error_handler(rtcDeviceGetError(rtcDevice));
+	errorHandler(rtcDeviceGetError(rtcDevice));
 }
 bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 {
@@ -123,6 +121,8 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	rtc_ray.primID = RTC_INVALID_GEOMETRY_ID;
 
 	rtcIntersect(rtcScene, rtc_ray);
+	if (rtc_ray.primID == -1)
+		return false;
 
 	const Primitive &prim = primitives[rtc_ray.primID];
 	const Triangle &tri = *prim.triangle;
@@ -130,22 +130,22 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	Float coordU = rtc_ray.u, coordV = rtc_ray.v;
 
 	// point
-	const Point3f &p0 = tri.mesh->p[tri.id];
-	const Point3f &p1 = tri.mesh->p[tri.id + 1];
-	const Point3f &p2 = tri.mesh->p[tri.id + 2];
+	const Point3f &p0 = tri.mesh->p[tri.triNumber * 3];
+	const Point3f &p1 = tri.mesh->p[tri.triNumber * 3 + 1];
+	const Point3f &p2 = tri.mesh->p[tri.triNumber * 3 + 2];
 	Point3f p = (1 - coordU - coordV) * p0 + coordU * p1 + coordV * p2;
 
 	// uv
-	const Point2f &uv0 = tri.mesh->uv[tri.id];
-	const Point2f &uv1 = tri.mesh->uv[tri.id + 1];
-	const Point2f &uv2 = tri.mesh->uv[tri.id + 2];
+	const Point2f &uv0 = tri.mesh->uv[tri.triNumber * 3];
+	const Point2f &uv1 = tri.mesh->uv[tri.triNumber * 3 + 1];
+	const Point2f &uv2 = tri.mesh->uv[tri.triNumber * 3 + 2];
 	Point2f uv = (1 - coordU - coordV) * uv0 + coordU * uv1 + coordV * uv2;
 
 
 	// ns
-	const Normal3f &ns0 = tri.mesh->n[tri.id];
-	const Normal3f &ns1 = tri.mesh->n[tri.id + 1];
-	const Normal3f &ns2 = tri.mesh->n[tri.id + 2];
+	const Normal3f &ns0 = tri.mesh->n[tri.triNumber * 3];
+	const Normal3f &ns1 = tri.mesh->n[tri.triNumber * 3 + 1];
+	const Normal3f &ns2 = tri.mesh->n[tri.triNumber * 3 + 2];
 	Normal3f ns = ns0 * (1 - coordU - coordV) + ns1 * coordU + ns2 * coordV;
 
 	// ng
@@ -171,5 +171,6 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 
 	// primitive
 	isec->primitive = &prim;
+	return true;
 }
 ORION_NAMESPACE_END

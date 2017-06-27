@@ -84,6 +84,27 @@
     <ClInclude Include="src\texture\rendertarget.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\sampler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampler\pseudo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\light\point.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampler\sobol.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sampler\sampling.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -111,6 +132,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\texture\rendertarget.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light\point.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sampler\sobol.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sampler\sampling.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

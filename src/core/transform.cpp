@@ -118,8 +118,8 @@ namespace orion {
 		ret.p = t(isec.p);
 		ret.ng = normalize(t(isec.ng));
 		ret.ns = normalize(t(isec.ns));
-		ret.dpdu = t(isec.dpdu);
-		ret.dpdv = t(isec.dpdv);
+		ret.u = t(isec.u);
+		ret.v = t(isec.v);
 
 		ret.t = isec.t;
 		ret.primitive = isec.primitive;

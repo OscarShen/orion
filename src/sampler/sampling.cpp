@@ -1,0 +1,48 @@
+#include "sampling.h"
+
+ORION_NAMESPACE_BEGIN
+
+Point2f uniformSampleTriangle(const Point2f & rand)
+{
+	Float su0 = std::sqrt(rand[0]);
+	return Point2f(1 - su0, rand[1] * su0);
+}
+
+Vector3f uniformSampleCone(const Point2f & rand, Float cosThetaMax)
+{
+	Float cosTheta = ((Float)1 - rand[0]) + rand[0] * cosThetaMax;
+	Float sinTheta = std::sqrt((Float)1 - cosTheta * cosTheta);
+	Float phi = rand[1] * 2 * pi;
+	return Vector3f(std::cos(phi) * sinTheta, std::sin(phi) * sinTheta,
+		cosTheta);
+}
+
+Point2f concentricSampleDisk(const Point2f & rand)
+{
+	// Map uniform random numbers to $[-1,1]^2$
+	Point2f uOffset = 2.f * rand - Vector2f(1.0f, 1.0f);
+
+	// Handle degeneracy at the origin
+	if (uOffset.x == 0 && uOffset.y == 0) return Point2f(0, 0);
+
+	// Apply concentric mapping to point
+	Float theta, r;
+	if (std::abs(uOffset.x) > std::abs(uOffset.y)) {
+		r = uOffset.x;
+		theta = piover4 * (uOffset.y / uOffset.x);
+	}
+	else {
+		r = uOffset.y;
+		theta = piover2 - piover4 * (uOffset.x / uOffset.y);
+	}
+	return Point2f(std::cos(theta), std::sin(theta)) * r;
+}
+
+Vector3f cosineSampleHemisphere(const Point2f & rand)
+{
+	Point2f sample = concentricSampleDisk(rand);
+	Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
+	return Vector3f(sample[0], y, sample[1]);
+}
+
+ORION_NAMESPACE_END

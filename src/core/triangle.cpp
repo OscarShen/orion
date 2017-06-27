@@ -1,5 +1,7 @@
 #include "triangle.h"
-
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
+#include <sampler/sampling.h>
 ORION_NAMESPACE_BEGIN
 void Mesh::loadMesh(const std::string & filePath)
 {
@@ -57,4 +59,69 @@ void Mesh::loadMesh(const std::string & filePath)
 
 
 }
+
+Bounds3f Triangle::worldBound() const
+{
+	Point3f &p0 = mesh->p[triNumber * 3];
+	Point3f &p1 = mesh->p[triNumber * 3 + 1];
+	Point3f &p2 = mesh->p[triNumber * 3 + 2];
+	return Union(Bounds3f(p0, p1), p2);
+}
+
+Bounds3f Triangle::localBound() const
+{
+	Point3f &p0 = mesh->p[triNumber * 3];
+	Point3f &p1 = mesh->p[triNumber * 3 + 1];
+	Point3f &p2 = mesh->p[triNumber * 3 + 2];
+	return Union(Bounds3f((*world2local)(p0), (*world2local)(p1)),
+		(*world2local)(p2));
+}
+
+Float Triangle::area() const
+{
+	Point3f &p0 = mesh->p[triNumber * 3];
+	Point3f &p1 = mesh->p[triNumber * 3 + 1];
+	Point3f &p2 = mesh->p[triNumber * 3 + 2];
+	return 0.5f * cross(p1 - p0, p2 - p0).length();
+}
+
+Intersection Triangle::sample(const Point2f & u, Float * pdf) const
+{
+	Point2f b = uniformSampleTriangle(u);
+
+	Point3f &p0 = mesh->p[triNumber * 3];
+	Point3f &p1 = mesh->p[triNumber * 3 + 1];
+	Point3f &p2 = mesh->p[triNumber * 3 + 2];
+
+	Point3f p = b[0] * p0 + b[1] * p1 + (1 - b[0] - b[1]) * p2;
+	Normal3f ng = Normal3f(normalize(cross(p1 - p0, p2 - p0)));
+	Normal3f ns = mesh->n[triNumber * 3    ] * b[0] +
+				  mesh->n[triNumber * 3 + 1] * b[1] +
+				  mesh->n[triNumber * 3 + 2] * (1.0f - b[0] - b[1]);
+	ng = faceforward(ng, ns);
+
+	Intersection isec;
+	isec.p = p;
+	isec.ng = ng;
+	isec.ns = ns;
+	*pdf = 1.0f / area();
+	return isec;
+}
+
+Intersection Triangle::sample(const Intersection & ref, const Point2f & u, Float * pdf) const
+{
+	Intersection isec = sample(u, pdf);
+	Vector3f wi = isec.p - ref.p;
+	if (wi.lengthSquared() == 0)
+		*pdf = 0;
+	else {
+		wi = normalize(wi);
+		*pdf *= (ref.p - isec.p).lengthSquared() / absDot(isec.ng, -wi);
+		if (std::isinf(*pdf))
+			*pdf = 0;
+	}
+	return isec;
+}
+
 ORION_NAMESPACE_END
+

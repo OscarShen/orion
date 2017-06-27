@@ -10,9 +10,8 @@
 #define ORION_CORE_TRIANGLE_H_
 #include <orion.h>
 #include "geometry.h"
-
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
+#include "transform.h"
+#include "intersection.h"
 ORION_NAMESPACE_BEGIN
 // triangle mesh
 struct Mesh
@@ -30,8 +29,21 @@ class Triangle
 {
 public:
 	std::shared_ptr<Mesh> mesh;
-	int id;
+	int triNumber;
+	const Transform *local2world, *world2local;
 
+	Triangle(const Transform *local2world, const Transform *world2local,
+		const std::shared_ptr<Mesh> &mesh, int triNumber)
+		: local2world(local2world), world2local(world2local), mesh(mesh),
+		triNumber(triNumber) {}
+
+	Bounds3f worldBound() const;
+	Bounds3f localBound() const;
+
+	Float area() const;
+
+	Intersection sample(const Point2f &u, Float *pdf) const;
+	Intersection sample(const Intersection &ref, const Point2f &u, Float *pdf) const;
 };
 
 

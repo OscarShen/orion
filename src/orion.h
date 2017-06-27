@@ -19,6 +19,7 @@
 #include <sstream>
 #include <fstream>
 #include <atomic>
+#include <random>
 
 #define ORION_NAMESPACE_BEGIN namespace orion {
 #define ORION_NAMESPACE_END }

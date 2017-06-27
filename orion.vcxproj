@@ -91,6 +91,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>embree.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,16 +131,23 @@
     <ClInclude Include="external\embree2\rtcore_version.h" />
     <ClInclude Include="external\stb_image_aug.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
+    <ClInclude Include="src\core\camera.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\intersection.h" />
     <ClInclude Include="src\core\kernel.h" />
+    <ClInclude Include="src\core\light.h" />
     <ClInclude Include="src\core\primitive.h" />
+    <ClInclude Include="src\core\sampler.h" />
     <ClInclude Include="src\core\scene.h" />
     <ClInclude Include="src\core\spectrum.h" />
     <ClInclude Include="src\core\texture.h" />
     <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\core\triangle.h" />
+    <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\orion.h" />
+    <ClInclude Include="src\sampler\pseudo.h" />
+    <ClInclude Include="src\sampler\sampling.h" />
+    <ClInclude Include="src\sampler\sobol.h" />
     <ClInclude Include="src\texture\constant.h" />
     <ClInclude Include="src\texture\floattexture.h" />
     <ClInclude Include="src\texture\imagetexture.h" />
@@ -152,6 +160,9 @@
     <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\triangle.cpp" />
+    <ClCompile Include="src\light\point.cpp" />
+    <ClCompile Include="src\sampler\sampling.cpp" />
+    <ClCompile Include="src\sampler\sobol.cpp" />
     <ClCompile Include="src\texture\floattexture.cpp" />
     <ClCompile Include="src\texture\imagetexture.cpp" />
     <ClCompile Include="src\texture\rendertarget.cpp" />

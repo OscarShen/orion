@@ -814,6 +814,26 @@ constexpr Float degrees(Float radians) {
 	return radians * static_cast<Float>(57.295779513082320876798154814105);
 }
 
+template <typename Predicate>
+int findInterval(int size, const Predicate &pred) {
+	int first = 0, length = size;
+	while (length > 0) {
+		int half = length >> 1, middle = first + half;
+		if (pred(middle)) {
+			first = middle + 1;
+			length -= half + 1;
+		}
+		else
+			length = half;
+	}
+	return clamp(first - 1, 0, size - 2);
+}
+
+template <typename T>
+inline Normal3<T> faceforward(const Normal3<T> &n, const Normal3<T> &n2) {
+	return (Dot(n, n2) < 0.f) ? -n : n;
+}
+
 ORION_NAMESPACE_END
 
 #endif // !ORT_GEOMETRY_H_
