@@ -20,22 +20,25 @@ public:
 	virtual void clear() = 0;
 	virtual void build() = 0;
 	virtual bool intersect(const Ray &ray, Intersection *isec) const = 0;
+	virtual Bounds3f worldBound() const = 0;
 };
 
 class EmbreeKernel : public Kernel
 {
 private:
-	std::vector<Primitive> primitives;
+	std::vector<std::shared_ptr<Primitive>> primitives;
 	RTCDevice rtcDevice;
 	RTCScene rtcScene;
 	int geomID;
+	Bounds3f bound;
 
 public:
-	EmbreeKernel(const std::vector<Primitive> &primitives);
+	EmbreeKernel(const std::vector<std::shared_ptr<Primitive>> &primitives);
 	~EmbreeKernel();
 	void clear() override;
 	void build() override;
 	bool intersect(const Ray &ray, Intersection *isec) const override;
+	Bounds3f worldBound() const override;
 };
 
 ORION_NAMESPACE_END

@@ -2,6 +2,15 @@
 
 ORION_NAMESPACE_BEGIN
 
+Vector3f uniformSampleSphere(const Point2f & rand)
+{
+	Float z = 1 - 2 * rand[0];
+	Float r = std::sqrt(std::max((Float)0, (Float)1 - z * z));
+	Float phi = 2 * pi * rand[1];
+	return Vector3f(r * std::cos(phi), r * std::sin(phi), z);
+}
+
+
 Point2f uniformSampleTriangle(const Point2f & rand)
 {
 	Float su0 = std::sqrt(rand[0]);

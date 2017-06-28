@@ -105,6 +105,18 @@
     <ClInclude Include="src\sampler\sampling.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\camera\pinhole.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\light\point.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\light\spot.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\light\distant.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -143,8 +155,20 @@
     <ClCompile Include="src\sampler\sampling.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\camera\pinhole.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light\spot.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light\distant.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

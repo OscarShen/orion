@@ -41,9 +41,12 @@ void errorHandler(const RTCError code, const char *str = nullptr) {
 	}
 }
 
-EmbreeKernel::EmbreeKernel(const std::vector<Primitive>& primitives)
+EmbreeKernel::EmbreeKernel(const std::vector<std::shared_ptr<Primitive>>& primitives)
 	: primitives(primitives) {
 	build();
+	for (const std::shared_ptr<Primitive> &prim : primitives) {
+		bound = Union(bound, prim->worldBound());
+	}
 }
 
 EmbreeKernel::~EmbreeKernel()
@@ -89,7 +92,7 @@ void EmbreeKernel::build()
 
 	RTCVertex *vertices = (RTCVertex *)rtcMapBuffer(rtcScene, geomID, RTC_VERTEX_BUFFER);
 	for (int i = 0; i < numTri; i++) {
-		const Triangle &tri = *primitives[i].triangle;
+		const Triangle &tri = *primitives[i]->triangle;
 		for (int k = 0; k < 3; k++) {
 			const Point3f &p = tri.mesh->p[tri.triNumber * 3 + k];
 			*(Vector4 *)(&vertices[i * 3 + k]) = Vector4(p);
@@ -124,7 +127,7 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	if (rtc_ray.primID == -1)
 		return false;
 
-	const Primitive &prim = primitives[rtc_ray.primID];
+	const Primitive &prim = *primitives[rtc_ray.primID];
 	const Triangle &tri = *prim.triangle;
 
 	Float coordU = rtc_ray.u, coordV = rtc_ray.v;
@@ -172,5 +175,9 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	// primitive
 	isec->primitive = &prim;
 	return true;
+}
+Bounds3f EmbreeKernel::worldBound() const
+{
+	return bound;
 }
 ORION_NAMESPACE_END

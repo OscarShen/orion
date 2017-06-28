@@ -1,7 +1,7 @@
 /************************************************************************ 
- * @description :  
- * @author		:  $username$
- * @creat 		:  $time$
+ * @description :  sobol sampler
+ * @author		:  Oscar Shen
+ * @creat 		:  2017-6-28 09:42:30
 ************************************************************************ 
  * Copyright @ OscarShen 2017. All rights reserved. 
 ************************************************************************/  
@@ -50,11 +50,11 @@ namespace orion {
 	public:
 		SobolSampler(int64_t index) : Sampler(index) {}
 		SobolSampler(const SobolSampler &sampler) : SobolSampler(sampler.index + 1) {}
-		virtual Float sample() override {
+		Float sample() override {
 			return sobol::sample(index, dimention++);
 		}
 
-		virtual std::unique_ptr<Sampler> clone(int64_t seed) override {
+		std::unique_ptr<Sampler> clone(int64_t seed) override {
 			return std::unique_ptr<SobolSampler>(new SobolSampler(seed));
 		}
 	};

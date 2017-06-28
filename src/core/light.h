@@ -51,9 +51,9 @@ protected:
 	Transform local2world, world2local;
 
 public:
-	virtual ~Light() {}
 	Light(int type, const Transform &light2world, int nSamples = 1)
 		: type(type), local2world(light2world), world2local(inverse(light2world)), nSamples(std::max(1, nSamples)) {}
+	virtual ~Light() {}
 	virtual void preprocess(const Scene &scene) {}
 
 	virtual Spectrum power() const = 0;

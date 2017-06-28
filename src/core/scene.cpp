@@ -1,12 +1,8 @@
 #include "scene.h"
 #include <embree2/rtcore.h>
 ORION_NAMESPACE_BEGIN
-void Scene::build()
-{
-
-}
 bool Scene::intersect(const Ray & ray, Intersection * isec) const
 {
-	return false;
+	return kernel->intersect(ray, isec);
 }
 ORION_NAMESPACE_END

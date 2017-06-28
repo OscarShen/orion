@@ -834,6 +834,16 @@ inline Normal3<T> faceforward(const Normal3<T> &n, const Normal3<T> &n2) {
 	return (Dot(n, n2) < 0.f) ? -n : n;
 }
 
+template <typename T>
+inline void coordinateSystem(const Vector3<T> &z, Vector3<T> *x,
+	Vector3<T> *y) {
+	if (std::abs(z.x) > std::abs(z.y))
+		*y = Vector3<T>(-z.z, 0, z.x) / std::sqrt(z.x * z.x + z.z * z.z);
+	else
+		*y = Vector3<T>(0, z.z, -z.y) / std::sqrt(z.y * z.y + z.z * z.z);
+	*x = cross(*y, z);
+}
+
 ORION_NAMESPACE_END
 
 #endif // !ORT_GEOMETRY_H_

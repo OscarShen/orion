@@ -23,11 +23,9 @@ public:
 	Primitive(const std::shared_ptr<Triangle> &triangle, const std::shared_ptr<Material> &material,
 		const std::shared_ptr<AreaLight> &areaLight = nullptr)
 		:triangle(triangle), material(material), areaLight(areaLight) {}
-	Primitive(const std::shared_ptr<Triangle> &triangle)
-		:triangle(triangle), material(nullptr) {}
 	std::shared_ptr<Material> getMaterial() const { return material; }
 	void setMaterial(const std::shared_ptr<Material> &material) { this->material = material; }
-
+	Bounds3f worldBound() const { return triangle->worldBound(); }
 	const AreaLight * getAreaLight() const { return areaLight.get(); }
 };
 

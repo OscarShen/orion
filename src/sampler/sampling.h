@@ -28,6 +28,8 @@ inline Float sinPhi(const Vector3f &w) {
 inline Float cos2Phi(const Vector3f &w) { return cosPhi(w) * cosPhi(w); }
 inline Float sin2Phi(const Vector3f &w) { return sinPhi(w) * sinPhi(w); }
 
+Vector3f uniformSampleSphere(const Point2f &rand);
+inline Float uniformSpherePdf() { return inv4pi; }
 
 Point2f uniformSampleTriangle(const Point2f &rand);
 

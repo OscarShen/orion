@@ -28,8 +28,6 @@ namespace orion {
 
 		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const = 0;
 
-		void setRenderTarget(const std::shared_ptr<RenderTarget> &film) { this->film = film; }
-
 		virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const {
 			CHECK_INFO(false, "no impl!");
 			return 0;

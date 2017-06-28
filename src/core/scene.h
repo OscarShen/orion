@@ -19,7 +19,6 @@ private:
 	std::shared_ptr<Sampler> sampler;
 	std::vector<std::shared_ptr<Light>> lights;
 	std::unique_ptr<Kernel> kernel;
-	Bounds3f bound;
 
 public:
 	Scene(std::shared_ptr<Camera> camera, std::shared_ptr<Sampler> sampler,
@@ -28,8 +27,8 @@ public:
 		// only support embree kernel now
 		kernel = std::make_unique<EmbreeKernel>(primitives);
 	}
-	void build();
 	bool intersect(const Ray &ray, Intersection *isec) const;
+	Bounds3f worldbound() const { return kernel->worldBound(); }
 };
 
 ORION_NAMESPACE_END

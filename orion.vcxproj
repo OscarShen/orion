@@ -131,6 +131,7 @@
     <ClInclude Include="external\embree2\rtcore_version.h" />
     <ClInclude Include="external\stb_image_aug.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
+    <ClInclude Include="src\camera\pinhole.h" />
     <ClInclude Include="src\core\camera.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\intersection.h" />
@@ -143,7 +144,10 @@
     <ClInclude Include="src\core\texture.h" />
     <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\core\triangle.h" />
+    <ClInclude Include="src\light\distant.h" />
     <ClInclude Include="src\light\point.h" />
+    <ClInclude Include="src\light\point.h" />
+    <ClInclude Include="src\light\spot.h" />
     <ClInclude Include="src\orion.h" />
     <ClInclude Include="src\sampler\pseudo.h" />
     <ClInclude Include="src\sampler\sampling.h" />
@@ -155,12 +159,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\stb_image_aug.c" />
+    <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
     <ClCompile Include="src\core\scene.cpp" />
     <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\triangle.cpp" />
+    <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\point.cpp" />
+    <ClCompile Include="src\light\spot.cpp" />
     <ClCompile Include="src\sampler\sampling.cpp" />
     <ClCompile Include="src\sampler\sobol.cpp" />
     <ClCompile Include="src\texture\floattexture.cpp" />
@@ -169,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
