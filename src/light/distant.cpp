@@ -11,12 +11,14 @@ Spectrum DistantLight::power() const
 	return L * pi * worldRadius * worldRadius;
 }
 
-Spectrum DistantLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, Float * pdf, ShadowTester * sdt) const
+Spectrum DistantLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi,
+	Float * pdf, ShadowTester * sdt, Point3f *samplePoint) const
 {
 	*wi = dir;
 	*pdf = 1;
-	Point3f po = isec.p + dir * (2 * worldRadius);
-	*sdt = ShadowTester(isec, Intersection(po));
+	if(samplePoint)
+		*samplePoint = isec.p + dir * (2 * worldRadius);
+	*sdt = ShadowTester(isec, Intersection(*samplePoint));
 	return L;
 }
 

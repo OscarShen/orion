@@ -15,10 +15,13 @@ Float SpotLight::falloff(const Vector3f & w) const
 		(cosTheta - cosTotalWidth) / (cosFalloffStart - cosTotalWidth);
 	return (delta * delta) * (delta * delta);
 }
-Spectrum SpotLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, Float * pdf, ShadowTester * sdt) const
+Spectrum SpotLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi,
+	Float * pdf, ShadowTester * sdt, Point3f *samplePoint) const
 {
 	*wi = normalize(p - isec.p);
 	*pdf = 1.f;
+	if(samplePoint)
+		*samplePoint = p;
 	*sdt = ShadowTester(isec, Intersection(p));
 	return I * falloff(-*wi) / (p - isec.p).lengthSquared();
 }

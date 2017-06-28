@@ -5,10 +5,13 @@ Spectrum PointLight::power() const
 {
 	return 4 * pi * I;
 }
-Spectrum PointLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, Float * pdf, ShadowTester * sdt) const
+Spectrum PointLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, 
+	Float * pdf, ShadowTester * sdt, Point3f *samplePoint) const
 {
 	*wi = normalize(p - isec.p);
 	*pdf = 1.0f;
+	if(samplePoint)
+		*samplePoint = p;
 	*sdt = ShadowTester(isec, Intersection(p));
 	return I / (p - isec.p).lengthSquared();
 }

@@ -117,6 +117,9 @@
     <ClInclude Include="src\light\distant.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\light\diffuse.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -164,11 +167,11 @@
     <ClCompile Include="src\light\distant.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\light\diffuse.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

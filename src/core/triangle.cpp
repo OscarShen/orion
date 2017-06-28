@@ -123,5 +123,18 @@ Intersection Triangle::sample(const Intersection & ref, const Point2f & u, Float
 	return isec;
 }
 
+Float Triangle::pdf(const Intersection & isec, const Vector3f & wi, const Point3f & p) const
+{
+	Point3f &p0 = mesh->p[triNumber * 3];
+	Point3f &p1 = mesh->p[triNumber * 3 + 1];
+	Point3f &p2 = mesh->p[triNumber * 3 + 2];
+	Normal3f ng = Normal3f(normalize(cross(p1 - p0, p2 - p0)));
+
+	Float pdf = (isec.p - p).lengthSquared() / (absDot(ng, -wi) * area());
+	if (std::isinf(pdf))
+		pdf = 0;
+	return pdf;
+}
+
 ORION_NAMESPACE_END
 

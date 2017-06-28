@@ -144,8 +144,8 @@
     <ClInclude Include="src\core\texture.h" />
     <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\core\triangle.h" />
+    <ClInclude Include="src\light\diffuse.h" />
     <ClInclude Include="src\light\distant.h" />
-    <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\light\spot.h" />
     <ClInclude Include="src\orion.h" />
@@ -165,6 +165,7 @@
     <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\triangle.cpp" />
+    <ClCompile Include="src\light\diffuse.cpp" />
     <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\point.cpp" />
     <ClCompile Include="src\light\spot.cpp" />
@@ -176,9 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
