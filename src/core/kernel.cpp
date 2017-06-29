@@ -167,8 +167,8 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	// u, v
 	Vector3f u = normalize(p1 - p0);
 	Float sign = isec->front ? 1.0f : -1.0f;
-	Vector3f v = normalize(cross(isec->ns * sign, isec->u));
-	u = normalize(cross(v, isec->ns));
+	Vector3f v = normalize(cross(ns * sign, u));
+	u = normalize(cross(v, ns));
 	isec->u = u;
 	isec->v = v;
 
