@@ -132,6 +132,7 @@
     <ClInclude Include="external\stb_image_aug.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
     <ClInclude Include="src\camera\pinhole.h" />
+    <ClInclude Include="src\core\bsdf.h" />
     <ClInclude Include="src\core\camera.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\intersection.h" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="external\stb_image_aug.c" />
     <ClCompile Include="src\camera\pinhole.cpp" />
+    <ClCompile Include="src\core\bsdf.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
     <ClCompile Include="src\core\scene.cpp" />
     <ClCompile Include="src\core\texture.cpp" />

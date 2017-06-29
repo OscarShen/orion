@@ -120,6 +120,9 @@
     <ClInclude Include="src\light\diffuse.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\bsdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -168,6 +171,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\light\diffuse.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\bsdf.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

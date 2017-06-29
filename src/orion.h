@@ -74,6 +74,8 @@ class Spectrum;
 class Material;
 class Light;
 class AreaLight;
+class BxDF;
+class BSDF;
 
 
 ORION_NAMESPACE_END

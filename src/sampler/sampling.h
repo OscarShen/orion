@@ -48,6 +48,14 @@ inline Float powerHeuristic(int nf, Float fPdf, int ng, Float gPdf) {
 	return (f * f) / (f * f + g * g);
 }
 
+inline bool sameHemisphere(const Vector3f &w, const Vector3f &wp) {
+	return w.z * wp.z > 0;
+}
+
+inline bool sameHemisphere(const Vector3f &w, const Normal3f &wp) {
+	return w.z * wp.z > 0;
+}
+
 struct Distribution1D
 {
 	std::vector<Float> func, cdf;
