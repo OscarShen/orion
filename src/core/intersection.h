@@ -24,6 +24,7 @@ public:
 	Float t; // value of how far ray hit _p_
 	const Primitive *primitive; // hitted primitive
 	bool front; // ray entering with direction of _ng_ is true
+	std::shared_ptr<BSDF> bsdf;
 
 public:
 	Intersection() { primitive = nullptr; }

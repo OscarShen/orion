@@ -67,6 +67,7 @@ class Bounds3;
 class Ray;
 class Triangle;
 class Primitive;
+class Scene;
 class Sampler;
 class Camera;
 class Intersection;
@@ -76,6 +77,13 @@ class Light;
 class AreaLight;
 class BxDF;
 class BSDF;
+class Texture;
+class FloatTexture;
+class Integrator;
+
+// util
+class ParamSet;
+class ParamVec;
 
 
 ORION_NAMESPACE_END

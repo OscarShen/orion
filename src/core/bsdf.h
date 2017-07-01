@@ -33,15 +33,13 @@ public:
 	BxDF(BxDFType type) : type(type) {}
 	bool matchType(BxDFType t) const { return (type & t) == type; }
 
-	// use cosine hemisphere sample by default
+	// use cosine hemisphere reflection sample by default
 	virtual Spectrum sample_f(Vector3f *swi, const Vector3f &swo, const Point2f &rand,
 		Float *pdf, BxDFType *sampledType = nullptr) const;
-	// use cosine hemisphere pdf by default
+	// use cosine hemisphere reflection pdf by default
 	virtual Float pdf(const Vector3f &swi, const Vector3f &swo) const;
 	virtual Spectrum f(const Vector3f &swi, const Vector3f &swo) const = 0;
 };
-
-
 
 class BSDF
 {

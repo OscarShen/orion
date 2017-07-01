@@ -131,13 +131,16 @@
     <ClInclude Include="external\embree2\rtcore_version.h" />
     <ClInclude Include="external\stb_image_aug.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
+    <ClInclude Include="src\bsdf\lambert.h" />
     <ClInclude Include="src\camera\pinhole.h" />
     <ClInclude Include="src\core\bsdf.h" />
     <ClInclude Include="src\core\camera.h" />
     <ClInclude Include="src\core\geometry.h" />
+    <ClInclude Include="src\core\integrator.h" />
     <ClInclude Include="src\core\intersection.h" />
     <ClInclude Include="src\core\kernel.h" />
     <ClInclude Include="src\core\light.h" />
+    <ClInclude Include="src\core\material.h" />
     <ClInclude Include="src\core\primitive.h" />
     <ClInclude Include="src\core\sampler.h" />
     <ClInclude Include="src\core\scene.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="src\light\distant.h" />
     <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\light\spot.h" />
+    <ClInclude Include="src\material\matte.h" />
     <ClInclude Include="src\orion.h" />
     <ClInclude Include="src\sampler\pseudo.h" />
     <ClInclude Include="src\sampler\sampling.h" />
@@ -157,9 +161,11 @@
     <ClInclude Include="src\texture\floattexture.h" />
     <ClInclude Include="src\texture\imagetexture.h" />
     <ClInclude Include="src\texture\rendertarget.h" />
+    <ClInclude Include="src\util\param.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\stb_image_aug.c" />
+    <ClCompile Include="src\bsdf\lambert.cpp" />
     <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\bsdf.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
@@ -171,6 +177,7 @@
     <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\point.cpp" />
     <ClCompile Include="src\light\spot.cpp" />
+    <ClCompile Include="src\material\matte.cpp" />
     <ClCompile Include="src\sampler\sampling.cpp" />
     <ClCompile Include="src\sampler\sobol.cpp" />
     <ClCompile Include="src\texture\floattexture.cpp" />

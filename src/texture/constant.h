@@ -23,8 +23,8 @@ namespace orion {
 		ConstantTexture(Float r, Float g, Float b) : s(r,g,b) {}
 		ConstantTexture(const Spectrum &s) : s(s) {}
 		~ConstantTexture() {}
-		virtual Spectrum sample(int x, int y) const override { return s; }
-		virtual Spectrum evaluate(const Intersection* intersect) const override { return s; }
+		Spectrum sample(int x, int y) const override { return s; }
+		Spectrum evaluate(const Intersection &intersect) const override { return s; }
 		
 	private:
 		void _init() {

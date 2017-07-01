@@ -123,6 +123,21 @@
     <ClInclude Include="src\core\bsdf.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\bsdf\lambert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\material\matte.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\param.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\integrator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -174,6 +189,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\core\bsdf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bsdf\lambert.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\material\matte.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
