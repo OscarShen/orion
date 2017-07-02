@@ -49,7 +49,7 @@ public:
 
 	// Calculate pdf in the case of we already get offset and intersect points,
 	// _p_ means offset on this triangle.
-	Float pdf(const Intersection &isec, const Vector3f &wi, const Point3f &p) const;
+	Float pdf(const Intersection &isec, const Vector3f &wi, const Scene &scene) const;
 };
 
 

@@ -4,17 +4,18 @@
 #include <texture/floattexture.h>
 ORION_NAMESPACE_BEGIN
 
-void Matte::getBSDF(Intersection * isec, TransportMode mode) const
+std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mode) const
 {
-	isec->bsdf = std::make_shared<BSDF>(*isec);
-	Spectrum r = Kd->evaluate(*isec).clamp();
-	Float sig = sigma->evaluate(*isec).clamp(0.0f, 90.0f).r;
+	auto bsdf = std::make_shared<BSDF>(isec);
+	Spectrum r = Kd->evaluate(isec).clamp();
+	Float sig = sigma->evaluate(isec).clamp(0.0f, 90.0f).r;
 	if (!r.isBlack()) {
 		// if(sig == 0)
-		isec->bsdf->addBxDF(std::make_shared<BxDF>(r));
+		bsdf->addBxDF(std::make_shared<BxDF>(r));
 		// sigma != 0
 		// else
 	}
+	return bsdf;
 }
 
 std::shared_ptr<Matte> createMatteMaterial(std::shared_ptr<Texture> Kd, std::shared_ptr<FloatTexture> sigma)

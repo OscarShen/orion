@@ -56,9 +56,10 @@ public:
 	Vector3f world2local(const Vector3f &w) const;
 	Vector3f local2world(const Vector3f &w) const;
 
+	Spectrum f(const Vector3f &wi, const Vector3f &wo, BxDFType type = BxDF_ALL) const;
 	Spectrum sample_f(Vector3f *wi, const Vector3f &wo, const Point2f &rand,
 		Float *pdf, BxDFType type = BxDF_ALL, BxDFType *sampledType = nullptr) const;
-	Spectrum pdf(const Vector3f &wi, const Vector3f &wo, BxDFType type = BxDF_ALL) const;
+	Float pdf(const Vector3f &wi, const Vector3f &wo, BxDFType type = BxDF_ALL) const;
 };
 
 inline Vector3f BSDF::world2local(const Vector3f & w) const

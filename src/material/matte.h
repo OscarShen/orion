@@ -22,7 +22,7 @@ public:
 	Matte(std::shared_ptr<Texture> Kd, std::shared_ptr<FloatTexture> sigma)
 		:Kd(Kd), sigma(sigma) {}
 
-	void getBSDF(Intersection *isec, TransportMode mode) const override;
+	std::shared_ptr<BSDF> getBSDF(const Intersection &isec, TransportMode mode = TransportMode::Path) const override;
 };
 
 std::shared_ptr<Matte> createMatteMaterial(std::shared_ptr<Texture> Kd, std::shared_ptr<FloatTexture> sigma);

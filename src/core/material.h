@@ -18,7 +18,7 @@ class Material
 {
 public:
 	virtual ~Material() {}
-	virtual void getBSDF(Intersection *isec, TransportMode mode) const = 0;
+	virtual std::shared_ptr<BSDF> getBSDF(const Intersection &isec, TransportMode mode = TransportMode::Path) const = 0;
 };
 
 ORION_NAMESPACE_END

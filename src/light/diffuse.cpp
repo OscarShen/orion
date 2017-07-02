@@ -22,9 +22,9 @@ Spectrum DiffuseAreaLight::sample_Li(const Intersection & isec, const Point2f & 
 	return L(in, -*wi);
 }
 
-Float DiffuseAreaLight::pdf_Li(const Intersection & isec, const Vector3f & wi, const Point3f * samplePoint) const
+Float DiffuseAreaLight::pdf_Li(const Intersection & isec, const Vector3f & wi, const Scene & scene) const
 {
-	return triangle->pdf(isec, wi, *samplePoint);
+	return triangle->pdf(isec, wi, scene);
 }
 
 Spectrum DiffuseAreaLight::sample_Le(const Point2f & rand1, const Point2f & rand2, Ray * ray, Normal3f * nLight, Float * pdfPos, Float * pdfDir) const

@@ -14,8 +14,9 @@
 ORION_NAMESPACE_BEGIN
 
 class Scene {
-private:
+public:
 	std::vector<std::shared_ptr<Light>> lights;
+private:
 	std::unique_ptr<Kernel> kernel;
 
 public:

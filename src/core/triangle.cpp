@@ -2,6 +2,7 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 #include <sampler/sampling.h>
+#include "scene.h"
 ORION_NAMESPACE_BEGIN
 void Mesh::loadMesh(const std::string & filePath)
 {
@@ -123,14 +124,16 @@ Intersection Triangle::sample(const Intersection & ref, const Point2f & u, Float
 	return isec;
 }
 
-Float Triangle::pdf(const Intersection & isec, const Vector3f & wi, const Point3f & p) const
+Float Triangle::pdf(const Intersection & isec, const Vector3f & wi, const Scene & scene) const
 {
-	Point3f &p0 = mesh->p[triNumber * 3];
-	Point3f &p1 = mesh->p[triNumber * 3 + 1];
-	Point3f &p2 = mesh->p[triNumber * 3 + 2];
-	Normal3f ng = Normal3f(normalize(cross(p1 - p0, p2 - p0)));
+	Ray ray = isec.spawnRay(wi);
+	Float t;
+	Intersection in;
+	if (!scene.intersect(ray, &in) || in.primitive->triangle.get() != this)
+		return 0;
 
-	Float pdf = (isec.p - p).lengthSquared() / (absDot(ng, -wi) * area());
+	Float pdf = (isec.p - in.p).lengthSquared() /
+		(absDot(in.ng, -wi) * area());
 	if (std::isinf(pdf))
 		pdf = 0;
 	return pdf;

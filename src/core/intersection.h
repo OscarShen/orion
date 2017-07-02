@@ -11,6 +11,8 @@
 #include <orion.h>
 #include "geometry.h"
 #include "spectrum.h"
+#include "primitive.h"
+#include "material.h"
 ORION_NAMESPACE_BEGIN
 
 class Intersection
@@ -45,8 +47,12 @@ public:
 	}
 
 	Spectrum Le(const Vector3f &wo) const {
-		CHECK_INFO(false, "no impl!");
-		return 0;
+		const AreaLight *area = primitive->getAreaLight();
+		return area ? area->L(*this, wo) : 0;
+	}
+
+	void calculateBSDF(TransportMode mode = TransportMode::Path) {
+		bsdf = primitive->material->getBSDF(*this, mode);
 	}
 };
 

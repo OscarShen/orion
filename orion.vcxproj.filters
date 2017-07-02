@@ -138,6 +138,12 @@
     <ClInclude Include="src\core\integrator.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\integrator\path.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\strutil.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -195,6 +201,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\material\matte.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\integrator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\integrator\path.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\strutil.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

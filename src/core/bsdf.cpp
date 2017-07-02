@@ -13,6 +13,20 @@ int BSDF::numBxDF(BxDFType type) const
 
 constexpr Float oneMinusEpsilon = (Float)0.99999994;
 
+Spectrum BSDF::f(const Vector3f & wi, const Vector3f & wo, BxDFType type) const
+{
+	Spectrum r;
+
+	Vector3f swi = world2local(wi); // just rotation, need not to normalize
+	Vector3f swo = world2local(wo);
+
+	for (size_t i = 0; i < bxdfs.size(); ++i) {
+		if (bxdfs[i]->matchType(type))
+			r += bxdfs[i]->f(swi, swo);
+	}
+	return r;
+}
+
 Spectrum BSDF::sample_f(Vector3f * wi, const Vector3f & wo, const Point2f & rand, Float * pdf, BxDFType type, BxDFType * sampledType) const
 {
 	int matchingBxdfs = numBxDF(type);
@@ -72,7 +86,7 @@ Spectrum BSDF::sample_f(Vector3f * wi, const Vector3f & wo, const Point2f & rand
 	return f;
 }
 
-Spectrum BSDF::pdf(const Vector3f & wi, const Vector3f & wo, BxDFType type) const
+Float BSDF::pdf(const Vector3f & wi, const Vector3f & wo, BxDFType type) const
 {
 	if (bxdfs.size() == 0)
 		return 0;
