@@ -9,6 +9,7 @@
 #ifndef ORION_LIGHT_DIFFUSE_H_
 #define ORION_LIGHT_DIFFUSE_H_
 #include <core/light.h>
+#include <core/triangle.h>
 ORION_NAMESPACE_BEGIN
 
 class DiffuseAreaLight : public AreaLight
@@ -19,6 +20,9 @@ private:
 	Float area;
 
 public:
+	DiffuseAreaLight(const Transform &light2world, const Spectrum &Le, int nSamples,
+		const std::shared_ptr<Triangle> &tri)
+		: AreaLight(light2world, nSamples), Le(Le), triangle(tri), area(triangle->area()) {}
 	Spectrum power() const override;
 
 	Spectrum sample_Li(const Intersection &isec, const Point2f &rnd,
@@ -32,6 +36,8 @@ public:
 
 	Spectrum L(const Intersection &intr, const Vector3f &w) const override;
 };
+
+std::shared_ptr<DiffuseAreaLight> createDiffuseAreaLight(const Transform &light2world, const std::shared_ptr<Triangle> &tri, const ParamSet &param);
 
 ORION_NAMESPACE_END
 

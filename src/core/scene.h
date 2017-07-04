@@ -20,8 +20,7 @@ private:
 	std::unique_ptr<Kernel> kernel;
 
 public:
-	Scene(std::shared_ptr<Camera> camera, std::shared_ptr<Sampler> sampler,
-		const std::vector<Primitive> &primitives, const std::vector<std::shared_ptr<Light>> &lights)
+	Scene(const std::vector<std::shared_ptr<Primitive>> &primitives, const std::vector<std::shared_ptr<Light>> &lights)
 		: lights(lights) {
 		// only support embree kernel now
 		kernel = std::make_unique<EmbreeKernel>(primitives);

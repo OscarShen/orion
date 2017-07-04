@@ -16,13 +16,15 @@ class PathTracing : public Integrator
 {
 private:
 	int maxDepth;
-	Distribution1D *lightDistrib;
+	int nSamples;
+	std::shared_ptr<Distribution1D> lightDistrib;
 
 public:
 	PathTracing(const std::shared_ptr<Camera> &camera,
-		const std::shared_ptr<Sampler> &sampler, int maxDepth)
-		: Integrator(camera, sampler), maxDepth(maxDepth) {}
-	~PathTracing() { delete lightDistrib; }
+		const std::shared_ptr<Sampler> &sampler, int maxDepth, int nSamples)
+		: Integrator(camera, sampler), maxDepth(maxDepth), nSamples(nSamples) {}
+	~PathTracing() {}
+	void render(const Scene &scene) override;
 	void preprocess(const Scene &scene, Sampler &sampler) override;
 	Spectrum Li(const Ray &ray, const Scene &scene, Sampler &sampler, int depth = 0) const override;
 };

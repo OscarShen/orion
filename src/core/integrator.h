@@ -16,7 +16,7 @@ ORION_NAMESPACE_BEGIN
 struct Distribution1D;
 class Integrator
 {
-private:
+protected:
 	std::shared_ptr<Camera> camera;
 	std::shared_ptr<Sampler> sampler;
 
@@ -25,7 +25,7 @@ public:
 		: camera(camera), sampler(sampler) {}
 	virtual ~Integrator() {}
 	virtual void preprocess(const Scene &scene, Sampler &sampler) {}
-	virtual void render(const Scene &scene) {}
+	virtual void render(const Scene &scene) = 0;
 	virtual Spectrum Li(const Ray &ray, const Scene &scene, Sampler &sampler, int depth = 0) const {
 		CHECK_INFO(false, "no impl!");
 		return 0;

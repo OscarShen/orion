@@ -19,6 +19,11 @@ private:
 	Float cosTotalWidth, cosFalloffStart;
 
 public:
+	SpotLight(const Transform & light2world, const Spectrum & I, Float totalWidth, Float falloffStart)
+		: Light((int)LightType::DeltaPosition, light2world), I(I), p(light2world(Point3f(0))),
+		cosTotalWidth(std::cos(radians(totalWidth))),
+		cosFalloffStart(std::cos(radians(cosFalloffStart))) {}
+
 	Spectrum power() const override;
 
 	Float falloff(const Vector3f &w) const;
@@ -32,6 +37,8 @@ public:
 	void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
 		Float *pdfDir) const override;
 };
+
+std::shared_ptr<SpotLight> createSpotLight(const ParamSet &param);
 
 ORION_NAMESPACE_END
 

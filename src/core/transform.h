@@ -168,5 +168,7 @@ namespace orion {
 			mInv.m[0][1] * x + mInv.m[1][1] * y + mInv.m[2][1] * z,
 			mInv.m[0][2] * x + mInv.m[1][2] * y + mInv.m[2][2] * z);
 	}
+
+	Transform createTransform(const ParamVec &param);
 }
 #endif // !ORION_TRANSFORM_H_

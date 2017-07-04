@@ -35,6 +35,8 @@ public:
 		Float *pdfDir) const override;
 };
 
+std::shared_ptr<PointLight> createPointLight(const ParamSet &param);
+
 ORION_NAMESPACE_END
 
 #endif // !ORION_LIGHT_POINT_H_

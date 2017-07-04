@@ -11,16 +11,15 @@
 #include <orion.h>
 #include "geometry.h"
 #include "transform.h"
-#include "intersection.h"
 ORION_NAMESPACE_BEGIN
 // triangle mesh
 struct Mesh
 {
 	// number of triangles, number of vertices
 	int numTri, numVer;
-	std::unique_ptr<Point3f[]> p;		// position
-	std::unique_ptr<Normal3f[]> n;		// normal
-	std::unique_ptr<Point2f[]> uv;		// uv
+	std::vector<Point3f> p;		// position
+	std::vector<Normal3f> n;	// normal
+	std::vector<Point2f> uv;	// uv
 
 	void loadMesh(const std::string &filePath);
 };
@@ -52,7 +51,8 @@ public:
 	Float pdf(const Intersection &isec, const Vector3f &wi, const Scene &scene) const;
 };
 
-
+std::vector<std::shared_ptr<Triangle>> createTriangleMesh(const Transform *local2world, const Transform *world2local,
+	std::shared_ptr<Mesh> meshdata);
 
 ORION_NAMESPACE_END
 

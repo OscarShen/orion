@@ -831,7 +831,7 @@ int findInterval(int size, const Predicate &pred) {
 
 template <typename T>
 inline Normal3<T> faceforward(const Normal3<T> &n, const Normal3<T> &n2) {
-	return (Dot(n, n2) < 0.f) ? -n : n;
+	return (dot(n, n2) < 0.f) ? -n : n;
 }
 
 template <typename T>

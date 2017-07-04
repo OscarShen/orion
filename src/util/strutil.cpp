@@ -98,5 +98,64 @@ namespace orion {
 					   static_cast<Float>(atof(v[8].c_str())));
 		return lookAt(origin, lookat, up);
 	}
+	std::shared_ptr<Mesh> parseMeshData(const std::string & pStr, const std::string & uvStr, const std::string & nStr)
+	{
+		auto pStrs = split(pStr, ",");
+		CHECK_INFO(pStrs.size() % 3 == 0, "number of figures can't make complete point!");
+		int verticesNum = (int)pStrs.size() / 3;
+		int triNum = verticesNum / 3;
+
+		auto mesh = std::make_shared<Mesh>();
+
+		// p
+		std::vector<Point3f> p;
+		p.reserve(verticesNum);
+		for (int i = 0; i < verticesNum; ++i) {
+			p.push_back(Point3f(
+				static_cast<Float>(atof(pStrs[3 * i].c_str())),
+				static_cast<Float>(atof(pStrs[3 * i + 1].c_str())),
+				static_cast<Float>(atof(pStrs[3 * i + 2].c_str()))));
+		}
+
+		// uv
+		std::vector<Point2f> uv;
+		uv.reserve(verticesNum);
+		if (!uvStr.empty()) {
+			auto uvStrs = split(uvStr, ",");
+			for (int i = 0; i < verticesNum; ++i) {
+				uv.push_back(Point2f(
+					static_cast<Float>(atof(uvStrs[2 * i].c_str())),
+					static_cast<Float>(atof(uvStrs[2 * i + 1].c_str()))));
+			}
+		}
+
+		// n
+		std::vector<Normal3f> n;
+		if (!nStr.empty()) {
+			auto nStrs = split(nStr, ",");
+			if (nStrs.size() == 3) {
+				Normal3f normal(
+					static_cast<Float>(atof(nStrs[0].c_str())),
+					static_cast<Float>(atof(nStrs[1].c_str())),
+					static_cast<Float>(atof(nStrs[2].c_str())));
+				n = std::vector<Normal3f>(verticesNum, normal);
+			}
+			else {
+				for (int i = 0; i < verticesNum; ++i) {
+					n.push_back(Normal3f(
+						static_cast<Float>(atof(nStrs[3 * i].c_str())),
+						static_cast<Float>(atof(nStrs[3 * i + 1].c_str())),
+						static_cast<Float>(atof(nStrs[3 * i + 2].c_str()))));
+				}
+			}
+		}
+		
+		mesh->p = std::move(p);
+		mesh->n = std::move(n);
+		mesh->uv = std::move(uv);
+		mesh->numTri = triNum;
+		mesh->numVer = verticesNum;
+		return mesh;
+	}
 }
 

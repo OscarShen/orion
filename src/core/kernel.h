@@ -9,6 +9,7 @@
 #ifndef ORION_CORE_KERNEL_H_
 #define ORION_CORE_KERNEL_H_
 #include <orion.h>
+#include "geometry.h"
 #include <embree2/rtcore.h>
 ORION_NAMESPACE_BEGIN
 

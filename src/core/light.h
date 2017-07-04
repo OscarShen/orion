@@ -10,8 +10,8 @@
 #define ORION_CORE_LIGHT_H_
 #include <orion.h>
 #include "transform.h"
-#include "intersection.h"
 #include "scene.h"
+#include "intersection.h"
 ORION_NAMESPACE_BEGIN
 
 class ShadowTester
@@ -75,6 +75,7 @@ public:
 		: Light((int)LightType::Area, light2world, nSamples) {}
 	virtual Spectrum L(const Intersection &intr, const Vector3f &w) const = 0;
 };
+
 
 ORION_NAMESPACE_END
 #endif // !ORION_CORE_LIGHT_H_

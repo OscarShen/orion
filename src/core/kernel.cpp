@@ -74,9 +74,6 @@ void EmbreeKernel::build()
 	rtcScene = rtcDeviceNewScene(rtcDevice, RTC_SCENE_STATIC, RTC_INTERSECT1);
 	geomID = rtcNewTriangleMesh(rtcScene, geom_flags, numTri, numVer, 1);
 
-	rtcScene = rtcDeviceNewScene(rtcDevice, RTC_SCENE_STATIC, RTC_INTERSECT1);
-	geomID = rtcNewTriangleMesh(rtcScene, geom_flags, numTri, numVer, 1);
-
 	struct RTCVertex {
 		float x, y, z, a;
 	};

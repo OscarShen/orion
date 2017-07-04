@@ -1,5 +1,7 @@
 #include "spot.h"
 #include <sampler/sampling.h>
+#include <util/param.h>
+#include <util/strutil.h>
 ORION_NAMESPACE_BEGIN
 Spectrum SpotLight::power() const
 {
@@ -40,4 +42,21 @@ void SpotLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Floa
 	*pdfDir = (cosTheta(world2local(ray.d)) >= cosTotalWidth)
 		? uniformConePdf(cosTotalWidth) : 0;
 }
+
+std::shared_ptr<SpotLight> createSpotLight(const ParamSet & param)
+{
+	Spectrum I = parseSpectrum(param.getParam("intensity"));
+	Float coneangle = parseFloat(param.getParam("angle"));
+	Float conedelta = parseFloat(param.getParam("delta"));
+	Point3f from = parsePoint3f(param.getParam("from"));
+	Point3f to = parsePoint3f(param.getParam("to"));
+	Vector3f dir = normalize(to - from);
+	Vector3f z, x;
+	coordinateSystem(dir, &z, &x);
+	Transform dirToY(Matrix4f(x.x, x.y, x.z, 0.0f, dir.x, dir.y, dir.z, 0.0f, z.x, z.y, z.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
+	Transform l2w = translate(Vector3f(from)) * inverse(dirToY);
+	return std::shared_ptr<SpotLight>(new SpotLight(l2w, I, coneangle, coneangle - conedelta));
+
+}
+
 ORION_NAMESPACE_END

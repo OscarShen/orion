@@ -1,6 +1,8 @@
 #include "diffuse.h"
 #include <core/triangle.h>
 #include <sampler/sampling.h>
+#include <util/param.h>
+#include <util/strutil.h>
 ORION_NAMESPACE_BEGIN
 
 Spectrum DiffuseAreaLight::power() const
@@ -8,7 +10,7 @@ Spectrum DiffuseAreaLight::power() const
 	return Le * area * pi;
 }
 
-Spectrum DiffuseAreaLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, Float * pdf, ShadowTester * sdt, Point3f *samplePoint = nullptr) const
+Spectrum DiffuseAreaLight::sample_Li(const Intersection & isec, const Point2f & rnd, Vector3f * wi, Float * pdf, ShadowTester * sdt, Point3f *samplePoint) const
 {
 	Intersection in = triangle->sample(isec, rnd, pdf);
 	if (samplePoint)
@@ -51,6 +53,14 @@ void DiffuseAreaLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPo
 Spectrum DiffuseAreaLight::L(const Intersection & intr, const Vector3f & w) const
 {
 	return dot(intr.ng, w) > 0 ? Le : 0;
+}
+
+std::shared_ptr<DiffuseAreaLight> createDiffuseAreaLight(const Transform & light2world, const std::shared_ptr<Triangle>& tri, const ParamSet & param)
+{
+	Spectrum Le = parseSpectrum(param.getParam("Le"));
+	int nLightSamples = parseInt(param.getParam("nLightSamples"));
+	return std::shared_ptr<DiffuseAreaLight>(new DiffuseAreaLight(light2world, Le, nLightSamples, tri));
+
 }
 
 ORION_NAMESPACE_END

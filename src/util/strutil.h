@@ -33,6 +33,8 @@ namespace orion {
 	Spectrum parseSpectrum(const std::string &s);
 
 	Transform parseLookAt(const std::string &s);
+
+	std::shared_ptr<Mesh> parseMeshData(const std::string &pStr, const std::string &uvStr, const std::string &nStr);
 }
 
 #endif // !ORION_UTIL_STRING_H_

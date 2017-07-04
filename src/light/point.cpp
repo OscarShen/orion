@@ -1,5 +1,7 @@
 #include "point.h"
 #include <sampler/sampling.h>
+#include <util/param.h>
+#include <util/strutil.h>
 ORION_NAMESPACE_BEGIN
 Spectrum PointLight::power() const
 {
@@ -28,4 +30,13 @@ void PointLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Flo
 	*pdfPos = 0;
 	*pdfDir = uniformSpherePdf();
 }
+
+std::shared_ptr<PointLight> createPointLight(const ParamSet & param)
+{
+	Spectrum I = parseSpectrum(param.getParam("intensity"));
+	Point3f p = parsePoint3f(param.getParam("from"));
+	Transform l2w = translate(Vector3f(p));
+	return std::shared_ptr<PointLight>(new PointLight(l2w, I));
+}
+
 ORION_NAMESPACE_END

@@ -46,10 +46,7 @@ public:
 		return Ray(o, d, 0, t);
 	}
 
-	Spectrum Le(const Vector3f &wo) const {
-		const AreaLight *area = primitive->getAreaLight();
-		return area ? area->L(*this, wo) : 0;
-	}
+	Spectrum Le(const Vector3f &wo) const;
 
 	void calculateBSDF(TransportMode mode = TransportMode::Path) {
 		bsdf = primitive->material->getBSDF(*this, mode);

@@ -38,6 +38,8 @@ public:
 		Float *pdfDir) const override;
 };
 
+std::shared_ptr<DistantLight> createDistantLight(const ParamSet &param);
+
 ORION_NAMESPACE_END
 
 #endif // !ORION_LIGHT_DISTANT_H_

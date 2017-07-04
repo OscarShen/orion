@@ -1,5 +1,7 @@
 #include "transform.h"
 #include "intersection.h"
+#include <util/param.h>
+#include <util/strutil.h>
 namespace orion {
 	Matrix4f::Matrix4f(Float mat[4][4]) { memcpy(m, mat, 16 * sizeof(Float)); }
 
@@ -212,5 +214,40 @@ namespace orion {
 		result.m[1][3] = -dot(u, Vector3f(pos));
 		result.m[2][3] = dot(f, Vector3f(pos));
 		return Transform(inverse(result), result);	// local to world, so we need inverse _Matrix4f_
+	}
+	Transform createTransform(const ParamVec & param)
+	{
+		static std::vector<Transform> reuse(8); // for reuse transform
+
+		Transform t;
+		param.reset();
+		const std::pair<std::string, std::string> *pair = nullptr;
+		while (pair = param.getPair()) {
+			if (pair->first == "store") {
+				int pos = parseInt(pair->second);
+				reuse[pos] = t;
+			}
+			else if (pair->first == "reuse") {
+				int pos = parseInt(pair->second);
+				t = reuse[pos] * t;
+			}
+			else if (pair->first == "scale") {
+				Vector3f scaleVec = parseVector3f(pair->second);
+				t = scale(scaleVec) * t;
+			}
+			else if (pair->first == "rotate") {
+				Float degree;
+				Vector3f rotateAxis = parseRotate(pair->second, degree);
+				t = rotate(degree, rotateAxis) * t;
+			}
+			else if (pair->first == "translate") {
+				Vector3f translateVec = parseVector3f(pair->second);
+				t = translate(translateVec) * t;
+			}
+			else if (pair->first == "lookat") {
+				t = parseLookAt(pair->second) * t;
+			}
+		}
+		return t;
 	}
 }

@@ -1,0 +1,70 @@
+<Scene>
+  <Resource filename ="../../res/cornell/"/>
+
+  <Camera type = "pinhole"><!--Camera-->
+    <Transform>
+      <Param lookat="0,0,1800,  0,0,0,  0,1,0"/>
+    </Transform>
+    <Param fov="35"/>
+    <Param filmsize="1000,1000"/>
+  </Camera>
+
+  <Model type ="mesh" filename="floor.obj">
+    <Material type="matte" name="OtherWalls">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Kd>
+    </Material>
+  </Model>
+  <Model type ="mesh" filename="ceiling.obj"><!--Ceiling-->
+    <Material named="OtherWalls"/>
+  </Model>
+  <Model type ="mesh" filename="back.obj"><!--BackWall-->
+    <Material named="OtherWalls"/>
+  </Model>
+  <Model type ="mesh" filename="right.obj"><!--RightWall-->
+    <Material type="matte" name="RightWall">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0.4,0"/>
+      </Kd>
+    </Material>
+  </Model>
+  <Model type ="mesh" filename="left.obj"><!--LeftWall-->
+    <Material type="matte" name="LeftWall">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0,0"/>
+      </Kd>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="light.obj"><!--AreaLight-->
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <AreaLight>
+      <Param Le="80,70,50"/>
+      <Param nLightSamples="3"/>
+    </AreaLight>
+  </Model>
+
+  <Model type ="mesh" filename="small.obj"><!--small-->
+    <Material named="OtherWalls"/>
+  </Model>
+
+  <Model type ="mesh" filename="tall.obj"><!--tall-->
+    <Material named="OtherWalls"/>
+  </Model>
+
+  <Integrator type="path">
+    <Param maxDepth ="5"/>
+    <Param nSamplesPerPixel="1"/>
+  </Integrator>
+
+  <Sampler type="pseudo"/>
+</Scene>

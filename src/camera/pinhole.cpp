@@ -1,6 +1,8 @@
 #include "pinhole.h"
 #include <core/sampler.h>
 #include <sampler/sampling.h>
+#include <util/strutil.h>
+#include <util/param.h>
 ORION_NAMESPACE_BEGIN
 
 Ray Pinhole::generateRay(const Point2f & offset, const std::shared_ptr<Sampler>& sampler) const
@@ -28,6 +30,21 @@ Ray Pinhole::generateRay(const Point2f & offset, const std::shared_ptr<Sampler>&
 
 	Ray after = t(before);
 	return after;
+}
+
+std::shared_ptr<Pinhole> createPinholeCamera(const Transform & camera2world, const ParamSet & param)
+{
+	Vector2i filmSize = parseVector2i(param.getParam("filmsize"));
+	Float fov = parseFloat(param.getParam("fov"));
+
+	auto film = std::make_shared<RenderTarget>(filmSize.x, filmSize.y);
+
+	Float lensRadius = 0, focalDistance = 0;
+	if (param.hasParam("lensRadius")) {
+		lensRadius = parseFloat(param.getParam("lensRadius"));
+		focalDistance = parseFloat(param.getParam("focalDistance"));
+	}
+	return std::shared_ptr<Pinhole>(new Pinhole(camera2world, fov, film, focalDistance, lensRadius));
 }
 
 ORION_NAMESPACE_END

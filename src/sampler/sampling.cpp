@@ -26,6 +26,12 @@ Vector3f uniformSampleCone(const Point2f & rand, Float cosThetaMax)
 		cosTheta);
 }
 
+Point2f uniformSampleDisk(const Point2f &u) {
+	Float r = std::sqrt(u[0]);
+	Float theta = 2 * pi * u[1];
+	return Point2f(r * std::cos(theta), r * std::sin(theta));
+}
+
 Point2f concentricSampleDisk(const Point2f & rand)
 {
 	// Map uniform random numbers to $[-1,1]^2$
@@ -49,9 +55,9 @@ Point2f concentricSampleDisk(const Point2f & rand)
 
 Vector3f cosineSampleHemisphere(const Point2f & rand)
 {
-	Point2f sample = concentricSampleDisk(rand);
-	Float y = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
-	return Vector3f(sample[0], y, sample[1]);
+	Point2f sample = uniformSampleDisk(rand);
+	Float z = std::sqrt(std::max(0.0f, 1 - sample[0] * sample[0] - sample[1] * sample[1]));
+	return Vector3f(sample[0], sample[1], z);
 }
 
 ORION_NAMESPACE_END

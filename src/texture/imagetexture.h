@@ -32,13 +32,6 @@ namespace orion {
 		std::shared_ptr<ImageMemory> memory;
 
 	public:
-		virtual void setSize(int width, int height) override { /* You can't reset size of image texure */ }
-
-		virtual Spectrum sample(int x, int y) const override;
-
-		virtual ~ImageTexture() {}
-
-	private:
 		ImageTexture() {}
 		ImageTexture(std::shared_ptr<ImageMemory> mem)
 			: memory(mem)
@@ -46,6 +39,10 @@ namespace orion {
 			width = mem->width;
 			height = mem->height;
 		}
+
+		void setSize(int width, int height) override { /* You can't reset size of image texure */ }
+
+		Spectrum sample(int x, int y) const override;
 
 		friend class TexManager;
 	};

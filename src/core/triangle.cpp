@@ -3,6 +3,7 @@
 #include <tiny_obj_loader.h>
 #include <sampler/sampling.h>
 #include "scene.h"
+#include "intersection.h"
 ORION_NAMESPACE_BEGIN
 void Mesh::loadMesh(const std::string & filePath)
 {
@@ -20,9 +21,6 @@ void Mesh::loadMesh(const std::string & filePath)
 	CHECK_INFO(ret, "Loading " + filePath + " failed");
 
 	int size = (int) shapes.size();
-	p.reset(new Point3f[size * 3]);
-	n.reset(new Normal3f[size * 3]);
-	uv.reset(new Point2f[size * 3]);
 
 	int index = 0;
 	for (int s = 0; s < size; s++) {
@@ -47,18 +45,16 @@ void Mesh::loadMesh(const std::string & filePath)
 					tx = attrib.texcoords[2 * idx.texcoord_index + 0];
 					ty = attrib.texcoords[2 * idx.texcoord_index + 1];
 				}
-				p[index] = Point3f(vx, vy, vz);
-				n[index] = Normal3f(nx, ny, nz);
-				uv[index] = Point2f(tx, ty);
+				p.push_back(Point3f(vx, vy, vz));
+				n.push_back(Normal3f(nx, ny, nz));
+				uv.push_back(Point2f(tx, ty));
 				++index;
 			}
 			index_offset += fv;
+			++numTri;
+			numVer += 3;
 		}
-		numTri = size;
-		numVer = size * 3;
 	}
-
-
 }
 
 Bounds3f Triangle::worldBound() const
@@ -127,7 +123,6 @@ Intersection Triangle::sample(const Intersection & ref, const Point2f & u, Float
 Float Triangle::pdf(const Intersection & isec, const Vector3f & wi, const Scene & scene) const
 {
 	Ray ray = isec.spawnRay(wi);
-	Float t;
 	Intersection in;
 	if (!scene.intersect(ray, &in) || in.primitive->triangle.get() != this)
 		return 0;
@@ -139,5 +134,20 @@ Float Triangle::pdf(const Intersection & isec, const Vector3f & wi, const Scene 
 	return pdf;
 }
 
-ORION_NAMESPACE_END
+std::vector<std::shared_ptr<Triangle>> createTriangleMesh(const Transform * local2world, const Transform * world2local, std::shared_ptr<Mesh> meshdata)
+{
+	Mesh *mesh = meshdata.get();
+	for (int i = 0; i < mesh->numVer; ++i) {
+		mesh->n[i] = (*local2world)(mesh->n[i]);
+		mesh->p[i] = (*local2world)(mesh->p[i]);
+	}
 
+	std::vector<std::shared_ptr<Triangle>> tris;
+	tris.reserve(mesh->numTri);
+	for (int i = 0; i < mesh->numTri; ++i) {
+		tris.push_back(std::make_shared<Triangle>(local2world, world2local, meshdata, i));
+	}
+	return tris;
+}
+
+ORION_NAMESPACE_END

@@ -5,10 +5,37 @@
 #include <core/material.h>
 #include <core/bsdf.h>
 #include <core/sampler.h>
+#include <core/camera.h>
 #include <sampler/sampling.h>
 #include <util/param.h>
 #include <util/strutil.h>
 ORION_NAMESPACE_BEGIN
+
+void PathTracing::render(const Scene & scene)
+{
+	preprocess(scene, *sampler);
+	auto film = camera->getFilm();
+	int filmHeight = film->getHeight(), filmWidth = film->getWidth();
+	int filmSamples = filmHeight * filmWidth;
+	for (int k = 0; k < nSamples; ++k) {
+#pragma omp parallel for
+		for (int j = 0; j < filmHeight; ++j) {
+			for (int i = 0; i < filmWidth; ++i) {
+				//i = 637, j = 542;
+				std::shared_ptr<Sampler> s = sampler->clone(k * filmSamples + j * filmWidth + i);
+				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), s);
+
+				Spectrum ret = Li(ray, scene, *s);
+
+#pragma omp critical
+				{
+					camera->getFilm()->acumulate(i, j, ret);
+				}
+			}
+		}
+	}
+}
+
 void PathTracing::preprocess(const Scene & scene, Sampler & sampler)
 {
 	int n = (int)scene.lights.size();
@@ -17,7 +44,7 @@ void PathTracing::preprocess(const Scene & scene, Sampler & sampler)
 	for (int i = 0; i < n; ++i)
 		pdfs[i] = scene.lights[i]->power().intensity();
 	// We have only one light distribution which is power distribution.
-	lightDistrib = new Distribution1D(pdfs.data(), n);
+	lightDistrib = std::shared_ptr<Distribution1D>(new Distribution1D(pdfs.data(), n));
 }
 
 Spectrum PathTracing::Li(const Ray & a, const Scene & scene, Sampler & sampler, int depth) const
@@ -47,7 +74,7 @@ Spectrum PathTracing::Li(const Ray & a, const Scene & scene, Sampler & sampler, 
 		isec.calculateBSDF();
 
 		if (isec.bsdf->numBxDF(BxDFType(BxDF_ALL & ~BxDF_SPECULAR)) > 0) {
-			Spectrum Ld = beta * uniformSampleOneLight(ray, isec, scene, sampler, lightDistrib);
+			Spectrum Ld = beta * uniformSampleOneLight(ray, isec, scene, sampler, lightDistrib.get());
 			L += Ld;
 		}
 
@@ -74,7 +101,8 @@ Spectrum PathTracing::Li(const Ray & a, const Scene & scene, Sampler & sampler, 
 std::shared_ptr<PathTracing> createPathTracingIntegrator(const std::shared_ptr<Camera>& camera, const std::shared_ptr<Sampler>& sampler, const ParamSet & param)
 {
 	int maxDepth = parseInt(param.getParam("maxDepth"));
-	return std::make_shared<PathTracing>(camera, sampler, maxDepth);
+	int nSamples = parseInt(param.getParam("nSamplesPerPixel"));
+	return std::make_shared<PathTracing>(camera, sampler, maxDepth, nSamples);
 }
 
 ORION_NAMESPACE_END

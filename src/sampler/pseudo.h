@@ -20,7 +20,7 @@ private:
 
 public:
 	PseudoRandomSampler(int64_t seed = 5) {
-		e.seed(seed);
+		e.seed((unsigned)seed);
 	}
 
 	Float sample() override {
@@ -31,6 +31,10 @@ public:
 		return std::make_unique<PseudoRandomSampler>(seed);
 	}
 };
+
+std::shared_ptr<PseudoRandomSampler> createPseudoSampler() {
+	return std::make_shared<PseudoRandomSampler>();
+}
 
 ORION_NAMESPACE_END
 

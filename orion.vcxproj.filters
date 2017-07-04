@@ -144,6 +144,21 @@
     <ClInclude Include="src\util\strutil.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\transformcache.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tinystr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="external\tinyxml.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\envvariable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -212,8 +227,35 @@
     <ClCompile Include="src\util\strutil.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\parser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tinystr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tinyxml.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tinyxmlerror.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="external\tinyxmlparser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\envvariable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\intersection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="xml\cornell.ori" />
   </ItemGroup>
 </Project>

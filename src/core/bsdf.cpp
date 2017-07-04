@@ -62,7 +62,7 @@ Spectrum BSDF::sample_f(Vector3f * wi, const Vector3f & wo, const Point2f & rand
 	}
 	*wi = local2world(swi);
 
-	bool hasSpecular = bxdf->type & BxDF_SPECULAR != 0;
+	bool hasSpecular = (bxdf->type & BxDF_SPECULAR) != 0;
 
 	if (!hasSpecular && matchingBxdfs > 1)
 		for (size_t i = 0; i < bxdfs.size(); ++i)
@@ -74,8 +74,8 @@ Spectrum BSDF::sample_f(Vector3f * wi, const Vector3f & wo, const Point2f & rand
 		bool reflect = dot(*wi, ng) * dot(wo, ng) > 0;
 		f = 0; // We will compute the _f_ again
 		for (size_t i = 0; i < bxdfs.size(); ++i) {
-			bool hasReflect = bxdfs[i]->type & BxDF_REFLECTION != 0;
-			bool hasTransmission = bxdfs[i]->type & BxDF_TRANSMISSION != 0;
+			bool hasReflect = (bxdfs[i]->type & BxDF_REFLECTION) != 0;
+			bool hasTransmission = (bxdfs[i]->type & BxDF_TRANSMISSION) != 0;
 			if (bxdfs[i]->matchType(type) &&
 				((reflect && hasReflect) ||
 				(!reflect && hasTransmission))) {

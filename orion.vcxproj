@@ -114,6 +114,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -130,6 +131,8 @@
     <ClInclude Include="external\embree2\rtcore_scene.h" />
     <ClInclude Include="external\embree2\rtcore_version.h" />
     <ClInclude Include="external\stb_image_aug.h" />
+    <ClInclude Include="external\tinystr.h" />
+    <ClInclude Include="external\tinyxml.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
     <ClInclude Include="src\bsdf\lambert.h" />
     <ClInclude Include="src\camera\pinhole.h" />
@@ -162,15 +165,23 @@
     <ClInclude Include="src\texture\floattexture.h" />
     <ClInclude Include="src\texture\imagetexture.h" />
     <ClInclude Include="src\texture\rendertarget.h" />
+    <ClInclude Include="src\util\envvariable.h" />
     <ClInclude Include="src\util\param.h" />
+    <ClInclude Include="src\util\parser.h" />
     <ClInclude Include="src\util\strutil.h" />
+    <ClInclude Include="src\util\transformcache.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\stb_image_aug.c" />
+    <ClCompile Include="external\tinystr.cpp" />
+    <ClCompile Include="external\tinyxml.cpp" />
+    <ClCompile Include="external\tinyxmlerror.cpp" />
+    <ClCompile Include="external\tinyxmlparser.cpp" />
     <ClCompile Include="src\bsdf\lambert.cpp" />
     <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\bsdf.cpp" />
     <ClCompile Include="src\core\integrator.cpp" />
+    <ClCompile Include="src\core\intersection.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
     <ClCompile Include="src\core\scene.cpp" />
     <ClCompile Include="src\core\texture.cpp" />
@@ -181,16 +192,22 @@
     <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\point.cpp" />
     <ClCompile Include="src\light\spot.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\material\matte.cpp" />
     <ClCompile Include="src\sampler\sampling.cpp" />
     <ClCompile Include="src\sampler\sobol.cpp" />
     <ClCompile Include="src\texture\floattexture.cpp" />
     <ClCompile Include="src\texture\imagetexture.cpp" />
     <ClCompile Include="src\texture\rendertarget.cpp" />
+    <ClCompile Include="src\util\envvariable.cpp" />
+    <ClCompile Include="src\util\parser.cpp" />
     <ClCompile Include="src\util\strutil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="xml\cornell.ori" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

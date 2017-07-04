@@ -1,5 +1,7 @@
 #include "distant.h"
 #include <sampler/sampling.h>
+#include <util/strutil.h>
+#include <util/param.h>
 ORION_NAMESPACE_BEGIN
 void DistantLight::preprocess(const Scene & scene)
 {
@@ -41,6 +43,15 @@ void DistantLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, F
 {
 	*pdfPos = 1 / (pi * worldRadius * worldRadius);
 	*pdfDir = 0;
+}
+
+std::shared_ptr<DistantLight> createDistantLight(const ParamSet & param)
+{
+	Spectrum L = parseSpectrum(param.getParam("L"));
+	Point3f from = parsePoint3f(param.getParam("from"));
+	Point3f to = parsePoint3f(param.getParam("to"));
+	Vector3f dir = normalize(to - from);
+	return std::shared_ptr<DistantLight>(new DistantLight(translate(Vector3f(from)), L, dir));
 }
 
 ORION_NAMESPACE_END

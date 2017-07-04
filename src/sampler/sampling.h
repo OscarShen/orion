@@ -38,6 +38,7 @@ inline Float uniformConePdf(Float cosThetaMax) {
 	return 1 / (2 * pi * (1 - cosThetaMax));
 }
 
+Point2f uniformSampleDisk(const Point2f &u);
 Point2f concentricSampleDisk(const Point2f &rand);
 Vector3f cosineSampleHemisphere(const Point2f &rand);
 inline Float cosineHemispherePdf(Float cosTheta) { return cosTheta * invpi; }

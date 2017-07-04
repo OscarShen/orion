@@ -2,6 +2,7 @@
 #include <core/bsdf.h>
 #include <core/texture.h>
 #include <texture/floattexture.h>
+#include <bsdf/lambert.h>
 ORION_NAMESPACE_BEGIN
 
 std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mode) const
@@ -11,7 +12,7 @@ std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mo
 	Float sig = sigma->evaluate(isec).clamp(0.0f, 90.0f).r;
 	if (!r.isBlack()) {
 		// if(sig == 0)
-		bsdf->addBxDF(std::make_shared<BxDF>(r));
+		bsdf->addBxDF(std::make_shared<LambertReflection>(r));
 		// sigma != 0
 		// else
 	}
@@ -20,6 +21,8 @@ std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mo
 
 std::shared_ptr<Matte> createMatteMaterial(std::shared_ptr<Texture> Kd, std::shared_ptr<FloatTexture> sigma)
 {
+	if (sigma == nullptr)
+		sigma.reset(new FloatTexture(0));
 	return std::make_shared<Matte>(Kd, sigma);
 }
 
