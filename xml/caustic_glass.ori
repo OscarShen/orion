@@ -1,0 +1,82 @@
+<Scene>
+  <Resource filename ="../../res/"/>
+  <Output filename="../../res/cornell.bmp"/>
+
+  <Camera type = "perspective"><!--Camera-->
+    <Transform>
+      <Param lookat="-5.5,7,-5.5,  -4.75,2.25,0,  0,1,0"/>
+    </Transform>
+    <Param fov="60"/>
+    <Param filmsize="700,1000"/>
+    <Param nSamples="1"/>
+  </Camera>
+
+  <Accelerator type ="kdtree"/>
+
+  <Integrator type="sppm">
+    <Param maxDepth ="5"/>
+    <Param numIterations="3"/>
+    <Param photonsPerIteration="-1"/>
+    <Param radius="0.1"/>
+  </Integrator>
+
+  <Sampler type="sobol"/>
+
+  <Light type = "spot">
+    <Param from="3,5,10"/>
+    <Param to="-3.5,3.5,2.5"/>
+    <Param intensity="1800, 1500, 1200"/>
+    <Param angle="45"/>
+    <Param delta="5"/>
+  </Light>
+
+  <Model type ="triMesh" filename="mesh_00001.ply">
+    <Material type="glass">
+      <Kr>
+        <Param type="constant"/>
+        <Param color="1"/>
+      </Kr>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="1"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1.25"/>
+      </eta>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.01"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type ="triMesh" filename="mesh_00002.ply">
+    <Material type="uber">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.64"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.1"/>
+      </Ks>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="0"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1"/>
+      </eta>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.01"/>
+      </roughness>
+      <opacity>
+        <Param type="float"/>
+        <Param value="1"/>
+      </opacity>
+    </Material>
+  </Model>
+</Scene>

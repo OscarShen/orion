@@ -1,0 +1,90 @@
+﻿<Scene>
+  <Resource filename ="../../res/"/>
+
+  <Model type ="disk">
+    <Param radius="100"/>
+    <Transform>
+      <Param translate="0.0f,-3,0"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.58f,0.58f,0.46f"/>
+      </Kd>
+    </Material>
+  </Model>
+
+  <Model type ="disk">
+    <Param radius="50"/>
+    <Transform>
+      <Param rotate="1,0,0,90"/>
+      <Param translate="0,0,-5"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.58f,0.58f,0.46f"/>
+      </Kd>
+    </Material>
+  </Model>
+
+  <Model type ="disk">
+    <Param radius="5"/>
+    <Transform>
+      <Param rotate="1,0,0,180"/>
+      <Param translate="5,5,3"/>
+    </Transform>
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <AreaLight>
+      <Param Le="6"/>
+      <Param nLightSamples="1"/>
+    </AreaLight>
+  </Model>
+
+  <Model type="triMesh" filename = "bunny.obj">
+    <Transform>
+      <Param scale="0.5f,0.5f,0.5f"/>
+      <Param translate="5,-3,3"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.3"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.15f"/>
+      </roughness>
+    </Material>
+  </Model>
+
+	<Camera type = "perspective">
+    <Transform>
+      <Param lookat="5,4,25,  5,-3,0,  0,1,0"/>
+    </Transform>
+    
+    <Param fov="45"/>
+    <Param filmsize="1960,1080"/>
+    <Param lensRadius="0.15f"/>
+    <Param focalDistance="10"/>
+    <Param nSamples="1"/>
+	</Camera>
+  
+	<Accelerator type ="kdtree"/>
+
+  <Integrator type="directLighting">
+    <Param maxDepth ="3"/>
+  </Integrator>
+
+  <Sampler type="pseudo"/>
+
+</Scene>
