@@ -9,6 +9,7 @@
 #include <sampler/sampling.h>
 #include <util/param.h>
 #include <util/strutil.h>
+#include <util/renderinfo.h>
 ORION_NAMESPACE_BEGIN
 
 void PathTracing::render(const Scene & scene)
@@ -17,6 +18,7 @@ void PathTracing::render(const Scene & scene)
 	auto film = camera->getFilm();
 	int filmHeight = film->getHeight(), filmWidth = film->getWidth();
 	int filmSamples = filmHeight * filmWidth;
+	static ProcessReporter reporter(filmHeight * filmWidth * nSamples);
 	for (int k = 0; k < nSamples; ++k) {
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
@@ -27,10 +29,9 @@ void PathTracing::render(const Scene & scene)
 
 				Spectrum ret = Li(ray, scene, *s);
 
-#pragma omp critical
-				{
-					camera->getFilm()->acumulate(i, j, ret);
-				}
+				accumulate(i, j, ret);
+
+				reporter.done();
 			}
 		}
 	}
@@ -96,6 +97,13 @@ Spectrum PathTracing::Li(const Ray & a, const Scene & scene, Sampler & sampler, 
 		}
 	}
 	return L;
+}
+
+void PathTracing::accumulate(int i, int j, const Spectrum & s)
+{
+	outputLock.lock();
+	camera->getFilm()->acumulate(i, j, s);
+	outputLock.unlock();
 }
 
 std::shared_ptr<PathTracing> createPathTracingIntegrator(const std::shared_ptr<Camera>& camera, const std::shared_ptr<Sampler>& sampler, const ParamSet & param)

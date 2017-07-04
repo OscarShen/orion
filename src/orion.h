@@ -38,9 +38,14 @@
 
 namespace orion {
 
-typedef float Float;
+#ifdef ORION_FLOAT_64
+	typedef double Float;
+#else
+	typedef float Float;
+#endif // ORION_FLOAT64
 
-constexpr Float epsilon = 0.0001f;
+
+constexpr Float epsilon = 0.00001f;
 constexpr Float shadowEpsilon = 0.01f;
 
 constexpr Float fInfinity = std::numeric_limits<Float>::max();

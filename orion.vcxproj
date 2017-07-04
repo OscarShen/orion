@@ -168,7 +168,10 @@
     <ClInclude Include="src\util\envvariable.h" />
     <ClInclude Include="src\util\param.h" />
     <ClInclude Include="src\util\parser.h" />
+    <ClInclude Include="src\util\renderinfo.h" />
     <ClInclude Include="src\util\strutil.h" />
+    <ClInclude Include="src\util\threading.h" />
+    <ClInclude Include="src\util\timer.h" />
     <ClInclude Include="src\util\transformcache.h" />
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +204,9 @@
     <ClCompile Include="src\texture\rendertarget.cpp" />
     <ClCompile Include="src\util\envvariable.cpp" />
     <ClCompile Include="src\util\parser.cpp" />
+    <ClCompile Include="src\util\renderinfo.cpp" />
     <ClCompile Include="src\util\strutil.cpp" />
+    <ClCompile Include="src\util\threading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />

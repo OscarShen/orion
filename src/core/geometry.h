@@ -797,11 +797,68 @@ inline Vector3<T> normalize(const Vector3<T> &v) { return v / length(v); }
 template <typename T>
 inline Normal3<T> normalize(const Normal3<T> &n) { return n / length(n); }
 
+inline uint32_t floatToBits(float f) {
+	uint32_t ui;
+	memcpy(&ui, &f, sizeof(float));
+	return ui;
+}
+
+inline float bitsToFloat(uint32_t ui) {
+	float f;
+	memcpy(&f, &ui, sizeof(uint32_t));
+	return f;
+}
+
+inline uint64_t floatToBits(double f) {
+	uint64_t ui;
+	memcpy(&ui, &f, sizeof(double));
+	return ui;
+}
+
+inline double bitsToFloat(uint64_t ui) {
+	double f;
+	memcpy(&f, &ui, sizeof(uint64_t));
+	return f;
+}
+
+inline float nextFloatUp(float v) {
+	// Handle infinity and negative zero for _NextFloatUp()_
+	if (std::isinf(v) && v > 0.) return v;
+	if (v == -0.f) v = 0.f;
+
+	// Advance _v_ to next higher float
+	uint32_t ui = floatToBits(v);
+	if (v >= 0)
+		++ui;
+	else
+		--ui;
+	return bitsToFloat(ui);
+}
+
+inline float nextFloatDown(float v) {
+	// Handle infinity and positive zero for _NextFloatDown()_
+	if (std::isinf(v) && v < 0.) return v;
+	if (v == 0.f) v = -0.f;
+	uint32_t ui = floatToBits(v);
+	if (v > 0)
+		--ui;
+	else
+		++ui;
+	return bitsToFloat(ui);
+}
+
 inline Point3f offsetRayOrigin(const Point3f &p, const Normal3f &n, const Vector3f &w) {
-	Float d = dot(abs(n), Vector3f(absDot(Vector3f(p), Vector3f(epsilon))));
+	Float maxValue = std::max(std::max(std::abs(p.x), std::abs(p.y)), std::abs(p.z));
+	Float d = dot(abs(n), Vector3f(maxValue * epsilon));
 	Vector3f offset = d * Vector3f(n);
 	if (dot(w, n) < 0) offset = -offset;
 	Point3f po = p + offset;
+	for (int i = 0; i < 3; ++i) {
+		if (offset[i] > 0)
+			po[i] = nextFloatUp(po[i]);
+		else if (offset[i] < 0)
+			po[i] = nextFloatDown(po[i]);
+	}
 	return po;
 }
 

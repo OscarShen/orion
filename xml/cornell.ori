@@ -63,7 +63,7 @@
 
   <Integrator type="path">
     <Param maxDepth ="5"/>
-    <Param nSamplesPerPixel="1"/>
+    <Param nSamplesPerPixel="5"/>
   </Integrator>
 
   <Sampler type="pseudo"/>
