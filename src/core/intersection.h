@@ -43,7 +43,7 @@ public:
 
 	Ray spawnRay(const Vector3f &d) const {
 		Point3f o = offsetRayOrigin(p, ng, d);
-		return Ray(o, d, 0, t);
+		return Ray(o, d, 0, fInfinity);
 	}
 
 	Spectrum Le(const Vector3f &wo) const;

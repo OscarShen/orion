@@ -153,8 +153,6 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 
 	// front
 	bool front = dot(ray.o - p0, ns) > 0;
-	ns = front ? ns : -ns;
-	ng = front ? ng : -ng;
 
 	// t
 	Float t = rtc_ray.tfar;
@@ -164,8 +162,8 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 	// build a coornation, that we can get the entering information by cos theta value 
 	// u, v
 	Vector3f u = normalize(p1 - p0);
-	Float sign = isec->front ? 1.0f : -1.0f;
-	Vector3f v = normalize(cross(ns * sign, u));
+	//Float sign = isec->front ? 1.0f : -1.0f;
+	Vector3f v = normalize(cross(ns, u));
 	u = normalize(cross(v, ns));
 	isec->u = u;
 	isec->v = v;
