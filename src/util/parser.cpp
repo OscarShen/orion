@@ -5,6 +5,7 @@
 #include <texture/floattexture.h>
 #include <texture/imagetexture.h>
 #include <material/matte.h>
+#include <material/mirror.h>
 #include <sampler/sobol.h>
 #include <sampler/pseudo.h>
 #include <light/diffuse.h>
@@ -229,6 +230,17 @@ namespace orion {
 				}
 
 				material = createMatteMaterial(kd, sigma);
+			}
+			else if (mattype == "mirror") {
+				TiXmlElement *KrNode = matNode->FirstChildElement("Kr");
+				ParamSet krParam;
+				std::shared_ptr<Texture> kr;
+				if (KrNode) {
+					GET_PARAMSET(KrNode, krParam);
+					kr = _makeTexture(krParam);
+				}
+				
+				material = createMirrorMaterial(kr);
 			}
 
 			// get material already defined

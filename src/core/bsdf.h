@@ -92,6 +92,12 @@ private:
 	Float etaI, etaT;
 };
 
+// _FresnelNoOp_ used for idea mirror which will never lose energy
+class FresnelNoOp : public Fresnel {
+public:
+	Spectrum evaluate(Float cosThetaI) const override { return 1.0f; }
+};
+
 inline Vector3f reflect(const Vector3f &wo, const Vector3f &n) {
 	return -wo + 2 * dot(wo, n) * n;
 }

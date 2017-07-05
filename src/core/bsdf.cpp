@@ -128,7 +128,7 @@ Spectrum FrConductor(Float cosThetaI, const Spectrum &etai,
 	Spectrum etak = k / etai;
 
 	Float cosThetaI2 = cosThetaI * cosThetaI;
-	Float sinThetaI2 = 1. - cosThetaI2;
+	Float sinThetaI2 = Float(1.) - cosThetaI2;
 	Spectrum eta2 = eta * eta;
 	Spectrum etak2 = etak * etak;
 
@@ -143,7 +143,7 @@ Spectrum FrConductor(Float cosThetaI, const Spectrum &etai,
 	Spectrum t4 = t2 * sinThetaI2;
 	Spectrum Rp = Rs * (t3 - t4) / (t3 + t4);
 
-	return 0.5 * (Rp + Rs);
+	return Float(0.5) * (Rp + Rs);
 }
 
 Float FrDielectric(Float cosThetaI, Float etaI, Float etaT) {

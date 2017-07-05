@@ -74,12 +74,17 @@
   </Model>
 
   <Model type ="mesh" filename="tall.obj"><!--tall-->
-    <Material named="OtherWalls"/>
+    <Material type="mirror" name="Box">
+      <Kr>
+        <Param type="constant"/>
+        <Param color="1,1,1"/>
+      </Kr>
+    </Material>
   </Model>
 
   <Integrator type="path">
     <Param maxDepth ="5"/>
-    <Param nSamplesPerPixel="5"/>
+    <Param nSamplesPerPixel="10"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

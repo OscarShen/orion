@@ -3,7 +3,7 @@
 using namespace orion;
 int main() {
 
-	std::string path = "xml/cornell.ori";
+	std::string path = "xml/cornell/cornell.ori";
 	Parser parser(path);
 	auto &option = parser.getRenderOption();
 
