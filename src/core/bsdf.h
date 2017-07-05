@@ -62,6 +62,52 @@ public:
 	Float pdf(const Vector3f &wi, const Vector3f &wo, BxDFType type = BxDF_ALL) const;
 };
 
+class Fresnel
+{
+public:
+	virtual ~Fresnel() {}
+	virtual Spectrum evaluate(Float cosI) const = 0;
+};
+
+// _FresnelConductor_ only used in metal material...
+class FresnelConductor : public Fresnel {
+public:
+	Spectrum evaluate(Float cosThetaI) const override;
+	FresnelConductor(const Spectrum &etaI, const Spectrum &etaT,
+		const Spectrum &k)
+		: etaI(etaI), etaT(etaT), k(k) {}
+
+private:
+	Spectrum etaI, etaT, k;
+};
+
+// _FresnelDielectric_ used for usual conditions
+class FresnelDielectric : public Fresnel {
+public:
+	Spectrum evaluate(Float cosThetaI) const override;
+	FresnelDielectric(const Float &etaI, const Float &etaT)
+		: etaI(etaI), etaT(etaT) {}
+
+private:
+	Float etaI, etaT;
+};
+
+inline Vector3f reflect(const Vector3f &wo, const Vector3f &n) {
+	return -wo + 2 * dot(wo, n) * n;
+}
+
+inline bool refract(const Vector3f &wi, const Normal3f &n, Float eta, Vector3f *wt) {
+	Float cosThetaI = dot(n, wi);
+	Float sin2ThetaI = std::max(Float(0), Float(1 - cosThetaI * cosThetaI));
+	Float sin2ThetaT = eta * eta * sin2ThetaI;
+
+	if (sin2ThetaT >= 1)
+		return false; // total internal reflection
+	Float cosThetaT = std::sqrt(1 - sin2ThetaT);
+	*wt = eta * -wi + (eta * cosThetaI - cosThetaT) * Vector3f(n);
+	return true;
+}
+
 inline Vector3f BSDF::world2local(const Vector3f & w) const
 {
 	return Vector3f(dot(w, u), dot(w, v), dot(w, ns));

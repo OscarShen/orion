@@ -161,6 +161,7 @@ bool EmbreeKernel::intersect(const Ray & ray, Intersection * isec) const
 
 	*isec = Intersection(p, ng, ns, uv, t, front);
 
+	// build a coornation, that we can get the entering information by cos theta value 
 	// u, v
 	Vector3f u = normalize(p1 - p0);
 	Float sign = isec->front ? 1.0f : -1.0f;

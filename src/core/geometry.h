@@ -892,6 +892,11 @@ inline Normal3<T> faceforward(const Normal3<T> &n, const Normal3<T> &n2) {
 }
 
 template <typename T>
+inline Normal3<T> faceforward(const Normal3<T> &n, const Vector3<T> &n2) {
+	return (dot(n, n2) < 0.f) ? -n : n;
+}
+
+template <typename T>
 inline void coordinateSystem(const Vector3<T> &z, Vector3<T> *x,
 	Vector3<T> *y) {
 	if (std::abs(z.x) > std::abs(z.y))
