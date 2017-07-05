@@ -168,6 +168,9 @@
     <ClInclude Include="src\util\threading.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\bsdf\orennayar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -264,6 +267,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\util\threading.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bsdf\orennayar.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

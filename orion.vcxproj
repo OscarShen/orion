@@ -135,6 +135,7 @@
     <ClInclude Include="external\tinyxml.h" />
     <ClInclude Include="external\tiny_obj_loader.h" />
     <ClInclude Include="src\bsdf\lambert.h" />
+    <ClInclude Include="src\bsdf\orennayar.h" />
     <ClInclude Include="src\camera\pinhole.h" />
     <ClInclude Include="src\core\bsdf.h" />
     <ClInclude Include="src\core\camera.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="external\tinyxmlerror.cpp" />
     <ClCompile Include="external\tinyxmlparser.cpp" />
     <ClCompile Include="src\bsdf\lambert.cpp" />
+    <ClCompile Include="src\bsdf\orennayar.cpp" />
     <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\bsdf.cpp" />
     <ClCompile Include="src\core\integrator.cpp" />

@@ -9,34 +9,50 @@
     <Param filmsize="1000,1000"/>
   </Camera>
 
-  <Model type ="mesh" filename="floor.obj">
+  <Model type ="mesh" filename="floor.obj"><!--floor-->
     <Material type="matte" name="OtherWalls">
       <Kd>
         <Param type="constant"/>
         <Param color="0.4,0.4,0.4"/>
       </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
     </Material>
   </Model>
+  
   <Model type ="mesh" filename="ceiling.obj"><!--Ceiling-->
     <Material named="OtherWalls"/>
   </Model>
+  
   <Model type ="mesh" filename="back.obj"><!--BackWall-->
     <Material named="OtherWalls"/>
   </Model>
+  
   <Model type ="mesh" filename="right.obj"><!--RightWall-->
     <Material type="matte" name="RightWall">
       <Kd>
         <Param type="constant"/>
         <Param color="0,0.4,0"/>
       </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
     </Material>
   </Model>
+  
   <Model type ="mesh" filename="left.obj"><!--LeftWall-->
     <Material type="matte" name="LeftWall">
       <Kd>
         <Param type="constant"/>
         <Param color="0.4,0,0"/>
       </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
     </Material>
   </Model>
 
@@ -48,7 +64,7 @@
       </Kd>
     </Material>
     <AreaLight>
-      <Param Le="80,70,50"/>
+      <Param Le="100,90,70"/>
       <Param nLightSamples="3"/>
     </AreaLight>
   </Model>

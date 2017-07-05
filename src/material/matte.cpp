@@ -3,6 +3,7 @@
 #include <core/texture.h>
 #include <texture/floattexture.h>
 #include <bsdf/lambert.h>
+#include <bsdf/orennayar.h>
 ORION_NAMESPACE_BEGIN
 
 std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mode) const
@@ -11,10 +12,10 @@ std::shared_ptr<BSDF> Matte::getBSDF(const Intersection & isec, TransportMode mo
 	Spectrum r = Kd->evaluate(isec).clamp();
 	Float sig = sigma->evaluate(isec).clamp(0.0f, 90.0f).r;
 	if (!r.isBlack()) {
-		// if(sig == 0)
-		bsdf->addBxDF(std::make_shared<LambertReflection>(r));
-		// sigma != 0
-		// else
+		if (sig == 0)
+			bsdf->addBxDF(std::make_shared<LambertReflection>(r));
+		else
+			bsdf->addBxDF(std::make_shared<OrenNayar>(r, sig));
 	}
 	return bsdf;
 }
