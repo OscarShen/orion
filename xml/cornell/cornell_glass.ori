@@ -74,17 +74,21 @@
   </Model>
 
   <Model type ="mesh" filename="tall.obj"><!--tall-->
-    <Material type="mirror" name="Box">
-      <Kr>
+    <Material type="glass" name="Box">
+      <Kt>
         <Param type="constant"/>
         <Param color="1,1,1"/>
-      </Kr>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1.1"/>
+      </eta>
     </Material>
   </Model>
 
   <Integrator type="path">
     <Param maxDepth ="5"/>
-    <Param nSamplesPerPixel="10"/>
+    <Param nSamplesPerPixel="1"/>
   </Integrator>
 
   <Sampler type="pseudo"/>

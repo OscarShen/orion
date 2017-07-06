@@ -17,6 +17,8 @@ inline Float cos2Theta(const Vector3f &w) { return w.z * w.z; }
 inline Float absCosTheta(const Vector3f &w) { return std::abs(w.z); }
 inline Float sin2Theta(const Vector3f &w) { return std::max(0.0f, 1.0f - cos2Theta(w)); }
 inline Float sinTheta(const Vector3f &w) { return std::sqrt(sin2Theta(w)); } // sin theta never less than zero
+inline Float tanTheta(const Vector3f &w) { return sinTheta(w) / cosTheta(w); }
+inline Float tan2Theta(const Vector3f &w) { return sin2Theta(w) / cos2Theta(w); }
 inline Float cosPhi(const Vector3f &w) {
 	Float sinTh = sinTheta(w);
 	return (sinTheta == 0) ? 1.0f : clamp(w.x / sinTh, -1.0f, 1.0f);

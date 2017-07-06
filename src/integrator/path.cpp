@@ -23,7 +23,6 @@ void PathTracing::render(const Scene & scene)
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {
 			for (int i = 0; i < filmWidth; ++i) {
-				//i = 637, j = 542;
 				std::shared_ptr<Sampler> s = sampler->clone(k * filmSamples + j * filmWidth + i);
 				Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), s);
 

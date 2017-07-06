@@ -177,6 +177,18 @@
     <ClInclude Include="src\material\mirror.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\material\glass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bsdf\ggx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bsdf\microfacet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\material\plastic.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -284,11 +296,22 @@
     <ClCompile Include="src\material\mirror.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\material\glass.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bsdf\microfacet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\material\plastic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="xml\cornell\cornell.ori" />
+    <None Include="xml\cornell\cornell_mirror.ori" />
+    <None Include="xml\cornell\cornell_glass.ori" />
+    <None Include="xml\killeroo\killeroo.ori" />
   </ItemGroup>
 </Project>

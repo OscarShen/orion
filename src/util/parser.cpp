@@ -6,6 +6,8 @@
 #include <texture/imagetexture.h>
 #include <material/matte.h>
 #include <material/mirror.h>
+#include <material/glass.h>
+#include <material/plastic.h>
 #include <sampler/sobol.h>
 #include <sampler/pseudo.h>
 #include <light/diffuse.h>
@@ -241,6 +243,52 @@ namespace orion {
 				}
 				
 				material = createMirrorMaterial(kr);
+			}
+			else if (mattype == "glass") {
+				TiXmlElement *KtNode = matNode->FirstChildElement("Kt");
+				ParamSet ktParam;
+				std::shared_ptr<Texture> kt;
+				if (KtNode) {
+					GET_PARAMSET(KtNode, ktParam);
+					kt = _makeTexture(ktParam);
+				}
+
+				TiXmlElement *etaNode = matNode->FirstChildElement("eta");
+				std::shared_ptr<FloatTexture> eta;
+				if (etaNode) {
+					ParamSet etaParam;
+					GET_PARAMSET(etaNode, etaParam);
+					eta = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(etaParam));
+				}
+
+				material = createGlassMaterial(kt, eta);
+			}
+			else if (mattype == "plastic") {
+				TiXmlElement *KdNode = matNode->FirstChildElement("Kd");
+				ParamSet kdParam;
+				std::shared_ptr<Texture> kd;
+				if (KdNode) {
+					GET_PARAMSET(KdNode, kdParam);
+					kd = _makeTexture(kdParam);
+				}
+
+				TiXmlElement *KsNode = matNode->FirstChildElement("Ks");
+				ParamSet ksParam;
+				std::shared_ptr<Texture> ks;
+				if (KsNode) {
+					GET_PARAMSET(KsNode, ksParam);
+					ks = _makeTexture(ksParam);
+				}
+
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				ParamSet roughnessParam;
+				std::shared_ptr<FloatTexture> roughness;
+				if (roughnessNode) {
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
+				}
+
+				material = createPlasticMaterial(kd, ks, roughness);
 			}
 
 			// get material already defined

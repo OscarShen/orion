@@ -1,0 +1,91 @@
+<Scene>
+  <Resource filename ="../../res/cornell/"/>
+
+  <Camera type = "pinhole"><!--Camera-->
+    <Transform>
+      <Param lookat="0,0,1800,  0,0,0,  0,1,0"/>
+    </Transform>
+    <Param fov="35"/>
+    <Param filmsize="1000,1000"/>
+  </Camera>
+
+  <Model type ="mesh" filename="floor.obj"><!--floor-->
+    <Material type="matte" name="OtherWalls">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.4,0.4"/>
+      </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
+    </Material>
+  </Model>
+  
+  <Model type ="mesh" filename="ceiling.obj"><!--Ceiling-->
+    <Material named="OtherWalls"/>
+  </Model>
+  
+  <Model type ="mesh" filename="back.obj"><!--BackWall-->
+    <Material named="OtherWalls"/>
+  </Model>
+  
+  <Model type ="mesh" filename="right.obj"><!--RightWall-->
+    <Material type="matte" name="RightWall">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0.4,0"/>
+      </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
+    </Material>
+  </Model>
+  
+  <Model type ="mesh" filename="left.obj"><!--LeftWall-->
+    <Material type="matte" name="LeftWall">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0,0"/>
+      </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="20"/>
+      </sigma>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="light.obj"><!--AreaLight-->
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <AreaLight>
+      <Param Le="100,90,70"/>
+      <Param nLightSamples="3"/>
+    </AreaLight>
+  </Model>
+
+  <Model type ="mesh" filename="small.obj"><!--small-->
+    <Material named="OtherWalls"/>
+  </Model>
+
+  <Model type ="mesh" filename="tall.obj"><!--tall-->
+    <Material type="mirror" name="Box">
+      <Kr>
+        <Param type="constant"/>
+        <Param color="1,1,1"/>
+      </Kr>
+    </Material>
+  </Model>
+
+  <Integrator type="path">
+    <Param maxDepth ="5"/>
+    <Param nSamplesPerPixel="1024"/>
+  </Integrator>
+
+  <Sampler type="pseudo"/>
+</Scene>

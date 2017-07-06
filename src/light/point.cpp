@@ -33,7 +33,7 @@ void PointLight::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Flo
 
 std::shared_ptr<PointLight> createPointLight(const ParamSet & param)
 {
-	Spectrum I = parseSpectrum(param.getParam("intensity"));
+	Spectrum I = parseSpectrum(param.getParam("I"));
 	Point3f p = parsePoint3f(param.getParam("from"));
 	Transform l2w = translate(Vector3f(p));
 	return std::shared_ptr<PointLight>(new PointLight(l2w, I));
