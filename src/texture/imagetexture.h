@@ -42,6 +42,7 @@ namespace orion {
 
 		void setSize(int width, int height) override { /* You can't reset size of image texure */ }
 
+		using Texture::sample;
 		Spectrum sample(int x, int y) const override;
 
 		friend class TexManager;

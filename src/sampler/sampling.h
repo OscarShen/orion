@@ -59,6 +59,15 @@ inline bool sameHemisphere(const Vector3f &w, const Normal3f &wp) {
 	return w.z * wp.z > 0;
 }
 
+inline Float sphericalTheta(const Vector3f &v) {
+	return std::acos(clamp(v.z, -1.0f, 1.0f));
+}
+
+inline Float sphericalPhi(const Vector3f &v) {
+	Float p = std::atan2(v.y, v.x);
+	return (p < 0) ? (p + 2 * pi) : p;
+}
+
 struct Distribution1D
 {
 	std::vector<Float> func, cdf;
@@ -114,6 +123,33 @@ struct Distribution1D
 		return func[index] / (funcInt * count());
 	}
 };
+
+class Distribution2D {
+public:
+	// Distribution2D Public Methods
+	Distribution2D(const Float *data, int nu, int nv);
+	Point2f SampleContinuous(const Point2f &u, Float *pdf) const {
+		Float pdfs[2];
+		int v;
+		Float d1 = pMarginal->sampleContinuous(u[1], &pdfs[1], &v);
+		Float d0 = pConditionalV[v]->sampleContinuous(u[0], &pdfs[0]);
+		*pdf = pdfs[0] * pdfs[1];
+		return Point2f(d0, d1);
+	}
+	Float Pdf(const Point2f &p) const {
+		int iu = clamp(int(p[0] * pConditionalV[0]->count()), 0,
+			pConditionalV[0]->count() - 1);
+		int iv =
+			clamp(int(p[1] * pMarginal->count()), 0, pMarginal->count() - 1);
+		return pConditionalV[iv]->func[iu] / pMarginal->funcInt;
+	}
+
+private:
+	// Distribution2D Private Data
+	std::vector<std::unique_ptr<Distribution1D>> pConditionalV;
+	std::unique_ptr<Distribution1D> pMarginal;
+};
+
 ORION_NAMESPACE_END
 
 #endif // !ORION_SAMPLER_SAMPLING_H_

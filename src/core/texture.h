@@ -31,6 +31,7 @@ namespace orion {
 			height = 0;
 			filter = TextureFilter::FILTER_WRAP;
 		}
+		virtual Spectrum sample(Float u, Float v) const;
 		virtual Spectrum sample(int x, int y) const = 0;
 		virtual Spectrum evaluate(const Intersection &isec) const;
 

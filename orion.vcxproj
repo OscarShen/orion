@@ -158,6 +158,7 @@
     <ClInclude Include="src\integrator\path.h" />
     <ClInclude Include="src\light\diffuse.h" />
     <ClInclude Include="src\light\distant.h" />
+    <ClInclude Include="src\light\infinite.h" />
     <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\light\spot.h" />
     <ClInclude Include="src\material\glass.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="src\integrator\path.cpp" />
     <ClCompile Include="src\light\diffuse.cpp" />
     <ClCompile Include="src\light\distant.cpp" />
+    <ClCompile Include="src\light\infinite.cpp" />
     <ClCompile Include="src\light\point.cpp" />
     <ClCompile Include="src\light\spot.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -231,6 +233,7 @@
     <None Include="xml\cornell\cornell_mirror.ori">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xml\dragon\dragon.ori" />
     <None Include="xml\killeroo\killeroo.ori" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

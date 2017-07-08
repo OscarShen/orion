@@ -58,6 +58,9 @@ public:
 
 	virtual Spectrum power() const = 0;
 
+	// used for env map, usual light need not to override
+	virtual Spectrum Le(const Ray &ray) const { return 0; }
+
 	virtual Spectrum sample_Li(const Intersection &isec, const Point2f &rnd, Vector3f *wi,
 		Float *pdf, ShadowTester *sdt, Point3f *samplePoint = nullptr) const = 0;
 	virtual Float pdf_Li(const Intersection &isec, const Vector3f &wi, const Scene &scene) const = 0;

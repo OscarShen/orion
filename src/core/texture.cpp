@@ -1,6 +1,11 @@
 #include "texture.h"
 
 namespace orion {
+	Spectrum Texture::sample(Float u, Float v) const
+	{
+		int x = (int)(u * width), y = (int)(v * height);
+		return sample(x, y);
+	}
 	Spectrum Texture::evaluate(const Intersection &isec) const
 	{
 		return sample((int)(isec.uv.x * width), (int)(isec.uv.y * height));

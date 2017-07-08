@@ -189,6 +189,9 @@
     <ClInclude Include="src\material\plastic.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\light\infinite.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -305,6 +308,9 @@
     <ClCompile Include="src\material\plastic.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\light\infinite.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
@@ -313,5 +319,6 @@
     <None Include="xml\cornell\cornell_mirror.ori" />
     <None Include="xml\cornell\cornell_glass.ori" />
     <None Include="xml\killeroo\killeroo.ori" />
+    <None Include="xml\dragon\dragon.ori" />
   </ItemGroup>
 </Project>

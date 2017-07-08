@@ -1,0 +1,89 @@
+<Scene>
+  <Resource filename ="../../res/dragon/"/>
+
+  <Camera type = "pinhole"><!--Camera-->
+    <Transform>
+      <Param lookat="277,-240,250,  0,60,-30,  0,0,1"/>
+    </Transform>
+    <Param fov="45"/>
+    <Param filmsize="1000,1000"/>
+  </Camera>
+
+  <Model type ="mesh" filename="killeroo2.obj">
+    <Transform>
+      <Param scale="4,4,4"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.5,0.4"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.3"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.45"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="killeroo2.obj">
+    <Transform>
+      <Param scale="4,4,4"/>
+      <Param translate="80,-10,0"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.4,0.2,0.2"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.5,0.5,0.5"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.025"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="house.obj">
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.5,0.5,0.8"/>
+      </Kd>
+      <sigma>
+        <Param type="float"/>
+        <Param value="45"/>
+      </sigma>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="sphere.obj">
+    <Material type="matte">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0,0,0"/>
+      </Kd>
+    </Material>
+    <Transform>
+      <Param scale="5,5,5"/>
+      <Param translate="20, 150, 60"/>
+    </Transform>
+    <AreaLight>
+      <Param Le="1000"/>
+      <Param nLightSamples="3"/><!--unused now-->
+    </AreaLight>
+  </Model>
+
+  <Integrator type="path">
+    <Param maxDepth ="10"/>
+    <Param nSamplesPerPixel="10"/>
+  </Integrator>
+
+  <Sampler type="sobol"/>
+</Scene>
