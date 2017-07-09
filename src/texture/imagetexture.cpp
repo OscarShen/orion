@@ -31,6 +31,7 @@ namespace orion {
 		int width, height, channel;
 		unsigned char * data = loadImage(filename, width, height, channel);
 		CHECK_INFO(width != 0 && height != 0, "load a empty image!");
+		CHECK_INFO(channel == 3 || channel == 4, "only support 3 or 4 channels picture...");
 		Spectrum *s = new Spectrum[width * height];
 		int offset = 0, cur = 0;
 		for (int j = 0; j < height; ++j) {
@@ -38,6 +39,8 @@ namespace orion {
 				Float r = color_CharToFloat(data[offset++]);
 				Float g = color_CharToFloat(data[offset++]);
 				Float b = color_CharToFloat(data[offset++]);
+				if (channel == 4)
+					++offset;
 				s[cur++] = Spectrum(r, g, b);
 			}
 		}

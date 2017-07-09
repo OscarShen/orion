@@ -189,7 +189,7 @@
     <ClInclude Include="src\material\plastic.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\light\infinite.h">
+    <ClInclude Include="src\light\envmap.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,7 +308,7 @@
     <ClCompile Include="src\material\plastic.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\light\infinite.cpp">
+    <ClCompile Include="src\light\envmap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -63,8 +63,8 @@ Spectrum PathTracing::Li(const Ray & a, const Scene & scene, Sampler & sampler, 
 				L += beta * isec.Le(-ray.d);
 			}
 			else {
-				// infinity area light
-				return 0;
+				for (const auto &light : scene.envmaps)
+					L += beta * light->Le(ray);
 			}
 		}
 

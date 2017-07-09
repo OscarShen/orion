@@ -13,10 +13,9 @@
 #include <texture/imagetexture.h>
 ORION_NAMESPACE_BEGIN
 class Distribution2D;
-class InfiniteAreaLight : public Light
+class Envmap : public Light
 {
 private:
-	// InfiniteAreaLight Private Data
 	std::unique_ptr<ImageTexture> Lmap;
 	Spectrum aveSpectrum;			// average spectrum of infinite area light
 	Point3f worldCenter;
@@ -24,7 +23,7 @@ private:
 	std::unique_ptr<Distribution2D> distribution;
 
 public:
-	InfiniteAreaLight(const Transform &light2world, const Spectrum &power,
+	Envmap(const Transform &light2world, const Spectrum &scale,
 		int nSamples, const std::string &path);
 
 	void preprocess(const Scene &scene) override {
@@ -44,6 +43,8 @@ public:
 	void pdf_Le(const Ray &ray, const Normal3f &n, Float *pdfPos,
 		Float *pdfDir) const override;
 };
+
+std::shared_ptr<Envmap> createEnvMap(const ParamSet &param);
 
 ORION_NAMESPACE_END
 #endif // !ORION_LIGHT_INFINITE_H_

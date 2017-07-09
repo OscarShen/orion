@@ -11,6 +11,7 @@
 #include <orion.h>
 
 #ifdef ORION_IN_WINDOWS
+#define NOMINMAX
 #include <Windows.h>
 #endif // ORION_IN_WINDOWS
 

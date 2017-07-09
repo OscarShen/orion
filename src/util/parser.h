@@ -49,6 +49,8 @@ namespace orion {
 		std::shared_ptr<Integrator> integrator;
 		std::vector<std::shared_ptr<Light>> lights;
 		std::shared_ptr<Sampler> sampler;
+		std::vector<std::shared_ptr<Light>> envmap;
+		Transform lookatTransform; // use for all things to match camera's direction
 		int nSamples = 1;
 	};
 
@@ -71,6 +73,7 @@ namespace orion {
 		void _makeLight();
 		void _makeSampler();
 		void _makeScene();
+		void _makeEmvmap();
 		std::shared_ptr<Material> _makeMaterial(TiXmlElement *matNode);
 		std::shared_ptr<Texture> _makeTexture(const ParamSet &param);
 	};

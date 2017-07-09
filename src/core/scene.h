@@ -16,12 +16,15 @@ ORION_NAMESPACE_BEGIN
 class Scene {
 public:
 	std::vector<std::shared_ptr<Light>> lights;
+	std::vector<std::shared_ptr<Light>> envmaps;
+
 private:
 	std::unique_ptr<Kernel> kernel;
 
 public:
-	Scene(const std::vector<std::shared_ptr<Primitive>> &primitives, const std::vector<std::shared_ptr<Light>> &lights)
-		: lights(lights) {
+	Scene(const std::vector<std::shared_ptr<Primitive>> &primitives, const std::vector<std::shared_ptr<Light>> &lights,
+		const std::vector<std::shared_ptr<Light>> &envmaps)
+		: lights(lights), envmaps(envmaps) {
 		// only support embree kernel now
 		kernel = std::make_unique<EmbreeKernel>(primitives);
 	}

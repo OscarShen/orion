@@ -14,6 +14,7 @@
 #include <light/distant.h>
 #include <light/point.h>
 #include <light/spot.h>
+#include <light/envmap.h>
 #include <camera/pinhole.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
@@ -30,6 +31,7 @@ namespace orion {
 		_makeLight();
 		_makeSampler();
 		_makeIntegrator();
+		_makeEmvmap();
 		_makeScene();
 	}
 
@@ -132,6 +134,8 @@ namespace orion {
 				transform = createTransform(transParam);
 			}
 
+			renderOption->lookatTransform = transform;
+
 			if (cam == "pinhole") {
 				renderOption->camera = createPinholeCamera(transform, camParam);
 			}
@@ -186,11 +190,24 @@ namespace orion {
 
 	void Parser::_makeScene()
 	{
-		renderOption->scene.reset(new Scene(renderOption->prims, renderOption->lights));
+		renderOption->scene.reset(new Scene(renderOption->prims, renderOption->lights, renderOption->envmap));
 
 		// erase resource which won't be used.
 		renderOption->prims.erase(renderOption->prims.begin(), renderOption->prims.end());
 		renderOption->lights.erase(renderOption->lights.begin(), renderOption->lights.end());
+	}
+
+	void Parser::_makeEmvmap()
+	{
+		std::shared_ptr<Envmap> envmap;
+		TiXmlElement *envmapNode = root->FirstChildElement("Envmap");
+		while (envmapNode) { // may have many envmap
+			ParamSet ps;
+			GET_PARAMSET(envmapNode, ps);
+			renderOption->envmap.push_back(createEnvMap(ps));
+
+			envmapNode = envmapNode->NextSiblingElement("Envmap");
+		}
 	}
 
 	std::shared_ptr<Material> Parser::_makeMaterial(TiXmlElement * matNode)
