@@ -80,7 +80,7 @@ Spectrum estimateDirect(const Ray & ray, const Intersection & isec, const Point2
 				}
 			}
 			else {
-				// infinite light
+				Li = light.Le(rr);
 			}
 			if (!Li.isBlack())
 				Ld += f * Li * weight / bsdfPdf;

@@ -3,7 +3,7 @@
 using namespace orion;
 int main() {
 
-	std::string path = "xml/killeroo/killeroo.ori";
+	std::string path = "xml/dragon/dragon.ori";
 	Parser parser(path);
 	auto &option = parser.getRenderOption();
 
@@ -16,5 +16,5 @@ int main() {
 
 	auto camera = option->camera;
 	auto outputFilm = camera->getFilm()->getAveraged();
-	saveAsBmp(outputFilm.get(), "res/killeroo/killeroo.bmp");
+	saveAsBmp(outputFilm.get(), "res/dragon/dragon.bmp");
 }

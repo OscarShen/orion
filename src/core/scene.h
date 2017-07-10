@@ -22,12 +22,7 @@ private:
 	std::unique_ptr<Kernel> kernel;
 
 public:
-	Scene(const std::vector<std::shared_ptr<Primitive>> &primitives, const std::vector<std::shared_ptr<Light>> &lights,
-		const std::vector<std::shared_ptr<Light>> &envmaps)
-		: lights(lights), envmaps(envmaps) {
-		// only support embree kernel now
-		kernel = std::make_unique<EmbreeKernel>(primitives);
-	}
+	Scene(const std::vector<std::shared_ptr<Primitive>> &primitives, const std::vector<std::shared_ptr<Light>> &lights);
 	bool intersect(const Ray &ray, Intersection *isec) const;
 	Bounds3f worldbound() const { return kernel->worldBound(); }
 };

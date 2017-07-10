@@ -44,7 +44,7 @@ public:
 		Float *pdfDir) const override;
 };
 
-std::shared_ptr<Envmap> createEnvMap(const ParamSet &param);
+std::shared_ptr<Envmap> createEnvMap(const Transform &transform, const ParamSet &param);
 
 ORION_NAMESPACE_END
 #endif // !ORION_LIGHT_INFINITE_H_

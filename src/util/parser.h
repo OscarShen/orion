@@ -49,7 +49,6 @@ namespace orion {
 		std::shared_ptr<Integrator> integrator;
 		std::vector<std::shared_ptr<Light>> lights;
 		std::shared_ptr<Sampler> sampler;
-		std::vector<std::shared_ptr<Light>> envmap;
 		Transform lookatTransform; // use for all things to match camera's direction
 		int nSamples = 1;
 	};

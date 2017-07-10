@@ -5,84 +5,67 @@
     <Transform>
       <Param lookat="277,-240,250,  0,60,-30,  0,0,1"/>
     </Transform>
-    <Param fov="45"/>
+    <Param fov="40"/>
     <Param filmsize="1000,1000"/>
   </Camera>
 
-  <Model type ="mesh" filename="killeroo2.obj">
+  <Envmap>
     <Transform>
-      <Param scale="4,4,4"/>
+      <Param rotate="0,0,1,-90"/>
+      <Param rotate="1,0,0,-90"/>
+    </Transform>
+    <Param scale="3,3,3"/>
+    <Param name="20060807_wells6_hd.png"/>
+    <Param nLightSamples="1"/>
+    <Param worldUp="0,0,1"/>
+  </Envmap>
+
+  <Model type ="meshHandy">
+    <Param p="-1000,-1000,0, 1000,-1000,0, 1000,1000,0, 1000,1000,0, -1000,1000,0, -1000,-1000,0"/>
+    <Param uv="0,0, 1,0, 1,1, 1,1, 0,1, 0,0"/>
+    <Param n="0,0,1"/>
+    <Transform>
+      <Param translate="0,0,-40"/>
     </Transform>
     <Material type="plastic">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.4,0.5,0.4"/>
+        <Param color="0.1,0.1,0.1"/>
       </Kd>
       <Ks>
         <Param type="constant"/>
-        <Param color="0.3"/>
+        <Param color="0.7,0.7,0.7"/>
       </Ks>
       <roughness>
         <Param type="float"/>
-        <Param value="0.45"/>
+        <Param value="0.1"/>
       </roughness>
     </Material>
   </Model>
 
-  <Model type ="mesh" filename="killeroo2.obj">
+  <Model type ="mesh" filename="dragon.obj">
     <Transform>
-      <Param scale="4,4,4"/>
-      <Param translate="80,-10,0"/>
+      <Param rotate="0,1,0,-53"/>
     </Transform>
     <Material type="plastic">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.4,0.2,0.2"/>
+        <Param color="0.1,0.1,0.4"/>
       </Kd>
       <Ks>
         <Param type="constant"/>
-        <Param color="0.5,0.5,0.5"/>
+        <Param color="0.6,0.6,0.6"/>
       </Ks>
       <roughness>
         <Param type="float"/>
-        <Param value="0.025"/>
+        <Param value="0.03"/>
       </roughness>
     </Material>
   </Model>
-
-  <Model type ="mesh" filename="house.obj">
-    <Material type="matte">
-      <Kd>
-        <Param type="constant"/>
-        <Param color="0.5,0.5,0.8"/>
-      </Kd>
-      <sigma>
-        <Param type="float"/>
-        <Param value="45"/>
-      </sigma>
-    </Material>
-  </Model>
-
-  <Model type ="mesh" filename="sphere.obj">
-    <Material type="matte">
-      <Kd>
-        <Param type="constant"/>
-        <Param color="0,0,0"/>
-      </Kd>
-    </Material>
-    <Transform>
-      <Param scale="5,5,5"/>
-      <Param translate="20, 150, 60"/>
-    </Transform>
-    <AreaLight>
-      <Param Le="1000"/>
-      <Param nLightSamples="3"/><!--unused now-->
-    </AreaLight>
-  </Model>
-
+  
   <Integrator type="path">
     <Param maxDepth ="10"/>
-    <Param nSamplesPerPixel="10"/>
+    <Param nSamplesPerPixel="1"/>
   </Integrator>
 
   <Sampler type="sobol"/>

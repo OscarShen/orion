@@ -104,7 +104,7 @@ void Envmap::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Float *
 	*pdfPos = 1 / (pi * worldRadius * worldRadius);
 }
 
-std::shared_ptr<Envmap> createEnvMap(const ParamSet & param)
+std::shared_ptr<Envmap> createEnvMap(const Transform &transform, const ParamSet & param)
 {
 	Spectrum scale = param.hasParam("scale") ? parseSpectrum(param.getParam("scale")) : Spectrum(1.0f);
 	std::string name = param.getParam("name");
@@ -112,12 +112,16 @@ std::shared_ptr<Envmap> createEnvMap(const ParamSet & param)
 	Vector3f worldUp = normalize(parseVector3f(param.getParam("worldUp")));
 	Vector3f envmapUp(0, 0, 1);
 
-	Float angle = acos(dot(worldUp, envmapUp));
-	Vector3f axis = cross(envmapUp, worldUp);
-	Transform t = rotate(degrees(angle), axis);
+	Float cosAngle = dot(worldUp, envmapUp);
+	Transform t;
+	if (cosAngle < 0.99 && cosAngle > -0.99) {
+		Float angle = acos(dot(worldUp, envmapUp));
+		Vector3f axis = cross(envmapUp, worldUp);
+		t = rotate(degrees(angle), axis);
+	}
 
 	int nSamples = parseInt(param.getParam("nLightSamples"));
-	return std::make_shared<Envmap>(t, scale, nSamples, path);
+	return std::make_shared<Envmap>(t * transform, scale, nSamples, path);
 }
 
 ORION_NAMESPACE_END

@@ -190,7 +190,7 @@ namespace orion {
 
 	void Parser::_makeScene()
 	{
-		renderOption->scene.reset(new Scene(renderOption->prims, renderOption->lights, renderOption->envmap));
+		renderOption->scene.reset(new Scene(renderOption->prims, renderOption->lights));
 
 		// erase resource which won't be used.
 		renderOption->prims.erase(renderOption->prims.begin(), renderOption->prims.end());
@@ -202,9 +202,19 @@ namespace orion {
 		std::shared_ptr<Envmap> envmap;
 		TiXmlElement *envmapNode = root->FirstChildElement("Envmap");
 		while (envmapNode) { // may have many envmap
+			// Transform
+			TiXmlElement *transNode = envmapNode->FirstChildElement("Transform");
+			Transform transform;
+			if (transNode) {
+				ParamVec transParam;
+				GET_PARAMVEC(transNode, transParam);
+				transform = createTransform(transParam);
+			}
+
 			ParamSet ps;
 			GET_PARAMSET(envmapNode, ps);
-			renderOption->envmap.push_back(createEnvMap(ps));
+			auto envmap = createEnvMap(transform, ps);
+			renderOption->lights.push_back(envmap);
 
 			envmapNode = envmapNode->NextSiblingElement("Envmap");
 		}

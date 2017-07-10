@@ -30,7 +30,8 @@ namespace orion {
 		CHECK_INFO(!filename.empty(), "file path is empty");
 		int width, height, channel;
 		unsigned char * data = loadImage(filename, width, height, channel);
-		CHECK_INFO(width != 0 && height != 0, "load a empty image!");
+		CHECK_INFO(data, "image not found - " + filename);
+		CHECK_INFO(width > 0 && height > 0, "load a empty image!");
 		CHECK_INFO(channel == 3 || channel == 4, "only support 3 or 4 channels picture...");
 		Spectrum *s = new Spectrum[width * height];
 		int offset = 0, cur = 0;
