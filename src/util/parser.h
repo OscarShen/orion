@@ -73,6 +73,7 @@ namespace orion {
 		void _makeSampler();
 		void _makeScene();
 		void _makeEmvmap();
+		bool _readSPDFile(const std::string &path, Spectrum *s);
 		std::shared_ptr<Material> _makeMaterial(TiXmlElement *matNode);
 		std::shared_ptr<Texture> _makeTexture(const ParamSet &param);
 	};

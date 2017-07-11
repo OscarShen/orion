@@ -1,5 +1,6 @@
 #include "parser.h"
 #include <core/primitive.h>
+#include <core/floatfile.h>
 #include <integrator/path.h>
 #include <texture/constant.h>
 #include <texture/floattexture.h>
@@ -8,6 +9,7 @@
 #include <material/mirror.h>
 #include <material/glass.h>
 #include <material/plastic.h>
+#include <material/metal.h>
 #include <sampler/sobol.h>
 #include <sampler/pseudo.h>
 #include <light/diffuse.h>
@@ -220,15 +222,30 @@ namespace orion {
 		}
 	}
 
+	bool Parser::_readSPDFile(const std::string & path, Spectrum * s)
+	{
+		std::vector<Float> vals;
+		if (readFloatFile(path.c_str(), &vals)) {
+			std::vector<Float> wls, v;
+			for (size_t j = 0; j < vals.size() / 2; ++j) {
+				wls.push_back(vals[2 * j]);
+				v.push_back(vals[2 * j + 1]);
+			}
+			*s = Spectrum::fromSampled(&wls[0], &v[0], wls.size());
+			return true;
+		}
+		else {
+			*s = Spectrum(0);
+			return false;
+		}
+	}
+
 	std::shared_ptr<Material> Parser::_makeMaterial(TiXmlElement * matNode)
 	{
 		std::shared_ptr<Material> material;
 		if (matNode) {
 			const char *matC = matNode->Attribute("type");
 			std::string mattype = matC ? matC : std::string();
-			ParamSet matParam;
-			GET_PARAMSET(matNode, matParam);
-
 			static std::map<std::string, std::shared_ptr<Material>> matStorage;
 
 			// matte
@@ -317,6 +334,52 @@ namespace orion {
 
 				material = createPlasticMaterial(kd, ks, roughness);
 			}
+			else if (mattype == "metal") {
+
+				TiXmlElement *etaNode = matNode->FirstChildElement("eta");
+				ParamSet etaParam;
+				std::shared_ptr<Texture> eta;
+				if (etaNode) {
+					GET_PARAMSET(etaNode, etaParam);
+					if (etaParam.hasParam("SPD")) {
+						std::vector<Float> vals;
+						std::string path = getResPath() + "/" + etaParam.getParam("SPD");
+						Spectrum seta;
+						CHECK_INFO(_readSPDFile(path, &seta), "Unable to read SPD file : " << path);
+						eta = std::make_shared<ConstantTexture>(seta);
+					}
+					else
+						eta = _makeTexture(etaParam);
+				}
+
+				TiXmlElement *kNode = matNode->FirstChildElement("k");
+				ParamSet kParam;
+				std::shared_ptr<Texture> k;
+				if (kNode) {
+					GET_PARAMSET(kNode, kParam);
+					if (kParam.hasParam("SPD")) {
+						std::vector<Float> vals;
+						std::string path = getResPath() + "/" + kParam.getParam("SPD");
+						Spectrum sk;
+						CHECK_INFO(_readSPDFile(path, &sk), "Unable to read SPD file : " << path);
+						k = std::make_shared<ConstantTexture>(sk);
+					}
+					else
+						k = _makeTexture(kParam);
+				}
+
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				ParamSet roughnessParam;
+				std::shared_ptr<FloatTexture> roughness;
+				if (roughnessNode) {
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
+				}
+
+				ParamSet matParam; // you can use name of usual metals
+				GET_PARAMSET(matNode, matParam);
+				material = createMetalMaterial(eta, k, roughness, matParam);
+			}
 
 			// get material already defined
 			const char *matN = matNode->Attribute("name");
@@ -355,7 +418,6 @@ namespace orion {
 			}
 		}
 
-		CHECK_INFO(tex != nullptr, "can't make texture because lack of parameters!");
 		return tex;
 	}
 

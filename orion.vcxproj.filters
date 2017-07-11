@@ -192,6 +192,12 @@
     <ClInclude Include="src\light\envmap.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\material\metal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\floatfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -311,6 +317,15 @@
     <ClCompile Include="src\light\envmap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\material\metal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\floatfile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\spectrum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
@@ -319,6 +334,7 @@
     <None Include="xml\cornell\cornell_mirror.ori" />
     <None Include="xml\cornell\cornell_glass.ori" />
     <None Include="xml\killeroo\killeroo.ori" />
-    <None Include="xml\dragon\dragon.ori" />
+    <None Include="xml\dragon\dragon_plastic.ori" />
+    <None Include="xml\dragon\dragon_metal.ori" />
   </ItemGroup>
 </Project>

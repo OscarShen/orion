@@ -1,0 +1,65 @@
+<Scene>
+  <Resource filename ="../../res/dragon/"/>
+
+  <Camera type = "pinhole"><!--Camera-->
+    <Transform>
+      <Param lookat="277,-240,250,  0,60,-30,  0,0,1"/>
+    </Transform>
+    <Param fov="40"/>
+    <Param filmsize="1000,1000"/>
+  </Camera>
+
+  <Envmap>
+    <Transform>
+      <Param rotate="0,0,1,-90"/>
+      <Param rotate="1,0,0,-90"/>
+    </Transform>
+    <Param scale="3,3,3"/>
+    <Param name="20060807_wells6_hd.png"/>
+    <Param nLightSamples="1"/>
+    <Param worldUp="0,0,1"/>
+  </Envmap>
+
+  <Model type ="meshHandy">
+    <Param p="-1000,-1000,0, 1000,-1000,0, 1000,1000,0, 1000,1000,0, -1000,1000,0, -1000,-1000,0"/>
+    <Param uv="0,0, 1,0, 1,1, 1,1, 0,1, 0,0"/>
+    <Param n="0,0,1"/>
+    <Transform>
+      <Param translate="0,0,-40"/>
+    </Transform>
+    <Material type="plastic">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.1,0.1,0.1"/>
+      </Kd>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.7,0.7,0.7"/>
+      </Ks>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.1"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="dragon.obj">
+    <Transform>
+      <Param rotate="0,1,0,-53"/>
+    </Transform>
+    <Material type="metal">
+      <Param metalName ="gold"/>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.002"/>
+      </roughness>
+    </Material>
+  </Model>
+  
+  <Integrator type="path">
+    <Param maxDepth ="10"/>
+    <Param nSamplesPerPixel="10"/>
+  </Integrator>
+
+  <Sampler type="sobol"/>
+</Scene>

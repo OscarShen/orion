@@ -142,6 +142,7 @@
     <ClInclude Include="src\camera\pinhole.h" />
     <ClInclude Include="src\core\bsdf.h" />
     <ClInclude Include="src\core\camera.h" />
+    <ClInclude Include="src\core\floatfile.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\integrator.h" />
     <ClInclude Include="src\core\intersection.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\light\spot.h" />
     <ClInclude Include="src\material\glass.h" />
     <ClInclude Include="src\material\matte.h" />
+    <ClInclude Include="src\material\metal.h" />
     <ClInclude Include="src\material\mirror.h" />
     <ClInclude Include="src\material\plastic.h" />
     <ClInclude Include="src\orion.h" />
@@ -194,10 +196,12 @@
     <ClCompile Include="src\bsdf\specular.cpp" />
     <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\bsdf.cpp" />
+    <ClCompile Include="src\core\floatfile.cpp" />
     <ClCompile Include="src\core\integrator.cpp" />
     <ClCompile Include="src\core\intersection.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
     <ClCompile Include="src\core\scene.cpp" />
+    <ClCompile Include="src\core\spectrum.cpp" />
     <ClCompile Include="src\core\texture.cpp" />
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\triangle.cpp" />
@@ -210,6 +214,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\material\glass.cpp" />
     <ClCompile Include="src\material\matte.cpp" />
+    <ClCompile Include="src\material\metal.cpp" />
     <ClCompile Include="src\material\mirror.cpp" />
     <ClCompile Include="src\material\plastic.cpp" />
     <ClCompile Include="src\sampler\sampling.cpp" />
@@ -233,7 +238,8 @@
     <None Include="xml\cornell\cornell_mirror.ori">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xml\dragon\dragon.ori">
+    <None Include="xml\dragon\dragon_metal.ori" />
+    <None Include="xml\dragon\dragon_plastic.ori">
       <SubType>Designer</SubType>
     </None>
     <None Include="xml\killeroo\killeroo.ori" />

@@ -871,6 +871,8 @@ constexpr Float degrees(Float radians) {
 	return radians * static_cast<Float>(57.295779513082320876798154814105);
 }
 
+inline Float lerp(Float t, Float v1, Float v2) { return (1 - t) * v1 + t * v2; }
+
 template <typename Predicate>
 int findInterval(int size, const Predicate &pred) {
 	int first = 0, length = size;
