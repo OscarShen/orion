@@ -26,7 +26,7 @@ namespace orion {
 			: film(film), aspectRatio((Float)film->getWidth() / film->getHeight()) {}
 		virtual ~Camera() {}
 
-		virtual Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const = 0;
+		virtual Ray generateRay(const Point2f &offset, Sampler &sampler) const = 0;
 
 		virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const {
 			CHECK_INFO(false, "no impl!");

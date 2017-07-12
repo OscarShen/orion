@@ -2,6 +2,7 @@
 #include <core/primitive.h>
 #include <core/floatfile.h>
 #include <integrator/path.h>
+#include <integrator/sppm.h>
 #include <texture/constant.h>
 #include <texture/floattexture.h>
 #include <texture/imagetexture.h>
@@ -109,9 +110,10 @@ namespace orion {
 		trim(inte);
 		ParamSet ps;
 		GET_PARAMSET(inteNode, ps);
-		if (inte == "path") {
+		if (inte == "path")
 			renderOption->integrator = createPathTracingIntegrator(renderOption->camera, renderOption->sampler, ps);
-		}
+		else if (inte == "sppm")
+			renderOption->integrator = createSPPMIntegrator(renderOption->camera, renderOption->sampler, ps);
 		else {
 			CHECK_INFO(false, "Not support now!");
 		}
@@ -430,5 +432,4 @@ namespace orion {
 		renderOption.reset(new RenderOption());
 		makeRenderOption();
 	}
-
 }

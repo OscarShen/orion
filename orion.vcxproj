@@ -157,6 +157,7 @@
     <ClInclude Include="src\core\transform.h" />
     <ClInclude Include="src\core\triangle.h" />
     <ClInclude Include="src\integrator\path.h" />
+    <ClInclude Include="src\integrator\sppm.h" />
     <ClInclude Include="src\light\diffuse.h" />
     <ClInclude Include="src\light\distant.h" />
     <ClInclude Include="src\light\envmap.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="src\core\transform.cpp" />
     <ClCompile Include="src\core\triangle.cpp" />
     <ClCompile Include="src\integrator\path.cpp" />
+    <ClCompile Include="src\integrator\sppm.cpp" />
     <ClCompile Include="src\light\diffuse.cpp" />
     <ClCompile Include="src\light\distant.cpp" />
     <ClCompile Include="src\light\envmap.cpp" />

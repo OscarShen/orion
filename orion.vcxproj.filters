@@ -198,6 +198,9 @@
     <ClInclude Include="src\core\floatfile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\integrator\sppm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -324,6 +327,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\core\spectrum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\integrator\sppm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

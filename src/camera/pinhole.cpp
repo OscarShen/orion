@@ -5,9 +5,9 @@
 #include <util/param.h>
 ORION_NAMESPACE_BEGIN
 
-Ray Pinhole::generateRay(const Point2f & offset, const std::shared_ptr<Sampler>& sampler) const
+Ray Pinhole::generateRay(const Point2f & offset, Sampler &sampler) const
 {
-	Point2f rand_offset = offset + sampler->next2();
+	Point2f rand_offset = offset + sampler.next2();
 
 	CHECK_INFO(film.get() != nullptr, "Note : no render target in camera!");
 	Float width = (Float)film->getWidth();
@@ -23,7 +23,7 @@ Ray Pinhole::generateRay(const Point2f & offset, const std::shared_ptr<Sampler>&
 	if (lensRadius > 0) { // if has aperture
 		Point3f target = before(focalDistance);
 
-		Point2f uv = concentricSampleDisk(sampler->next2());
+		Point2f uv = concentricSampleDisk(sampler.next2());
 		before.o = Point3f(uv.x * lensRadius, uv.y * lensRadius, 0);
 		before.d = normalize(target - before.o);
 	}

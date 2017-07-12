@@ -25,7 +25,7 @@ public:
 		:Camera(film), t(camera2world), vfov(vfov), tan_half_fov(std::tan(radians(vfov * 0.5f))),
 		focalDistance(focalDistance), lensRadius(lensRadius) {}
 
-	Ray generateRay(const Point2f &offset, const std::shared_ptr<Sampler> &sampler) const override;
+	Ray generateRay(const Point2f &offset, Sampler &sampler) const override;
 };
 
 std::shared_ptr<Pinhole> createPinholeCamera(const Transform &camera2world, const ParamSet &param);
