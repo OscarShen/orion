@@ -201,6 +201,9 @@
     <ClInclude Include="src\integrator\sppm.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\material\uber.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -332,6 +335,9 @@
     <ClCompile Include="src\integrator\sppm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\material\uber.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
@@ -342,5 +348,6 @@
     <None Include="xml\killeroo\killeroo.ori" />
     <None Include="xml\dragon\dragon_plastic.ori" />
     <None Include="xml\dragon\dragon_metal.ori" />
+    <None Include="xml\caustic-glass\caustic-glass.ori" />
   </ItemGroup>
 </Project>

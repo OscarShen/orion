@@ -121,7 +121,7 @@ Float BxDF::pdf(const Vector3f & swi, const Vector3f & swo) const
 }
 
 // https://seblagarde.wordpress.com/2013/04/29/memo-on-fresnel-equations/
-Spectrum FrConductor(Float cosThetaI, const Spectrum &etai,
+Spectrum frConductor(Float cosThetaI, const Spectrum &etai,
 	const Spectrum &etat, const Spectrum &k) {
 	cosThetaI = clamp(cosThetaI, -1.0f, 1.0f);
 	Spectrum eta = etat / etai;
@@ -146,7 +146,7 @@ Spectrum FrConductor(Float cosThetaI, const Spectrum &etai,
 	return Float(0.5) * (Rp + Rs);
 }
 
-Float FrDielectric(Float cosThetaI, Float etaI, Float etaT) {
+Float frDielectric(Float cosThetaI, Float etaI, Float etaT) {
 	cosThetaI = clamp(cosThetaI, (Float)(-1.0f), (Float)(1.0f));
 	// Potentially swap indices of refraction
 	bool entering = cosThetaI > 0.f;
@@ -171,12 +171,12 @@ Float FrDielectric(Float cosThetaI, Float etaI, Float etaT) {
 
 Spectrum FresnelConductor::evaluate(Float cosThetaI) const
 {
-	return FrConductor(std::abs(cosThetaI), etaI, etaT, k);
+	return frConductor(std::abs(cosThetaI), etaI, etaT, k);
 }
 
 Spectrum FresnelDielectric::evaluate(Float cosThetaI) const
 {
-	return FrDielectric(std::abs(cosThetaI), etaI, etaT);
+	return frDielectric(std::abs(cosThetaI), etaI, etaT);
 }
 
 ORION_NAMESPACE_END

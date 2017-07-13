@@ -11,6 +11,7 @@
 #include <material/glass.h>
 #include <material/plastic.h>
 #include <material/metal.h>
+#include <material/uber.h>
 #include <sampler/sobol.h>
 #include <sampler/pseudo.h>
 #include <light/diffuse.h>
@@ -24,6 +25,22 @@
 #include <util/param.h>
 
 namespace orion {
+
+#define CREATE_TEXTURE(matNode, type) TiXmlElement *##type##Node = matNode->FirstChildElement(#type);\
+	std::shared_ptr<Texture> type;\
+	if (type##Node) {\
+		ParamSet type##Param;\
+		GET_PARAMSET(type##Node, type##Param);\
+		type = _makeTexture(type##Param);\
+	}
+
+#define CREATE_FLOAT_TEXTURE(matNode, type) TiXmlElement *##type##Node = matNode->FirstChildElement(#type);\
+	std::shared_ptr<FloatTexture> type;\
+	if (type##Node) {\
+		ParamSet type##Param;\
+		GET_PARAMSET(type##Node, type##Param);\
+		type = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(type##Param));\
+	}
 
 	void Parser::makeRenderOption()
 	{
@@ -291,6 +308,15 @@ namespace orion {
 				material = createMirrorMaterial(kr);
 			}
 			else if (mattype == "glass") {
+
+				TiXmlElement *KrNode = matNode->FirstChildElement("Kr");
+				ParamSet krParam;
+				std::shared_ptr<Texture> kr;
+				if (KrNode) {
+					GET_PARAMSET(KrNode, krParam);
+					kr = _makeTexture(krParam);
+				}
+
 				TiXmlElement *KtNode = matNode->FirstChildElement("Kt");
 				ParamSet ktParam;
 				std::shared_ptr<Texture> kt;
@@ -307,7 +333,15 @@ namespace orion {
 					eta = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(etaParam));
 				}
 
-				material = createGlassMaterial(kt, eta);
+				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
+				std::shared_ptr<FloatTexture> roughness;
+				if (roughnessNode) {
+					ParamSet roughnessParam;
+					GET_PARAMSET(roughnessNode, roughnessParam);
+					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
+				}
+
+				material = createGlassMaterial(kr, kt, roughness, eta);
 			}
 			else if (mattype == "plastic") {
 				TiXmlElement *KdNode = matNode->FirstChildElement("Kd");
@@ -337,7 +371,6 @@ namespace orion {
 				material = createPlasticMaterial(kd, ks, roughness);
 			}
 			else if (mattype == "metal") {
-
 				TiXmlElement *etaNode = matNode->FirstChildElement("eta");
 				ParamSet etaParam;
 				std::shared_ptr<Texture> eta;
@@ -370,17 +403,21 @@ namespace orion {
 						k = _makeTexture(kParam);
 				}
 
-				TiXmlElement *roughnessNode = matNode->FirstChildElement("roughness");
-				ParamSet roughnessParam;
-				std::shared_ptr<FloatTexture> roughness;
-				if (roughnessNode) {
-					GET_PARAMSET(roughnessNode, roughnessParam);
-					roughness = std::dynamic_pointer_cast<FloatTexture>(_makeTexture(roughnessParam));
-				}
+				CREATE_FLOAT_TEXTURE(matNode, roughness);
 
 				ParamSet matParam; // you can use name of usual metals
 				GET_PARAMSET(matNode, matParam);
 				material = createMetalMaterial(eta, k, roughness, matParam);
+			}
+			else if (mattype == "uber") {
+				CREATE_TEXTURE(matNode, Kd);
+				CREATE_TEXTURE(matNode, Ks);
+				CREATE_TEXTURE(matNode, Kr);
+				CREATE_TEXTURE(matNode, Kt);
+				CREATE_TEXTURE(matNode, opacity);
+				CREATE_FLOAT_TEXTURE(matNode, roughness);
+				CREATE_FLOAT_TEXTURE(matNode, eta);
+				material = createUberMaterial(Kd, Ks, Kr, Kt, opacity, roughness, eta);
 			}
 
 			// get material already defined

@@ -1,0 +1,89 @@
+<Scene>
+  <Resource filename ="../../res/caustic-glass/"/>
+
+  <Camera type = "pinhole"><!--Camera-->
+    <Transform>
+      <Param lookat="-5.5,7,-5.5,  -4.75,2.25,0,  0,1,0"/>
+    </Transform>
+    <Param fov="45"/>
+    <Param filmsize="1000,1000"/>
+  </Camera>
+
+  <Envmap>
+    <Param L="0.2"/>
+    <Param nLightSamples="1"/>
+    <Param worldUp="0,0,1"/>
+  </Envmap>
+
+  <Model type ="mesh" filename="glass.obj">
+    <Material type="glass">
+      <Kr>
+        <Param type="constant"/>
+        <Param color="1.0"/>
+      </Kr>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="1.0"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1.25"/>
+      </eta>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Model type ="mesh" filename="plane.obj">
+    <Material type="uber">
+      <Kd>
+        <Param type="constant"/>
+        <Param color="0.7"/>
+      </Kd>
+      <opacity>
+        <Param type="constant"/>
+        <Param color="1"/>
+      </opacity>
+      <Ks>
+        <Param type="constant"/>
+        <Param color="0.15"/>
+      </Ks>
+      <Kr>
+        <Param type="constant"/>
+        <Param color="0"/>
+      </Kr>
+      <Kt>
+        <Param type="constant"/>
+        <Param color="0"/>
+      </Kt>
+      <eta>
+        <Param type="float"/>
+        <Param value="1"/>
+      </eta>
+      <roughness>
+        <Param type="float"/>
+        <Param value="0.01"/>
+      </roughness>
+    </Material>
+  </Model>
+
+  <Light type="spot">
+    <Param intensity="1500,1300,1000"/>
+    <Param from="0,5,9"/>
+    <Param to="-5,2.75,0"/>
+    <Param angle="35"/>
+    <Param delta="2"/>
+  </Light>
+
+  <Integrator type="sppm">
+    <Param maxDepth ="5"/>
+    <Param nSamplesPerPixel="1"/>
+    <Param numIterations="10"/>
+    <Param photonsPerIteration="-1"/>
+    <Param initRadius="0.025"/>
+  </Integrator>
+
+  <Sampler type="sobol"/>
+</Scene>

@@ -18,7 +18,7 @@ void PathTracing::render(const Scene & scene)
 	auto film = camera->getFilm();
 	int filmHeight = film->getHeight(), filmWidth = film->getWidth();
 	int filmSamples = filmHeight * filmWidth;
-	static ProcessReporter reporter(filmHeight * filmWidth * nSamples);
+	ProcessReporter reporter(filmHeight * filmWidth * nSamples);
 	for (int k = 0; k < nSamples; ++k) {
 #pragma omp parallel for
 		for (int j = 0; j < filmHeight; ++j) {

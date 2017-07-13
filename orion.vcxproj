@@ -168,6 +168,7 @@
     <ClInclude Include="src\material\metal.h" />
     <ClInclude Include="src\material\mirror.h" />
     <ClInclude Include="src\material\plastic.h" />
+    <ClInclude Include="src\material\uber.h" />
     <ClInclude Include="src\orion.h" />
     <ClInclude Include="src\sampler\pseudo.h" />
     <ClInclude Include="src\sampler\sampling.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="src\material\metal.cpp" />
     <ClCompile Include="src\material\mirror.cpp" />
     <ClCompile Include="src\material\plastic.cpp" />
+    <ClCompile Include="src\material\uber.cpp" />
     <ClCompile Include="src\sampler\sampling.cpp" />
     <ClCompile Include="src\sampler\sobol.cpp" />
     <ClCompile Include="src\texture\floattexture.cpp" />
@@ -234,6 +236,9 @@
     <Library Include="external\lib\embree.lib" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="xml\caustic-glass\caustic-glass.ori">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xml\cornell\cornell_glass.ori">
       <SubType>Designer</SubType>
     </None>

@@ -14,7 +14,7 @@
       <Param rotate="0,0,1,-90"/>
       <Param rotate="1,0,0,-90"/>
     </Transform>
-    <Param scale="3,3,3"/>
+    <Param L="3,3,3"/>
     <Param name="20060807_wells6_hd.png"/>
     <Param nLightSamples="1"/>
     <Param worldUp="0,0,1"/>

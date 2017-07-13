@@ -16,14 +16,14 @@ class Distribution2D;
 class Envmap : public Light
 {
 private:
-	std::unique_ptr<ImageTexture> Lmap;
+	std::unique_ptr<Texture> Lmap;
 	Spectrum aveSpectrum;			// average spectrum of infinite area light
 	Point3f worldCenter;
 	Float worldRadius;
 	std::unique_ptr<Distribution2D> distribution;
 
 public:
-	Envmap(const Transform &light2world, const Spectrum &scale,
+	Envmap(const Transform &light2world, const Spectrum &L,
 		int nSamples, const std::string &path);
 
 	void preprocess(const Scene &scene) override {

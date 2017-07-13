@@ -3,7 +3,7 @@
 using namespace orion;
 int main() {
 
-	std::string path = "xml/dragon/dragon_metal.ori";
+	std::string path = "xml/caustic-glass/caustic-glass.ori";
 	Parser parser(path);
 	auto &option = parser.getRenderOption();
 
@@ -16,5 +16,5 @@ int main() {
 
 	auto camera = option->camera;
 	auto outputFilm = camera->getFilm()->getAveraged();
-	saveAsBmp(outputFilm.get(), "res/dragon/dragon_metal.bmp");
+	saveAsBmp(outputFilm.get(), "res/caustic-glass/caustic-glass.bmp");
 }

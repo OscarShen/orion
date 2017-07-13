@@ -23,7 +23,7 @@ private:
 	Spinlock lock;
 
 public:
-	ProcessReporter(uint64_t totalWork) : totalWork(totalWork) {}
+	ProcessReporter(uint64_t totalWork) : totalWork(totalWork), workDone(0) {}
 
 	void done() {
 		++workDone;

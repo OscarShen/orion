@@ -5,6 +5,7 @@
 #include <util/threading.h>
 #include <util/strutil.h>
 #include <util/param.h>
+#include <util/renderinfo.h>
 ORION_NAMESPACE_BEGIN
 
 struct SPPMPixel {
@@ -17,12 +18,12 @@ struct SPPMPixel {
 	struct VisiblePoint {
 		// VisiblePoint Public Methods
 		VisiblePoint() {}
-		VisiblePoint(const Point3f &p, const Vector3f &wo, const BSDF *bsdf,
+		VisiblePoint(const Point3f &p, const Vector3f &wo, const std::shared_ptr<BSDF> &bsdf,
 			const Spectrum &beta)
 			: p(p), wo(wo), bsdf(bsdf), beta(beta) {}
 		Point3f p;
 		Vector3f wo;
-		const BSDF *bsdf = nullptr;
+		std::shared_ptr<BSDF> bsdf;
 		Spectrum beta;
 	} vp;
 	AtomicFloat Phi[3];
@@ -65,6 +66,8 @@ void SPPM::render(const Scene & scene)
 		pixels[i].radius = initialSearchRadius;
 	Float invSqrtSPP = 1.0f / std::sqrt(nIterations);
 
+	ProcessReporter reporter((nPixels * 3 + photonPerIteration) * nIterations);
+
 	// compute light distribution
 	int n = (int)scene.lights.size();
 	CHECK_INFO(n > 0, "no light, you will get a black picture!");
@@ -78,14 +81,14 @@ void SPPM::render(const Scene & scene)
 		// Accumulating visible points
 		{
 #pragma omp parallel for
-			for (int j = 0; j < filmWidth; ++j) {
-				for (int i = 0; i < filmHeight; ++i) {
-					auto s = sampler->clone(iter * nPixels + filmWidth * i + j);
+			for (int j = 0; j < filmHeight; ++j) {
+				for (int i = 0; i < filmWidth; ++i) {
+					auto s = sampler->clone(iter * nPixels + filmWidth * j + i);
 
 					Ray ray = camera->generateRay(Point2f((Float)i, (Float)j), *s);
 					Spectrum beta(1.0f);
 
-					SPPMPixel &pixel = pixels[filmWidth * i + j];
+					SPPMPixel &pixel = pixels[filmWidth * j + i];
 					bool specularBounce = false;
 					for (int depth = 0; depth < maxDepth; ++depth) {
 						Intersection isec;
@@ -96,6 +99,7 @@ void SPPM::render(const Scene & scene)
 							break;
 						}
 						isec.calculateBSDF();
+						auto sdf = isec.bsdf;
 						const BSDF &bsdf = *isec.bsdf;
 
 						Vector3f wo = -ray.d;
@@ -110,7 +114,7 @@ void SPPM::render(const Scene & scene)
 							BxDF_GLOSSY | BxDF_REFLECTION |
 							BxDF_TRANSMISSION)) > 0;
 						if (isDiffuse || (isGlossy && depth == maxDepth - 1)) {
-							pixel.vp = { isec.p, wo, &bsdf, beta };
+							pixel.vp = { isec.p, wo, isec.bsdf, beta };
 							break;
 						}
 
@@ -132,6 +136,7 @@ void SPPM::render(const Scene & scene)
 							ray = isec.spawnRay(wi);
 						}
 					}
+					reporter.done();
 				}
 			}
 		}// Accumulating visible points
@@ -187,6 +192,7 @@ void SPPM::render(const Scene & scene)
 									;
 							}
 				}
+				reporter.done();
 			}
 		}
 
@@ -194,7 +200,7 @@ void SPPM::render(const Scene & scene)
 		{
 #pragma omp parallel for
 			for (int photonIndex = 0; photonIndex < photonPerIteration; ++photonIndex) {
-				auto s = sampler->clone(nIterations * nPixels + photonIndex);
+				auto s = sampler->clone(nIterations * nPixels + iter * photonPerIteration + photonIndex);
 
 				Float lightPdf;
 				int lightNum = lightDistrib->sampleDiscrete(s->next(), &lightPdf);
@@ -206,6 +212,7 @@ void SPPM::render(const Scene & scene)
 				Float pdfPos, pdfDir;
 				Spectrum Le = light->sample_Le(rand0, rand1, &photonRay,
 						&nLight, &pdfPos, &pdfDir);
+
 				if (pdfPos == 0 || pdfDir == 0 || Le.isBlack())
 					continue;
 				Spectrum beta = (absDot(nLight, photonRay.d) * Le) /
@@ -234,7 +241,7 @@ void SPPM::render(const Scene & scene)
 								// Update _pixel_ $\Phi$ and $M$ for nearby
 								// photon
 								Vector3f wi = -photonRay.d;
-								Spectrum Phi = beta * pixel.vp.bsdf->f(pixel.vp.wo, wi);
+								Spectrum Phi = beta * pixel.vp.bsdf->f(wi, pixel.vp.wo);
 								pixel.Phi[0].add(Phi.r);
 								pixel.Phi[1].add(Phi.g);
 								pixel.Phi[2].add(Phi.b);
@@ -262,6 +269,7 @@ void SPPM::render(const Scene & scene)
 					beta = bnew / (1 - q);
 					photonRay = isec.spawnRay(wi);
 				}
+				reporter.done();
 			}
 			for (int i = 0; i < nPixels; ++i) {
 				SPPMPixelListNode *node = grid[i].load(std::memory_order_relaxed);
@@ -298,6 +306,7 @@ void SPPM::render(const Scene & scene)
 				}
 				p.vp.beta = 0.;
 				p.vp.bsdf = nullptr;
+				reporter.done();
 			}
 		} // Update pixel values
 

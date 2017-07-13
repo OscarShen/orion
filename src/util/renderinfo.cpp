@@ -5,11 +5,11 @@ ORION_NAMESPACE_BEGIN
 
 void ProcessReporter::outputProgress()
 {
-	lock.lock();
 
 	float spendTime = timer.getElaspedTime() / 1000.0f;
 	static float lastSpendTime = spendTime, intervalTime = -1.0f;
 	if (spendTime - lastSpendTime > intervalTime) {
+		lock.lock();
 		lastSpendTime = spendTime;
 		if (spendTime < 10 && intervalTime != 0.2f)
 			intervalTime = 0.2f;
@@ -45,9 +45,8 @@ void ProcessReporter::outputProgress()
 		snprintf(s, 20, " (%.1fs|%.1fs)  ", spendTime, needTime);
 		fputs(buf.get(), stdout);
 		fflush(stdout);
+		lock.unlock();
 	}
-
-	lock.unlock();
 }
 
 ORION_NAMESPACE_END

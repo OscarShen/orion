@@ -1,21 +1,30 @@
 #include "envmap.h"
 #include <sampler/sampling.h>
+#include <texture/constant.h>
 #include <util/param.h>
 #include <util/strutil.h>
 #include <util/envvariable.h>
 ORION_NAMESPACE_BEGIN
 
-Envmap::Envmap(const Transform & light2world, const Spectrum & scale, int nSamples, const std::string & path)
+Envmap::Envmap(const Transform & light2world, const Spectrum & L, int nSamples, const std::string & path)
 	: Light((int)LightType::Infinite, light2world, nSamples)
 {
-	auto memory = loadImage(path);
-	int width = memory->width, height = memory->height;
-	auto a = std::make_shared<ImageTexture>(memory);
-	Spectrum *data = memory->data;
-	for (int i = 0; i < width * height; ++i)
-		data[i] *= scale;
-	Lmap = std::make_unique<ImageTexture>(memory);
-	
+	int width, height;
+	if (path != "") {
+		auto memory = loadImage(path);
+		width = memory->width;
+		height = memory->height;
+		auto a = std::make_shared<ImageTexture>(memory);
+		Spectrum *data = memory->data;
+		for (int i = 0; i < width * height; ++i)
+			data[i] *= L;
+		Lmap = std::make_unique<ImageTexture>(memory);
+	}
+	else {
+		width = 1;
+		height = 1;
+		Lmap = std::make_unique<ConstantTexture>(L);
+	}
 	std::unique_ptr<Float[]> img(new Float[width * height]);
 	for (int j = 0; j < height; ++j) {
 		Float v = (j + 0.5f) / (Float)height;
@@ -106,9 +115,9 @@ void Envmap::pdf_Le(const Ray & ray, const Normal3f & n, Float * pdfPos, Float *
 
 std::shared_ptr<Envmap> createEnvMap(const Transform &transform, const ParamSet & param)
 {
-	Spectrum scale = param.hasParam("scale") ? parseSpectrum(param.getParam("scale")) : Spectrum(1.0f);
-	std::string name = param.getParam("name");
-	std::string path = getResPath() + '/' + name;
+
+	Spectrum L = param.hasParam("L") ? parseSpectrum(param.getParam("L")) : Spectrum(1.0f);
+	std::string path = param.hasParam("name") ? getResPath() + '/' + param.getParam("name") : "";
 	Vector3f worldUp = normalize(parseVector3f(param.getParam("worldUp")));
 	Vector3f envmapUp(0, 0, 1);
 
@@ -121,7 +130,7 @@ std::shared_ptr<Envmap> createEnvMap(const Transform &transform, const ParamSet 
 	}
 
 	int nSamples = parseInt(param.getParam("nLightSamples"));
-	return std::make_shared<Envmap>(t * transform, scale, nSamples, path);
+	return std::make_shared<Envmap>(t * transform, L, nSamples, path);
 }
 
 ORION_NAMESPACE_END

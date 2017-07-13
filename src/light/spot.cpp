@@ -53,8 +53,8 @@ std::shared_ptr<SpotLight> createSpotLight(const ParamSet & param)
 	Vector3f dir = normalize(to - from);
 	Vector3f x, y;
 	coordinateSystem(dir, &x, &y);
-	Transform dirToY(Matrix4f(x.x, x.y, x.z, 0.0f, y.x, y.y, y.z, 0.0f, dir.x, dir.y, dir.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
-	Transform l2w = translate(Vector3f(from)) * inverse(dirToY);
+	Transform dirToZ(Matrix4f(x.x, x.y, x.z, 0.0f, y.x, y.y, y.z, 0.0f, dir.x, dir.y, dir.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
+	Transform l2w = translate(Vector3f(from)) * inverse(dirToZ);
 	return std::shared_ptr<SpotLight>(new SpotLight(l2w, I, coneangle, coneangle - conedelta));
 }
 
