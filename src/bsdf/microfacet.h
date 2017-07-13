@@ -69,5 +69,32 @@ public:
 	Float pdf(const Vector3f &swi, const Vector3f &swo) const override;
 };
 
+class MicrofacetTransmission : public BxDF
+{
+private:
+	Spectrum T;
+	std::shared_ptr<MicrofacetDistribution> distrib;
+	Float etaA, etaB;
+	FresnelDielectric fresnel;
+	TransportMode mode;
+
+public:
+	MicrofacetTransmission(const Spectrum &T,
+		const std::shared_ptr<MicrofacetDistribution> &distrib, Float etaA,
+		Float etaB, TransportMode mode)
+		: BxDF(BxDFType(BxDF_TRANSMISSION | BxDF_GLOSSY)),
+		T(T),
+		distrib(distrib),
+		etaA(etaA),
+		etaB(etaB),
+		fresnel(etaA, etaB),
+		mode(mode) {}
+
+	Spectrum sample_f(Vector3f *swi, const Vector3f &swo, const Point2f &rand,
+		Float *pdf, BxDFType *sampledType = nullptr) const override;
+	Spectrum f(const Vector3f &swi, const Vector3f &swo) const override;
+	Float pdf(const Vector3f &swi, const Vector3f &swo) const override;
+};
+
 ORION_NAMESPACE_END
 #endif // !ORION_BSDF_MICROFACET_H_

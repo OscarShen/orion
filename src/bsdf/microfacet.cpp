@@ -73,4 +73,50 @@ Float MicrofacetReflection::pdf(const Vector3f & swi, const Vector3f & swo) cons
 	return distrib->pdf(wh) / (4 * dot(swo, wh));
 }
 
+Spectrum MicrofacetTransmission::sample_f(Vector3f * swi, const Vector3f & swo, const Point2f & rand, Float * pdf, BxDFType * sampledType) const
+{
+	if (swo.z == 0)
+		return 0;
+	Vector3f wh = distrib->sample_wh(swo, rand);
+	Float eta = cosTheta(swo) > 0 ? (etaA / etaB) : (etaB / etaA);
+	if (!refract(swo, (Normal3f)wh, eta, swi))
+		return 0;
+	return f(*swi, swo);
+}
+
+Spectrum MicrofacetTransmission::f(const Vector3f & swi, const Vector3f & swo) const
+{
+	if (sameHemisphere(swi, swo))
+		return 0;
+	Float cosThetaO = cosTheta(swo);
+	Float cosThetaI = cosTheta(swi);
+	if (cosThetaI == 0 || cosThetaO == 0)
+		return 0;
+	Float eta = cosTheta(swo) > 0 ? (etaB / etaA) : (etaA / etaB);
+	Vector3f wh = normalize(swo + swi * eta);
+	if (wh.z < 0) wh = -wh;
+
+	Spectrum F = fresnel.evaluate(dot(swo, wh));
+
+	Float sqrtDenom = dot(swo, wh) + eta * dot(swi, wh);
+	Float factor = (mode == TransportMode::Path) ? (1 / eta) : 1;
+
+	return (Spectrum(1.f) - F) * T *
+		std::abs(distrib->D(wh) * distrib->G(swi, swo) * eta * eta *
+			absDot(swi, wh) * absDot(swo, wh) * factor * factor /
+			(cosThetaI * cosThetaO * sqrtDenom * sqrtDenom));
+}
+
+Float MicrofacetTransmission::pdf(const Vector3f & swi, const Vector3f & swo) const
+{
+	if (sameHemisphere(swo, swi)) return 0;
+	Float eta = cosTheta(swo) > 0 ? (etaB / etaA) : (etaA / etaB);
+	Vector3f wh = normalize(swo + swi * eta);
+
+	// Compute change of variables _dwh\_dwi_ for microfacet transmission
+	Float sqrtDenom = dot(swo, wh) + eta * dot(swi, wh);
+	Float dwh_dwi = std::abs((eta * eta * dot(swi, wh)) / (sqrtDenom * sqrtDenom));
+	return distrib->pdf(wh) * dwh_dwi;
+}
+
 ORION_NAMESPACE_END

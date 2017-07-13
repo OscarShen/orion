@@ -53,6 +53,28 @@ public:
 	Spectrum f(const Vector3f &swi, const Vector3f &swo) const { return 0; }
 };
 
+class FresnelSpecular : public BxDF
+{
+private:
+	Spectrum R, T;
+	Float etaA, etaB;
+	TransportMode mode;
+
+public:
+	FresnelSpecular(const Spectrum &R, const Spectrum &T, Float etaA, Float etaB,
+		TransportMode mode)
+		: BxDF(BxDFType(BxDF_REFLECTION | BxDF_TRANSMISSION | BxDF_SPECULAR)),
+		R(R), T(T), etaA(etaA), etaB(etaB), mode(mode) {}
+
+	Spectrum sample_f(Vector3f *swi, const Vector3f &swo, const Point2f &rand,
+		Float *pdf, BxDFType *sampledType) const override;
+
+	// specular
+	Float pdf(const Vector3f &swi, const Vector3f &swo) const override { return 0; }
+	// specular
+	Spectrum f(const Vector3f &swi, const Vector3f &swo) const override { return 0; }
+};
+
 ORION_NAMESPACE_END
 
 #endif // !ORION_BSDF_SPECULAR_H_
