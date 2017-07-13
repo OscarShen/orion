@@ -20,7 +20,7 @@ private:
 
 public:
 	PseudoRandomSampler(int64_t seed = 5) {
-		e.seed(seed);
+		e.seed((unsigned)seed);
 	}
 
 	Float sample() override {

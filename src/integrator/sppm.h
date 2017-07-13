@@ -16,7 +16,7 @@ class SPPM : public Integrator
 {
 private:
 	Float initialSearchRadius;
-	Float nIterations;       // times of iterations
+	int nIterations;       // times of iterations
 	int maxDepth;
 	int photonPerIteration;
 

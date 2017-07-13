@@ -64,9 +64,9 @@ void SPPM::render(const Scene & scene)
 	std::unique_ptr<SPPMPixel[]> pixels(new SPPMPixel[nPixels]);
 	for (int i = 0; i < nPixels; ++i)
 		pixels[i].radius = initialSearchRadius;
-	Float invSqrtSPP = 1.0f / std::sqrt(nIterations);
+	Float invSqrtSPP = 1.0f / (Float)std::sqrt(nIterations);
 
-	ProcessReporter reporter((nPixels * 3 + photonPerIteration) * nIterations);
+	ProcessReporter reporter(((uint64_t)nPixels * 3 + photonPerIteration) * nIterations);
 
 	// compute light distribution
 	int n = (int)scene.lights.size();

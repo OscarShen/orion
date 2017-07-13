@@ -21,7 +21,7 @@ bool readFloatFile(const char * filename, std::vector<Float>* values)
 				curNumber[curNumberPos++] = c;
 			else {
 				curNumber[curNumberPos++] = '\0';
-				values->push_back(atof(curNumber));
+				values->push_back((Float)atof(curNumber));
 				inNumber = false;
 				curNumberPos = 0;
 			}

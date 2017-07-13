@@ -16,8 +16,10 @@ std::shared_ptr<BSDF> Metal::getBSDF(const Intersection & isec, TransportMode mo
 	return bsdf;
 }
 
+#pragma warning (disable:4305)
+#pragma warning (disable:4838)
 // those data are coming from luxRender
-const float SopraSamples = 56;
+const int SopraSamples = 56;
 const float SopraWavelengths[] = {
 	298.7570554, 302.4004341, 306.1337728, 309.960445, 313.8839949, 317.9081487, 322.036826,
 	326.2741526, 330.6244747, 335.092373, 339.6826795, 344.4004944, 349.2512056, 354.2405086,
@@ -28,7 +30,7 @@ const float SopraWavelengths[] = {
 	604.8008683, 619.92089, 635.8162974, 652.5483053, 670.1847459, 688.8009889, 708.4810171,
 	729.3186941, 751.4192606, 774.9011125, 799.8979226, 826.5611867, 855.0632966, 885.6012714 };
 
-const float AmorphousCarbonSamples = 15;
+const int AmorphousCarbonSamples = 15;
 const float AmorphousCarbonWavelengths[] = {
 	247.96, 309.95, 326.263, 344.389, 364.647, 387.438, 413.267, 442.786, 476.846, 516.583,
 	563.545, 619.9, 688.778, 774.875, 885.571 };

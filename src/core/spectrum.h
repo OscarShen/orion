@@ -29,7 +29,7 @@ extern const Float CIE_X[nCIESamples];
 extern const Float CIE_Y[nCIESamples];
 extern const Float CIE_Z[nCIESamples];
 extern const Float CIE_lambda[nCIESamples];
-static const Float CIE_Y_integral = 106.856895;
+static const Float CIE_Y_integral = (Float)106.856895;
 
 inline void XYZToRGB(const Float xyz[3], Float rgb[3]) {
 	rgb[0] = 3.240479f * xyz[0] - 1.537150f * xyz[1] - 0.498535f * xyz[2];

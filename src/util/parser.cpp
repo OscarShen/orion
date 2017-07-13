@@ -250,7 +250,7 @@ namespace orion {
 				wls.push_back(vals[2 * j]);
 				v.push_back(vals[2 * j + 1]);
 			}
-			*s = Spectrum::fromSampled(&wls[0], &v[0], wls.size());
+			*s = Spectrum::fromSampled(&wls[0], &v[0], (int)wls.size());
 			return true;
 		}
 		else {
