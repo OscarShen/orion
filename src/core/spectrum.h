@@ -66,6 +66,17 @@ public:
 		return true;
 	}
 
+	Float &operator[](int i) {
+		if (i == 0) return r;
+		if (i == 1) return g;
+		return b;
+	}
+	Float operator[](int i) const {
+		if (i == 0) return r;
+		if (i == 1) return g;
+		return b;
+	}
+
 	Float maxComponentValue() const {
 		return std::max(r, std::max(g, b));
 	}

@@ -10,7 +10,7 @@
   </Camera>
 
   <Envmap>
-    <Param L="0.2"/>
+    <Param L="0.1"/>
     <Param nLightSamples="1"/>
     <Param worldUp="0,0,1"/>
   </Envmap>
@@ -40,7 +40,7 @@
     <Material type="uber">
       <Kd>
         <Param type="constant"/>
-        <Param color="0.7"/>
+        <Param color="0.64"/>
       </Kd>
       <opacity>
         <Param type="constant"/>
@@ -48,7 +48,7 @@
       </opacity>
       <Ks>
         <Param type="constant"/>
-        <Param color="0.15"/>
+        <Param color="0.1"/>
       </Ks>
       <Kr>
         <Param type="constant"/>
@@ -78,7 +78,7 @@
   </Light>
 
   <Integrator type="sppm">
-    <Param maxDepth ="5"/>
+    <Param maxDepth ="10"/>
     <Param nSamplesPerPixel="1"/>
     <Param numIterations="10"/>
     <Param photonsPerIteration="-1"/>

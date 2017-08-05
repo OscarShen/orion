@@ -18,9 +18,10 @@ Spectrum DistantLight::sample_Li(const Intersection & isec, const Point2f & rnd,
 {
 	*wi = dir;
 	*pdf = 1;
+	Point3f p = isec.p + dir * (2 * worldRadius);
 	if(samplePoint)
-		*samplePoint = isec.p + dir * (2 * worldRadius);
-	*sdt = ShadowTester(isec, Intersection(*samplePoint));
+		*samplePoint = p;
+	*sdt = ShadowTester(isec, Intersection(p));
 	return L;
 }
 

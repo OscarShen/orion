@@ -1,7 +1,8 @@
 <Scene>
   <Resource filename ="../../res/cornell/"/>
 
-  <Camera type = "pinhole"><!--Camera-->
+  <Camera type = "pinhole">
+    <!--Camera-->
     <Transform>
       <Param lookat="0,0,1800,  0,0,0,  0,1,0"/>
     </Transform>
@@ -9,7 +10,8 @@
     <Param filmsize="1000,1000"/>
   </Camera>
 
-  <Model type ="mesh" filename="floor.obj"><!--floor-->
+  <Model type ="mesh" filename="floor.obj">
+    <!--floor-->
     <Material type="matte" name="OtherWalls">
       <Kd>
         <Param type="constant"/>
@@ -21,16 +23,19 @@
       </sigma>
     </Material>
   </Model>
-  
-  <Model type ="mesh" filename="ceiling.obj"><!--Ceiling-->
+
+  <Model type ="mesh" filename="ceiling.obj">
+    <!--Ceiling-->
     <Material named="OtherWalls"/>
   </Model>
-  
-  <Model type ="mesh" filename="back.obj"><!--BackWall-->
+
+  <Model type ="mesh" filename="back.obj">
+    <!--BackWall-->
     <Material named="OtherWalls"/>
   </Model>
-  
-  <Model type ="mesh" filename="right.obj"><!--RightWall-->
+
+  <Model type ="mesh" filename="right.obj">
+    <!--RightWall-->
     <Material type="matte" name="RightWall">
       <Kd>
         <Param type="constant"/>
@@ -42,8 +47,9 @@
       </sigma>
     </Material>
   </Model>
-  
-  <Model type ="mesh" filename="left.obj"><!--LeftWall-->
+
+  <Model type ="mesh" filename="left.obj">
+    <!--LeftWall-->
     <Material type="matte" name="LeftWall">
       <Kd>
         <Param type="constant"/>
@@ -56,7 +62,8 @@
     </Material>
   </Model>
 
-  <Model type ="mesh" filename="light.obj"><!--AreaLight-->
+  <Model type ="mesh" filename="light.obj">
+    <!--AreaLight-->
     <Transform>
       <Param scale="0.03, 1, 0.03"/>
       <Param translate="0,0,30"/>
@@ -73,11 +80,13 @@
     </AreaLight>
   </Model>
 
-  <Model type ="mesh" filename="small.obj"><!--small-->
+  <Model type ="mesh" filename="small.obj">
+    <!--small-->
     <Material named="OtherWalls"/>
   </Model>
 
-  <Model type ="mesh" filename="tall.obj"><!--tall-->
+  <Model type ="mesh" filename="tall.obj">
+    <!--tall-->
     <Material type="mirror" name="Box">
       <Kr>
         <Param type="constant"/>
