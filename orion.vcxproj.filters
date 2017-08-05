@@ -204,6 +204,15 @@
     <ClInclude Include="src\material\uber.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\material\kdsubsurface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\bssrdf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\interpolation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -338,13 +347,17 @@
     <ClCompile Include="src\material\uber.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\bssrdf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\interpolation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="external\lib\embree.lib" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="xml\cornell\cornell_mirror.ori" />
-    <None Include="xml\cornell\cornell_glass.ori" />
     <None Include="xml\killeroo\killeroo.ori" />
     <None Include="xml\dragon\dragon_plastic.ori" />
     <None Include="xml\dragon\dragon_metal.ori" />

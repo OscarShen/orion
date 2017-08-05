@@ -141,10 +141,12 @@
     <ClInclude Include="src\bsdf\specular.h" />
     <ClInclude Include="src\camera\pinhole.h" />
     <ClInclude Include="src\core\bsdf.h" />
+    <ClInclude Include="src\core\bssrdf.h" />
     <ClInclude Include="src\core\camera.h" />
     <ClInclude Include="src\core\floatfile.h" />
     <ClInclude Include="src\core\geometry.h" />
     <ClInclude Include="src\core\integrator.h" />
+    <ClInclude Include="src\core\interpolation.h" />
     <ClInclude Include="src\core\intersection.h" />
     <ClInclude Include="src\core\kernel.h" />
     <ClInclude Include="src\core\light.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="src\light\point.h" />
     <ClInclude Include="src\light\spot.h" />
     <ClInclude Include="src\material\glass.h" />
+    <ClInclude Include="src\material\kdsubsurface.h" />
     <ClInclude Include="src\material\matte.h" />
     <ClInclude Include="src\material\metal.h" />
     <ClInclude Include="src\material\mirror.h" />
@@ -198,8 +201,10 @@
     <ClCompile Include="src\bsdf\specular.cpp" />
     <ClCompile Include="src\camera\pinhole.cpp" />
     <ClCompile Include="src\core\bsdf.cpp" />
+    <ClCompile Include="src\core\bssrdf.cpp" />
     <ClCompile Include="src\core\floatfile.cpp" />
     <ClCompile Include="src\core\integrator.cpp" />
+    <ClCompile Include="src\core\interpolation.cpp" />
     <ClCompile Include="src\core\intersection.cpp" />
     <ClCompile Include="src\core\kernel.cpp" />
     <ClCompile Include="src\core\scene.cpp" />
@@ -237,12 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="xml\caustic-glass\caustic-glass.ori">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="xml\cornell\cornell_glass.ori">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="xml\cornell\cornell_mirror.ori">
       <SubType>Designer</SubType>
     </None>
     <None Include="xml\dragon\dragon_metal.ori" />

@@ -27,6 +27,7 @@ public:
 	const Primitive *primitive; // hitted primitive
 	bool front; // ray entering with direction of _ng_ is true
 	std::shared_ptr<BSDF> bsdf;
+	Vector3f wo;
 
 public:
 	Intersection() { primitive = nullptr; }
