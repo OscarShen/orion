@@ -30,6 +30,104 @@ Float FresnelMoment2(Float eta) {
 	}
 }
 
+Float beamDiffusionSS(Float sigma_s, Float sigma_a, Float g, Float eta, Float r)
+{
+	Float sigma_t = sigma_a + sigma_s, rho = sigma_s / sigma_t;
+	Float tCrit = r * std::sqrt(eta * eta - 1);
+	Float Ess = 0;
+	const int nSamples = 100;
+	for (int i = 0; i < nSamples; ++i) {
+		// Evaluate single scattering integrand and add to _Ess_
+		Float ti = tCrit - std::log(1 - (i + .5f) / nSamples) / sigma_t;
+
+		// Determine length $d$ of connecting segment and $\cos\theta_\roman{o}$
+		Float d = std::sqrt(r * r + ti * ti);
+		Float cosThetaO = ti / d;
+
+		// Add contribution of single scattering at depth $t$
+		Ess += rho * std::exp(-sigma_t * (d + tCrit)) / (d * d) *
+			phaseHG(cosThetaO, g) * (1 - frDielectric(-cosThetaO, 1, eta)) *
+			std::abs(cosThetaO);
+	}
+	return Ess / nSamples;
+}
+
+Float beamDiffusionMS(Float sigma_s, Float sigma_a, Float g, Float eta, Float r)
+{
+	const int nSamples = 100;
+	Float Ed = 0;
+
+	Float sigmap_s = sigma_s * (1 - g);
+	Float sigmap_t = sigma_a + sigmap_s;
+	Float rhop = sigmap_s / sigmap_t;
+
+	Float D_g = (2 * sigma_a + sigmap_s) / (3 * sigmap_t * sigmap_t);
+
+	Float sigma_tr = std::sqrt(sigma_a / D_g);
+
+	Float fm1 = FresnelMoment1(eta), fm2 = FresnelMoment2(eta);
+	Float ze = -2 * D_g * (1 + 3 * fm2) / (1 - 2 * fm1);
+
+	Float cPhi = .25f * (1 - 2 * fm1), cE = .5f * (1 - 3 * fm2);
+
+	for (int i = 0; i < nSamples; ++i) {
+		Float zr = -std::log(1 - (i + .5f) / nSamples) / sigmap_t;
+
+		Float zv = -zr + 2 * ze;
+		Float dr = std::sqrt(r * r + zr * zr), dv = std::sqrt(r * r + zv * zv);
+
+		Float phiD = inv4pi / D_g * (std::exp(-sigma_tr * dr) / dr -
+			std::exp(-sigma_tr * dv) / dv);
+
+		Float EDn = inv4pi * (zr * (1 + sigma_tr * dr) *
+			std::exp(-sigma_tr * dr) / (dr * dr * dr) -
+			zv * (1 + sigma_tr * dv) *
+			std::exp(-sigma_tr * dv) / (dv * dv * dv));
+
+		// Add contribution from dipole for depth $\depthreal$ to _Ed_
+		Float E = phiD * cPhi + EDn * cE;
+		Float kappa = 1 - std::exp(-2 * sigmap_t * (dr + zr));
+		Ed += kappa * rhop * rhop * E;
+	}
+	return Ed / nSamples;
+}
+
+void computeBeamDiffusionBSSRDF(Float g, Float eta, BSSRDFTable * t)
+{
+	t->radiusSamples[0] = 0;
+	t->radiusSamples[1] = 2.5e-3f;
+	for (int i = 2; i < t->nRadiusSamples; ++i)
+		t->radiusSamples[i] = t->radiusSamples[i - 1] * 1.2f;
+	for (int i = 0; i < t->nRhoSamples; ++i)
+		t->rhoSamples[i] = (1 - std::exp(-8 * i / (Float)(t->nRhoSamples - 1))) /
+			(1 - std::exp(-8));
+
+#pragma omp parallel for
+	for (int i = 0; i < t->nRhoSamples; ++i) {
+		for (int j = 0; j < t->nRadiusSamples; ++j) {
+			Float rho = t->rhoSamples[i], r = t->radiusSamples[j];
+			t->profile[i * t->nRadiusSamples + j] =
+				2 * pi * r * (beamDiffusionSS(rho, 1 - rho, g, eta, r) +
+					beamDiffusionMS(rho, 1 - rho, g, eta, r));
+		}
+
+		t->rhoEff[i] =
+			integrateCatmullRom(t->nRadiusSamples, t->radiusSamples.get(),
+				&t->profile[i * t->nRadiusSamples],
+				&t->profileCDF[i * t->nRadiusSamples]);
+	}
+}
+
+void subsurfaceFromDiffuse(const BSSRDFTable & table, const Spectrum & rhoEff, const Spectrum & mfp, Spectrum * sigma_a, Spectrum * sigma_s)
+{
+	for (int c = 0; c < 3; ++c) {
+		Float rho = invertCatmullRom(table.nRhoSamples, table.rhoSamples.get(),
+			table.rhoEff.get(), rhoEff[c]);
+		(*sigma_s)[c] = rho / mfp[c];
+		(*sigma_a)[c] = (1 - rho) / mfp[c];
+	}
+}
+
 BSSRDFTable::BSSRDFTable(int nRhoSamples, int nRadiusSamples)
 	: nRhoSamples(nRhoSamples),
 	nRadiusSamples(nRadiusSamples),
@@ -173,7 +271,7 @@ Float TabulatedBSSRDF::pdf_R(int ch, Float rand) const
 	int rhoOffset, radiusOffset;
 	Float rhoWeights[4], radiusWeights[4];
 	if (!catmullRomWeights(table->nRhoSamples, table->rhoSamples.get(), rho[ch],
-			&rhoOffset, radiusWeights) ||
+		&rhoOffset, radiusWeights) ||
 		!catmullRomWeights(table->nRadiusSamples, table->radiusSamples.get(), rOptical,
 			&radiusOffset, radiusWeights))
 		return 0;

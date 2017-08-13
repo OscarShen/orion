@@ -133,4 +133,89 @@ Float sampleCatmullRom2D(int size1, int size2, const Float *nodes1,
 	if (pdf) *pdf = fhat / maximum;
 	return x0 + width * t;
 }
+Float integrateCatmullRom(int n, const Float * x, const Float * values, Float * cdf)
+{
+	Float sum = 0;
+	cdf[0] = 0;
+	for (int i = 0; i < n - 1; ++i) {
+		// Look up $x_i$ and function values of spline segment _i_
+		Float x0 = x[i], x1 = x[i + 1];
+		Float f0 = values[i], f1 = values[i + 1];
+		Float width = x1 - x0;
+
+		// Approximate derivatives using finite differences
+		Float d0, d1;
+		if (i > 0)
+			d0 = width * (f1 - values[i - 1]) / (x1 - x[i - 1]);
+		else
+			d0 = f1 - f0;
+		if (i + 2 < n)
+			d1 = width * (values[i + 2] - f0) / (x[i + 2] - x0);
+		else
+			d1 = f1 - f0;
+
+		// Keep a running sum and build a cumulative distribution function
+		sum += ((d0 - d1) * (1.f / 12.f) + (f0 + f1) * .5f) * width;
+		cdf[i + 1] = sum;
+	}
+	return sum;
+}
+Float invertCatmullRom(int n, const Float * x, const Float * values, Float u)
+{
+	if (!(u > values[0]))
+		return x[0];
+	else if (!(u < values[n - 1]))
+		return x[n - 1];
+
+	// Map _u_ to a spline interval by inverting _values_
+	int i = findInterval(n, [&](int i) { return values[i] <= u; });
+
+	// Look up $x_i$ and function values of spline segment _i_
+	Float x0 = x[i], x1 = x[i + 1];
+	Float f0 = values[i], f1 = values[i + 1];
+	Float width = x1 - x0;
+
+	// Approximate derivatives using finite differences
+	Float d0, d1;
+	if (i > 0)
+		d0 = width * (f1 - values[i - 1]) / (x1 - x[i - 1]);
+	else
+		d0 = f1 - f0;
+	if (i + 2 < n)
+		d1 = width * (values[i + 2] - f0) / (x[i + 2] - x0);
+	else
+		d1 = f1 - f0;
+
+	// Invert the spline interpolant using Newton-Bisection
+	Float a = 0, b = 1, t = .5f;
+	Float Fhat, fhat;
+	while (true) {
+		// Fall back to a bisection step when _t_ is out of bounds
+		if (!(t > a && t < b)) t = 0.5f * (a + b);
+
+		// Compute powers of _t_
+		Float t2 = t * t, t3 = t2 * t;
+
+		// Set _Fhat_ using Equation (8.27)
+		Fhat = (2 * t3 - 3 * t2 + 1) * f0 + (-2 * t3 + 3 * t2) * f1 +
+			(t3 - 2 * t2 + t) * d0 + (t3 - t2) * d1;
+
+		// Set _fhat_ using Equation (not present)
+		fhat = (6 * t2 - 6 * t) * f0 + (-6 * t2 + 6 * t) * f1 +
+			(3 * t2 - 4 * t + 1) * d0 + (3 * t2 - 2 * t) * d1;
+
+		// Stop the iteration if converged
+		if (std::abs(Fhat - u) < 1e-6f || b - a < 1e-6f) break;
+
+		// Update bisection bounds using updated _t_
+		if (Fhat - u < 0)
+			a = t;
+		else
+			b = t;
+
+		// Perform a Newton step
+		t -= (Fhat - u) / fhat;
+	}
+	return x0 + t * width;
+}
 ORION_NAMESPACE_END

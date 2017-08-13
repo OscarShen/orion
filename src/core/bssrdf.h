@@ -14,6 +14,12 @@
 #include <core/light.h>
 #include <core/intersection.h>
 ORION_NAMESPACE_BEGIN
+
+inline Float phaseHG(Float cosTheta, Float g) {
+	Float denom = 1 + g * g + 2 * g * cosTheta;
+	return inv4pi * (1 - g * g) / (denom * std::sqrt(denom));
+}
+
 extern Float frDielectric(Float cosThetaI, Float etaI, Float etaT);
 Float FresnelMoment1(Float eta);
 Float FresnelMoment2(Float eta);
@@ -31,7 +37,6 @@ struct BSSRDFTable
 		return profile[rhoIndex * nRadiusSamples + radiusIndex];
 	}
 };
-
 
 class BSSRDF
 {
@@ -51,8 +56,8 @@ public:
 
 	Spectrum S(const Intersection &pi, const Vector3f &wi) {
 		// two ft and hundreds of scattering
-		Float fr = frDielectric(cosTheta(po.wo), 1, eta);
-		return (1 - fr) * Rd(pi) * ft2;
+		Float ft = 1 - frDielectric(cosTheta(po.wo), 1, eta);
+		return ft * Rd(pi) * ft2;
 	}
 	Spectrum ft2(const Vector3f &w) const {
 		Float c = 1 - 2 * FresnelMoment1(1 / eta);
@@ -90,6 +95,14 @@ public:
 	Float sample_R(int ch, Float rand) const override;
 	Float pdf_R(int ch, Float rand) const override;
 };
+
+Float beamDiffusionSS(Float sigma_s, Float sigma_a, Float g, Float eta,
+	Float r);
+Float beamDiffusionMS(Float sigma_s, Float sigma_a, Float g, Float eta,
+	Float r);
+void computeBeamDiffusionBSSRDF(Float g, Float eta, BSSRDFTable *t);
+void subsurfaceFromDiffuse(const BSSRDFTable &table, const Spectrum &rhoEff,
+	const Spectrum &mfp, Spectrum *sigma_a, Spectrum *sigma_s);
 ORION_NAMESPACE_END
 
 #endif // !ORION_CORE_BSSRDF_H_
