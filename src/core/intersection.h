@@ -27,6 +27,7 @@ public:
 	const Primitive *primitive; // hitted primitive
 	bool front; // ray entering with direction of _ng_ is true
 	std::shared_ptr<BSDF> bsdf;
+	std::shared_ptr<BSSRDF> bssrdf;
 	Vector3f wo;
 
 public:
@@ -51,6 +52,7 @@ public:
 
 	void calculateBSDF(TransportMode mode = TransportMode::Path) {
 		bsdf = primitive->material->getBSDF(*this, mode);
+		bssrdf = primitive->material->getBSSRDF(*this, mode);
 	}
 };
 

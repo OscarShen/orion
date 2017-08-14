@@ -213,6 +213,9 @@
     <ClInclude Include="src\core\interpolation.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\material\kdsubsurface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\triangle.cpp">
@@ -351,6 +354,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\core\interpolation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\material\kdsubsurface.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

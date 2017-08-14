@@ -82,6 +82,7 @@ class Light;
 class AreaLight;
 class BxDF;
 class BSDF;
+class BSSRDF;
 class Texture;
 class FloatTexture;
 class Integrator;

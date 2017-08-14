@@ -13,6 +13,7 @@
 #include <core/geometry.h>
 #include <core/light.h>
 #include <core/intersection.h>
+#include <sampler/sampling.h>
 ORION_NAMESPACE_BEGIN
 
 inline Float phaseHG(Float cosTheta, Float g) {
@@ -79,13 +80,13 @@ public:
 class TabulatedBSSRDF : public BSSRDF
 {
 private:
-	std::shared_ptr<BSSRDFTable> table;
+	const BSSRDFTable &table;
 	Spectrum sigma_t, rho;
 
 public:
 	TabulatedBSSRDF(const Intersection &po, Float eta, 
 		const std::shared_ptr<Material> &material, TransportMode mode, const Spectrum &sigma_a,
-		const Spectrum &sigma_s, const std::shared_ptr<BSSRDFTable> &table)
+		const Spectrum &sigma_s, const BSSRDFTable &table)
 		: BSSRDF(po, eta, material, mode), table(table) {
 		sigma_t = sigma_a + sigma_s;
 		for (int c = 0; c < 3; ++c)
