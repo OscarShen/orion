@@ -23,6 +23,9 @@ This is a ray tracer that implements path tracing and SPPM algorithms. It's writ
 ### Depth of field
 ![depth of field](http://gleam-1255489689.cosbj.myqcloud.com/wp-content/uploads/2018/08/bunny_depth_of_field-1.jpg)
 
+### Kiloroo
+![kiloroo](http://gleam-1255489689.cosbj.myqcloud.com/wp-content/uploads/2018/08/kiloroo-1.jpg)
+
 ### Gold dragon
 ![gold dragon](http://gleam-1255489689.cosbj.myqcloud.com/wp-content/uploads/2018/08/dragon_gold-1.jpg)
 
